@@ -11,7 +11,12 @@ import {
   Bell,
   PlusCircle,
   Layers,
-  TrendingUp
+  TrendingUp,
+  DollarSign,
+  AlertTriangle,
+  Zap,
+  MessageSquare,
+  Globe
 } from 'lucide-react';
 import {
   Sidebar,
@@ -39,11 +44,13 @@ const menuItems = [
     id: 'dashboard',
     items: [
       { title: 'Overview', id: 'overview' },
-      { title: 'Top-Up Analytics', id: 'topup' },
+      { title: 'Key Metrics', id: 'key-metrics' },
+      { title: 'Trend & Forecast', id: 'trend-forecast' },
+      { title: 'Top-Up Overview', id: 'topup-overview' },
       { title: 'Merchant Spending', id: 'merchant-spending' },
-      { title: 'Demographics', id: 'demographics' },
-      { title: 'Card Expiry', id: 'expiry' },
-      { title: 'Insights & Alerts', id: 'insights' },
+      { title: 'Customer Demographics', id: 'demographics' },
+      { title: 'Expiry Alerts', id: 'expiry-alerts' },
+      { title: 'Insights & Alerts', id: 'insights-alerts' },
     ]
   },
   {
@@ -51,10 +58,11 @@ const menuItems = [
     icon: Users,
     id: 'accounts',
     items: [
-      { title: 'User Roles', id: 'roles' },
-      { title: 'Permissions', id: 'permissions' },
-      { title: 'Audit Trail', id: 'audit' },
-      { title: 'SSO Setup', id: 'sso' },
+      { title: 'Roles & Permissions', id: 'roles-permissions' },
+      { title: 'Audit Trail', id: 'audit-trail' },
+      { title: 'SSO Integration', id: 'sso-integration' },
+      { title: 'Role Hierarchy', id: 'role-hierarchy' },
+      { title: 'Session Management', id: 'session-management' },
     ]
   },
   {
@@ -62,10 +70,10 @@ const menuItems = [
     icon: CreditCard,
     id: 'cards',
     items: [
-      { title: 'Corporate Generation', id: 'corporate' },
-      { title: 'Card Issuance', id: 'issuance' },
-      { title: 'Top-Up & Reload', id: 'reload' },
-      { title: 'Card Status', id: 'status' },
+      { title: 'Corporate Generation', id: 'corporate-generation' },
+      { title: 'Physical & E-Gift Issuance', id: 'card-issuance' },
+      { title: 'Top-Up & Reload', id: 'topup-reload' },
+      { title: 'Card Status & Expiry', id: 'card-status' },
     ]
   },
   {
@@ -73,10 +81,10 @@ const menuItems = [
     icon: TrendingUp,
     id: 'transactions',
     items: [
-      { title: 'Transaction Feed', id: 'feed' },
-      { title: 'Redemption', id: 'redemption' },
-      { title: 'Refunds', id: 'refunds' },
-      { title: 'Disputes', id: 'disputes' },
+      { title: 'Real-Time Feed', id: 'transaction-feed' },
+      { title: 'Partial Redemption', id: 'partial-redemption' },
+      { title: 'Reversal & Refund', id: 'reversal-refund' },
+      { title: 'Dispute Handling', id: 'dispute-handling' },
     ]
   },
   {
@@ -84,10 +92,20 @@ const menuItems = [
     icon: Store,
     id: 'merchants',
     items: [
-      { title: 'Onboarding', id: 'onboarding' },
-      { title: 'Merchant Dashboard', id: 'merchant-dash' },
-      { title: 'Fee Structure', id: 'fees' },
-      { title: 'Settlement', id: 'settlement' },
+      { title: 'Onboarding', id: 'merchant-onboarding' },
+      { title: 'Merchant Dashboard', id: 'merchant-dashboard' },
+      { title: 'Fee Structure', id: 'fee-structure' },
+      { title: 'Settlement Cycle', id: 'settlement-cycle' },
+    ]
+  },
+  {
+    title: 'Settlement & Reconciliation',
+    icon: DollarSign,
+    id: 'settlement',
+    items: [
+      { title: 'Automated Reconciliation', id: 'auto-reconciliation' },
+      { title: 'Settlement Export', id: 'settlement-export' },
+      { title: 'Float Management', id: 'float-management' },
     ]
   },
   {
@@ -95,9 +113,19 @@ const menuItems = [
     icon: Shield,
     id: 'compliance',
     items: [
-      { title: 'Regulatory Reports', id: 'reports' },
-      { title: 'Data Retention', id: 'retention' },
-      { title: 'Consent Management', id: 'consent' },
+      { title: 'Regulatory Reporting', id: 'regulatory-reporting' },
+      { title: 'Data Retention', id: 'data-retention' },
+      { title: 'Consent Management', id: 'consent-management' },
+    ]
+  },
+  {
+    title: 'Security & Fraud',
+    icon: AlertTriangle,
+    id: 'security',
+    items: [
+      { title: 'Authentication & MFA', id: 'auth-mfa' },
+      { title: 'Fraud Rules Engine', id: 'fraud-rules' },
+      { title: 'Encryption Settings', id: 'encryption' },
     ]
   },
   {
@@ -105,10 +133,10 @@ const menuItems = [
     icon: Layers,
     id: 'integration',
     items: [
-      { title: 'API Catalog', id: 'catalog' },
-      { title: 'Sandbox', id: 'sandbox' },
+      { title: 'API Catalog & Sandbox', id: 'api-catalog' },
       { title: 'Webhooks', id: 'webhooks' },
-      { title: 'Status Dashboard', id: 'api-status' },
+      { title: 'Rate Limiting', id: 'rate-limiting' },
+      { title: 'API Status', id: 'api-status' },
     ]
   },
   {
@@ -116,9 +144,9 @@ const menuItems = [
     icon: Bell,
     id: 'notifications',
     items: [
-      { title: 'System Alerts', id: 'alerts' },
-      { title: 'Templates', id: 'templates' },
-      { title: 'Scheduled', id: 'scheduled' },
+      { title: 'System Alerts', id: 'system-alerts' },
+      { title: 'Scheduled Notifications', id: 'scheduled-notifications' },
+      { title: 'Email/SMS Templates', id: 'templates' },
     ]
   },
   {
@@ -126,9 +154,9 @@ const menuItems = [
     icon: Settings,
     id: 'settings',
     items: [
-      { title: 'Business Rules', id: 'rules' },
+      { title: 'Business Rules', id: 'business-rules' },
       { title: 'Localization', id: 'localization' },
-      { title: 'Feature Flags', id: 'flags' },
+      { title: 'Feature Flags', id: 'feature-flags' },
     ]
   },
 ];
