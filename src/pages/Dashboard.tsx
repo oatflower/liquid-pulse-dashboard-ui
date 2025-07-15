@@ -11,6 +11,18 @@ import { CardExpiryAlerts } from '@/components/dashboard/CardExpiryAlerts';
 import { TopUpAnalytics } from '@/components/dashboard/TopUpAnalytics';
 import { InsightsAlerts } from '@/components/dashboard/InsightsAlerts';
 
+// Import all new page components
+import AccountManagement from './AccountManagement';
+import CardInventory from './CardInventory';
+import TransactionManagement from './TransactionManagement';
+import MerchantManagement from './MerchantManagement';
+import SettlementReconciliation from './SettlementReconciliation';
+import ComplianceAudit from './ComplianceAudit';
+import SecurityFraud from './SecurityFraud';
+import IntegrationAPI from './IntegrationAPI';
+import NotificationManagement from './NotificationManagement';
+import Configuration from './Configuration';
+
 const Dashboard = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
 
@@ -23,29 +35,64 @@ const Dashboard = () => {
           <DashboardHeader />
           
           <div className="p-6 space-y-6">
-            {/* Dashboard Overview Cards */}
-            <DashboardOverview />
+            {/* Dashboard Analytics Content */}
+            {activeModule === 'dashboard' && (
+              <>
+                {/* Dashboard Overview Cards */}
+                <DashboardOverview />
+                
+                {/* Top-Up Analytics */}
+                <TopUpAnalytics />
+                
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                  {/* Merchant Spending */}
+                  <MerchantSpending />
+                  
+                  {/* Customer Demographics */}
+                  <CustomerDemographics />
+                </div>
+                
+                {/* Card Expiry & Insights */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                  <CardExpiryAlerts />
+                  <InsightsAlerts />
+                </div>
+                
+                {/* Transaction Feed */}
+                <TransactionFeed />
+              </>
+            )}
+
+            {/* Account & Role Management */}
+            {activeModule === 'accounts' && <AccountManagement />}
             
-            {/* Top-Up Analytics */}
-            <TopUpAnalytics />
+            {/* Card & Inventory Management */}
+            {activeModule === 'cards' && <CardInventory />}
             
-            {/* Main Content Grid */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              {/* Merchant Spending */}
-              <MerchantSpending />
-              
-              {/* Customer Demographics */}
-              <CustomerDemographics />
-            </div>
+            {/* Transaction Management */}
+            {activeModule === 'transactions' && <TransactionManagement />}
             
-            {/* Card Expiry & Insights */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <CardExpiryAlerts />
-              <InsightsAlerts />
-            </div>
+            {/* Merchant & Tenant Management */}
+            {activeModule === 'merchants' && <MerchantManagement />}
             
-            {/* Transaction Feed */}
-            <TransactionFeed />
+            {/* Settlement & Reconciliation */}
+            {activeModule === 'settlement' && <SettlementReconciliation />}
+            
+            {/* Compliance & Audit */}
+            {activeModule === 'compliance' && <ComplianceAudit />}
+            
+            {/* Security & Fraud Detection */}
+            {activeModule === 'security' && <SecurityFraud />}
+            
+            {/* Integration & API Management */}
+            {activeModule === 'integration' && <IntegrationAPI />}
+            
+            {/* Notification & Communication */}
+            {activeModule === 'notifications' && <NotificationManagement />}
+            
+            {/* Configuration & Settings */}
+            {activeModule === 'settings' && <Configuration />}
           </div>
         </main>
       </div>
