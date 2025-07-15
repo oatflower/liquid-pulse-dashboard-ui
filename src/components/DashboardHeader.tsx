@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Search, Bell, User, Globe, SidebarTrigger } from 'lucide-react';
+import { Search, Bell, User, Globe } from 'lucide-react';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
