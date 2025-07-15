@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
         <AppSidebar activeModule={activeModule} setActiveModule={setActiveModule} />
         
         <main className="flex-1 overflow-auto">
