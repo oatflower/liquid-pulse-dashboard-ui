@@ -166,16 +166,16 @@ export function AppSidebar({ activeModule, setActiveModule }: AppSidebarProps) {
   const isCollapsed = state === 'collapsed';
 
   return (
-    <Sidebar className="border-r border-white/20 bg-white/5 backdrop-blur-xl">
-      <SidebarHeader className="border-b border-white/10 p-4">
+    <Sidebar className="border-r border-border bg-card">
+      <SidebarHeader className="border-b border-border p-6">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-            <CreditCard className="w-4 h-4 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+            <CreditCard className="w-5 h-5 text-primary-foreground" />
           </div>
           {!isCollapsed && (
             <div>
-              <h1 className="text-lg font-semibold text-slate-800">GiftCard Pro</h1>
-              <p className="text-xs text-slate-500">Closed-Loop System</p>
+              <h1 className="text-xl font-light text-foreground">GiftCard Pro</h1>
+              <p className="text-sm text-muted-foreground">Closed-Loop System</p>
             </div>
           )}
         </div>
@@ -190,17 +190,17 @@ export function AppSidebar({ activeModule, setActiveModule }: AppSidebarProps) {
                   <SidebarMenuButton
                     onClick={() => setActiveModule(item.id)}
                     className={`
-                      group relative rounded-xl transition-all duration-200 
-                      hover:bg-white/10 hover:backdrop-blur-sm
+                      group relative rounded-lg transition-all duration-200 
+                      hover:bg-muted/50 border-0
                       ${activeModule === item.id 
-                        ? 'bg-white/15 text-blue-600 shadow-lg shadow-blue-500/10' 
-                        : 'text-slate-700 hover:text-slate-900'
+                        ? 'bg-primary/10 text-primary shadow-none' 
+                        : 'text-muted-foreground hover:text-foreground'
                       }
                     `}
                   >
                     <item.icon className="w-5 h-5" />
                     {!isCollapsed && (
-                      <span className="font-medium">{item.title}</span>
+                      <span className="font-normal">{item.title}</span>
                     )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
