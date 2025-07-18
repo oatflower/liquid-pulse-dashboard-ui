@@ -22,6 +22,7 @@ import SecurityFraud from './SecurityFraud';
 import IntegrationAPI from './IntegrationAPI';
 import NotificationManagement from './NotificationManagement';
 import Configuration from './Configuration';
+import ReportingAnalytics from './ReportingAnalytics';
 import GiftCardManagement from './GiftCardManagement';
 import DeviceMonitoring from './DeviceMonitoring';
 import CustomerSupport from './CustomerSupport';

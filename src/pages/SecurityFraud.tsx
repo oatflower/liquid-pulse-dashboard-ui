@@ -4,7 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { Shield, AlertTriangle, Key, Lock, Eye, Settings } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
+import { Shield, AlertTriangle, Key, Lock, Eye, Settings, Users, FileText, Database, UserCheck, Clock, Download, Search, Filter } from 'lucide-react';
 
 export default function SecurityFraud() {
   const securityStats = [
@@ -12,6 +16,33 @@ export default function SecurityFraud() {
     { label: 'Blocked Transactions', value: '1,247', change: '+5.2%', color: 'text-red-600' },
     { label: 'MFA Coverage', value: '87%', change: '+12%', color: 'text-blue-600' },
     { label: 'Security Alerts', value: '23', change: '-8', color: 'text-yellow-600' },
+  ];
+
+  const users = [
+    { id: 1, name: 'Admin User', email: 'admin@onebangkok.com', role: 'System Admin', department: 'IT', status: 'Active', lastLogin: '2024-01-15 09:30', mfa: true },
+    { id: 2, name: 'Finance Manager', email: 'finance@onebangkok.com', role: 'Finance Manager', department: 'Finance', status: 'Active', lastLogin: '2024-01-15 08:45', mfa: true },
+    { id: 3, name: 'Support Agent', email: 'support@onebangkok.com', role: 'Support Agent', department: 'Customer Service', status: 'Active', lastLogin: '2024-01-15 10:15', mfa: false },
+    { id: 4, name: 'Merchant Manager', email: 'merchant@onebangkok.com', role: 'Merchant Manager', department: 'Operations', status: 'Inactive', lastLogin: '2024-01-10 16:20', mfa: true },
+  ];
+
+  const auditLogs = [
+    { timestamp: '2024-01-15 10:30:00', user: 'admin@onebangkok.com', action: 'Card Status Change', details: 'Changed card #1234 status to Blocked', module: 'Card Management', ip: '192.168.1.100' },
+    { timestamp: '2024-01-15 10:25:00', user: 'finance@onebangkok.com', action: 'Settlement Export', details: 'Downloaded daily settlement report', module: 'Settlement', ip: '192.168.1.105' },
+    { timestamp: '2024-01-15 10:20:00', user: 'support@onebangkok.com', action: 'Customer Inquiry', details: 'Viewed customer balance for card #5678', module: 'Customer Support', ip: '192.168.1.110' },
+    { timestamp: '2024-01-15 10:15:00', user: 'merchant@onebangkok.com', action: 'Tenant Dashboard Access', details: 'Accessed merchant performance dashboard', module: 'Tenant Management', ip: '192.168.1.115' },
+  ];
+
+  const amlAlerts = [
+    { id: 'AML-001', severity: 'High', type: 'Large Amount Transaction', details: 'Card #1234 - ฿45,000 single transaction', threshold: '฿40,000', status: 'Under Review', created: '2024-01-15 09:30' },
+    { id: 'AML-002', severity: 'Medium', type: 'Velocity Breach', details: 'Card #5678 - 15 transactions in 1 hour', threshold: '10 trans/hour', status: 'Cleared', created: '2024-01-15 08:45' },
+    { id: 'AML-003', severity: 'Low', type: 'Geographic Anomaly', details: 'Card #9012 - Transaction from unusual location', threshold: 'Location variance', status: 'Auto-Cleared', created: '2024-01-15 08:15' },
+  ];
+
+  const pdpaRequests = [
+    { id: 'PDPA-001', type: 'Data Access', customer: 'customer1@email.com', requested: '2024-01-10', status: 'Completed', response: '2024-01-12' },
+    { id: 'PDPA-002', type: 'Data Deletion', customer: 'customer2@email.com', requested: '2024-01-12', status: 'In Progress', response: '-' },
+    { id: 'PDPA-003', type: 'Data Correction', customer: 'customer3@email.com', requested: '2024-01-14', status: 'Pending Review', response: '-' },
+    { id: 'PDPA-004', type: 'Data Portability', customer: 'customer4@email.com', requested: '2024-01-15', status: 'New', response: '-' },
   ];
 
   const fraudRules = [
@@ -40,8 +71,8 @@ export default function SecurityFraud() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Security & Fraud Detection</h1>
-          <p className="text-muted-foreground">Manage authentication, fraud detection, and security settings</p>
+          <h1 className="text-2xl font-semibold text-foreground">Security & Compliance</h1>
+          <p className="text-muted-foreground">Manage user access, audit trails, fraud detection, and compliance tools</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
@@ -69,168 +100,587 @@ export default function SecurityFraud() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Fraud Rules Engine</CardTitle>
-            <CardDescription>Configure and manage fraud detection rules</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {fraudRules.map((rule, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center">
-                      <Shield className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium">{rule.name}</h4>
-                      <p className="text-sm text-muted-foreground">{rule.description}</p>
-                    </div>
+      <Tabs defaultValue="access-control" className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="access-control">User Access Control</TabsTrigger>
+          <TabsTrigger value="audit-trail">Audit Trail</TabsTrigger>
+          <TabsTrigger value="aml-reporting">AML Reporting</TabsTrigger>
+          <TabsTrigger value="pdpa-compliance">PDPA Compliance</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="access-control" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>User Management</CardTitle>
+                <CardDescription>Create and manage user accounts with role-based permissions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex gap-2">
+                    <Button>
+                      <Users className="w-4 h-4 mr-2" />
+                      Add User
+                    </Button>
+                    <Button variant="outline">
+                      <Download className="w-4 h-4 mr-2" />
+                      Export Users
+                    </Button>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="text-sm font-medium">{rule.triggered} triggered</div>
-                      <div className="text-xs text-muted-foreground">Last 24h</div>
-                    </div>
-                    <Switch checked={rule.enabled} />
+                  <div className="space-y-3">
+                    {users.slice(0, 3).map((user) => (
+                      <div key={user.id} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                            <span className="text-white text-sm font-medium">{user.name.charAt(0)}</span>
+                          </div>
+                          <div>
+                            <div className="font-medium">{user.name}</div>
+                            <div className="text-sm text-muted-foreground">{user.email}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Badge variant={user.status === 'Active' ? 'outline' : 'secondary'}>
+                            {user.status}
+                          </Badge>
+                          {user.mfa && <Badge variant="outline" className="text-green-600">MFA</Badge>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <Button variant="outline" className="w-full">View All Users</Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Role-Based Permissions</CardTitle>
+                <CardDescription>Manage roles and permission templates</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button variant="outline">Create Role</Button>
+                    <Button variant="outline">Permission Matrix</Button>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { role: 'System Admin', users: 3, permissions: 'Full Access', description: 'Complete system access' },
+                      { role: 'Finance Manager', users: 5, permissions: 'Financial Operations', description: 'Settlement & reconciliation' },
+                      { role: 'Support Agent', users: 12, permissions: 'Customer Support', description: 'Card inquiry & assistance' },
+                      { role: 'Merchant Manager', users: 8, permissions: 'Tenant Management', description: 'Merchant operations' },
+                    ].map((role, index) => (
+                      <div key={index} className="p-3 border rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <div className="font-medium">{role.role}</div>
+                          <Badge variant="outline">{role.users} users</Badge>
+                        </div>
+                        <div className="text-sm text-muted-foreground mb-1">{role.permissions}</div>
+                        <div className="text-xs text-muted-foreground">{role.description}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-              <Button variant="outline" className="w-full">
-                <Settings className="w-4 h-4 mr-2" />
-                Advanced Configuration
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Security Alerts</CardTitle>
-            <CardDescription>Real-time security monitoring and alerts</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {securityAlerts.map((alert, index) => (
-                <div key={index} className="p-3 border rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <AlertTriangle className={`w-4 h-4 ${alert.severity === 'high' ? 'text-red-600' : alert.severity === 'medium' ? 'text-yellow-600' : 'text-blue-600'}`} />
-                      <h4 className="font-medium">{alert.type}</h4>
+          <Card>
+            <CardHeader>
+              <CardTitle>Authentication Settings</CardTitle>
+              <CardDescription>Multi-factor authentication and SSO configuration</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h4 className="font-medium">Multi-Factor Authentication</h4>
+                  {mfaSettings.map((method, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Key className="w-4 h-4 text-blue-600" />
+                        <div>
+                          <div className="font-medium text-sm">{method.method}</div>
+                          <div className="text-xs text-muted-foreground">{method.description}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">{method.coverage}%</span>
+                        <Switch checked={method.enabled} />
+                      </div>
                     </div>
-                    <Badge variant={alert.severity === 'high' ? 'destructive' : alert.severity === 'medium' ? 'secondary' : 'outline'}>
-                      {alert.severity}
-                    </Badge>
+                  ))}
+                </div>
+                <div className="space-y-4">
+                  <h4 className="font-medium">SSO Integration</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded bg-red-100 flex items-center justify-center">
+                          <span className="text-red-600 font-bold text-sm">G</span>
+                        </div>
+                        <div>
+                          <div className="font-medium text-sm">Google SSO</div>
+                          <div className="text-xs text-muted-foreground">Gmail authentication</div>
+                        </div>
+                      </div>
+                      <Switch checked={true} />
+                    </div>
+                    <div className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded bg-blue-100 flex items-center justify-center">
+                          <span className="text-blue-600 font-bold text-sm">M</span>
+                        </div>
+                        <div>
+                          <div className="font-medium text-sm">Microsoft SSO</div>
+                          <div className="text-xs text-muted-foreground">Azure AD integration</div>
+                        </div>
+                      </div>
+                      <Switch checked={true} />
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">{alert.details}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">{alert.time}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="audit-trail" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <Card className="lg:col-span-2">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Activity Logging</CardTitle>
+                    <CardDescription>Real-time audit trail of all system activities</CardDescription>
+                  </div>
+                  <div className="flex gap-2">
                     <Button variant="outline" size="sm">
-                      Investigate
+                      <Search className="w-4 h-4 mr-2" />
+                      Search
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <Filter className="w-4 h-4 mr-2" />
+                      Filter
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <Download className="w-4 h-4 mr-2" />
+                      Export
                     </Button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Timestamp</TableHead>
+                      <TableHead>User</TableHead>
+                      <TableHead>Action</TableHead>
+                      <TableHead>Module</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {auditLogs.map((log, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="text-sm">{log.timestamp}</TableCell>
+                        <TableCell className="text-sm">{log.user}</TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium text-sm">{log.action}</div>
+                            <div className="text-xs text-muted-foreground">{log.details}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline">{log.module}</Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Authentication & MFA</CardTitle>
-          <CardDescription>Configure multi-factor authentication settings</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {mfaSettings.map((method, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <Key className="w-5 h-5 text-white" />
+            <Card>
+              <CardHeader>
+                <CardTitle>Log Management</CardTitle>
+                <CardDescription>Configure log retention and archival</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="retention">Log Retention Period</Label>
+                    <Select defaultValue="365">
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="90">90 days</SelectItem>
+                        <SelectItem value="180">180 days</SelectItem>
+                        <SelectItem value="365">1 year</SelectItem>
+                        <SelectItem value="1095">3 years</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div>
-                    <h4 className="font-medium">{method.method}</h4>
-                    <p className="text-sm text-muted-foreground">{method.description}</p>
+                  <div className="space-y-2">
+                    <Label htmlFor="archival">Auto Archival</Label>
+                    <Select defaultValue="enabled">
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="enabled">Enabled</SelectItem>
+                        <SelectItem value="disabled">Disabled</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
+                  <Separator />
+                  <div className="space-y-3">
+                    <h4 className="font-medium text-sm">Quick Stats</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Total Logs Today</span>
+                        <span className="font-medium">2,847</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Storage Used</span>
+                        <span className="font-medium">15.2 GB</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Archive Size</span>
+                        <span className="font-medium">156 GB</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Button variant="outline" className="w-full">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Archive
+                  </Button>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <div className="text-sm font-medium">{method.coverage}% coverage</div>
-                    <div className="text-xs text-muted-foreground">Active users</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Compliance Reporting</CardTitle>
+              <CardDescription>Generate compliance reports for regulatory submissions</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 border rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileText className="w-4 h-4 text-blue-600" />
+                    <span className="font-medium text-sm">User Activity Report</span>
                   </div>
-                  <Switch checked={method.enabled} />
+                  <p className="text-xs text-muted-foreground mb-3">Detailed user access and activity logs</p>
+                  <Button variant="outline" size="sm" className="w-full">Generate</Button>
+                </div>
+                <div className="p-4 border rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileText className="w-4 h-4 text-green-600" />
+                    <span className="font-medium text-sm">Access Review Report</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-3">Quarterly access rights review</p>
+                  <Button variant="outline" size="sm" className="w-full">Generate</Button>
+                </div>
+                <div className="p-4 border rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileText className="w-4 h-4 text-purple-600" />
+                    <span className="font-medium text-sm">Security Incident Log</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-3">Security events and incidents</p>
+                  <Button variant="outline" size="sm" className="w-full">Generate</Button>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Encryption Settings</CardTitle>
-          <CardDescription>Manage data encryption and key management</CardDescription>
-        </CardHeader>
-        <CardContent>
+        <TabsContent value="aml-reporting" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Transaction Monitoring</CardTitle>
+                  <CardDescription>Anti-Money Laundering detection and reporting</CardDescription>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Configure Rules
+                  </Button>
+                  <Button size="sm">
+                    <FileText className="w-4 h-4 mr-2" />
+                    Generate Report
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {amlAlerts.map((alert) => (
+                  <div key={alert.id} className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className={`w-4 h-4 ${alert.severity === 'High' ? 'text-red-600' : alert.severity === 'Medium' ? 'text-yellow-600' : 'text-blue-600'}`} />
+                        <span className="font-medium">{alert.id}</span>
+                        <Badge variant={alert.severity === 'High' ? 'destructive' : alert.severity === 'Medium' ? 'secondary' : 'outline'}>
+                          {alert.severity}
+                        </Badge>
+                      </div>
+                      <Badge variant={alert.status === 'Under Review' ? 'secondary' : alert.status === 'Cleared' ? 'outline' : 'outline'}>
+                        {alert.status}
+                      </Badge>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Type:</span>
+                        <span className="ml-2 font-medium">{alert.type}</span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Threshold:</span>
+                        <span className="ml-2 font-medium">{alert.threshold}</span>
+                      </div>
+                      <div className="col-span-2">
+                        <span className="text-muted-foreground">Details:</span>
+                        <span className="ml-2">{alert.details}</span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Created:</span>
+                        <span className="ml-2">{alert.created}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mt-3">
+                      <Button variant="outline" size="sm">Review</Button>
+                      <Button variant="outline" size="sm">Mark Cleared</Button>
+                      <Button variant="outline" size="sm">Escalate</Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h4 className="font-medium">Data Encryption</h4>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-green-600" />
-                    <span className="text-sm">Data at Rest</span>
+            <Card>
+              <CardHeader>
+                <CardTitle>Monitoring Rules</CardTitle>
+                <CardDescription>Configure AML detection thresholds</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Large Amount Threshold</Label>
+                    <Input defaultValue="40,000" placeholder="Amount in THB" />
                   </div>
-                  <Badge variant="outline" className="text-green-600">AES-256</Badge>
+                  <div className="space-y-2">
+                    <Label>Velocity Threshold</Label>
+                    <Input defaultValue="10" placeholder="Transactions per hour" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Geographic Variance</Label>
+                    <Select defaultValue="50">
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="25">25 km</SelectItem>
+                        <SelectItem value="50">50 km</SelectItem>
+                        <SelectItem value="100">100 km</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button className="w-full">Update Rules</Button>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-green-600" />
-                    <span className="text-sm">Data in Transit</span>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Risk Scoring</CardTitle>
+                <CardDescription>Automated risk assessment parameters</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="p-3 border rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium">Low Risk</span>
+                      <Badge variant="outline" className="text-green-600">0-30</Badge>
+                    </div>
+                    <div className="text-xs text-muted-foreground">Normal transaction patterns</div>
                   </div>
-                  <Badge variant="outline" className="text-green-600">TLS 1.3</Badge>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-green-600" />
-                    <span className="text-sm">Card Data</span>
+                  <div className="p-3 border rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium">Medium Risk</span>
+                      <Badge variant="secondary">31-70</Badge>
+                    </div>
+                    <div className="text-xs text-muted-foreground">Elevated monitoring required</div>
                   </div>
-                  <Badge variant="outline" className="text-green-600">PCI-DSS</Badge>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <h4 className="font-medium">Key Management</h4>
-              <div className="space-y-3">
-                <div className="p-3 bg-muted/50 rounded-lg">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium">Master Key</span>
-                    <Badge variant="outline" className="text-green-600">Active</Badge>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Last rotation: 30 days ago
-                  </div>
-                </div>
-                <div className="p-3 bg-muted/50 rounded-lg">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium">API Keys</span>
-                    <Badge variant="outline" className="text-green-600">Active</Badge>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Last rotation: 15 days ago
+                  <div className="p-3 border rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium">High Risk</span>
+                      <Badge variant="destructive">71-100</Badge>
+                    </div>
+                    <div className="text-xs text-muted-foreground">Immediate review required</div>
                   </div>
                 </div>
-                <Button variant="outline" className="w-full">
-                  <Key className="w-4 h-4 mr-2" />
-                  Rotate Keys
-                </Button>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
+
+        <TabsContent value="pdpa-compliance" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Data Management</CardTitle>
+                <CardDescription>Personal data inventory and protection controls</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <div className="text-lg font-semibold">2,847</div>
+                      <div className="text-sm text-muted-foreground">Personal Records</div>
+                    </div>
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <div className="text-lg font-semibold">98.5%</div>
+                      <div className="text-sm text-muted-foreground">Consent Rate</div>
+                    </div>
+                  </div>
+                  <Separator />
+                  <div className="space-y-3">
+                    <h4 className="font-medium text-sm">Data Categories</h4>
+                    {[
+                      { category: 'Customer Information', records: 2847, consent: 98.5, retention: '7 years' },
+                      { category: 'Transaction Data', records: 156234, consent: 100, retention: '10 years' },
+                      { category: 'Device Information', records: 1205, consent: 95.2, retention: '2 years' },
+                    ].map((data, index) => (
+                      <div key={index} className="p-3 border rounded-lg">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="font-medium text-sm">{data.category}</span>
+                          <span className="text-xs text-muted-foreground">{data.records} records</span>
+                        </div>
+                        <div className="flex justify-between text-xs text-muted-foreground">
+                          <span>Consent: {data.consent}%</span>
+                          <span>Retention: {data.retention}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Rights Management</CardTitle>
+                <CardDescription>Handle customer data rights requests</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex gap-2">
+                    <Button size="sm">
+                      <FileText className="w-4 h-4 mr-2" />
+                      New Request
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <Download className="w-4 h-4 mr-2" />
+                      Export
+                    </Button>
+                  </div>
+                  <div className="space-y-3">
+                    {pdpaRequests.map((request) => (
+                      <div key={request.id} className="p-3 border rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-medium text-sm">{request.id}</span>
+                          <Badge variant={
+                            request.status === 'Completed' ? 'outline' : 
+                            request.status === 'In Progress' ? 'secondary' : 
+                            request.status === 'Pending Review' ? 'secondary' : 'outline'
+                          }>
+                            {request.status}
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-muted-foreground mb-1">{request.type}</div>
+                        <div className="text-xs text-muted-foreground">{request.customer}</div>
+                        <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                          <span>Requested: {request.requested}</span>
+                          <span>Response: {request.response}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Privacy Controls</CardTitle>
+              <CardDescription>Data protection and privacy management tools</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-4">
+                  <h4 className="font-medium">Data Masking</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Card Numbers</span>
+                      <Switch checked={true} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Phone Numbers</span>
+                      <Switch checked={true} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Email Addresses</span>
+                      <Switch checked={false} />
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="font-medium">Encryption Status</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Database</span>
+                      <Badge variant="outline" className="text-green-600">AES-256</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Backups</span>
+                      <Badge variant="outline" className="text-green-600">Encrypted</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Logs</span>
+                      <Badge variant="outline" className="text-green-600">Encrypted</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="font-medium">Consent Workflows</h4>
+                  <div className="space-y-2">
+                    <Button variant="outline" size="sm" className="w-full">
+                      <UserCheck className="w-4 h-4 mr-2" />
+                      Manage Consent
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full">
+                      <FileText className="w-4 h-4 mr-2" />
+                      Privacy Assessment
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full">
+                      <Clock className="w-4 h-4 mr-2" />
+                      Retention Review
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
     </div>
   );
 }
