@@ -4,13 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Users, Shield, Search, Plus, Edit, Trash2 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AccountManagement() {
+  const { t } = useLanguage();
   const roles = [
-    { name: 'Admin', users: 5, permissions: 'Full Access', color: 'bg-red-500' },
-    { name: 'Finance', users: 12, permissions: 'Settlement, Reports', color: 'bg-blue-500' },
-    { name: 'Merchant Manager', users: 8, permissions: 'Merchant Operations', color: 'bg-green-500' },
-    { name: 'Support', users: 25, permissions: 'Customer Support', color: 'bg-yellow-500' },
+    { name: t('accountManagement.roles.admin'), users: 5, permissions: t('accountManagement.permissions.fullAccess'), color: 'bg-red-500' },
+    { name: t('accountManagement.roles.finance'), users: 12, permissions: t('accountManagement.permissions.settlementReports'), color: 'bg-blue-500' },
+    { name: t('accountManagement.roles.merchantManager'), users: 8, permissions: t('accountManagement.permissions.merchantOperations'), color: 'bg-green-500' },
+    { name: t('accountManagement.roles.support'), users: 25, permissions: t('accountManagement.permissions.customerSupport'), color: 'bg-yellow-500' },
   ];
 
   const auditLogs = [
@@ -23,12 +25,12 @@ export default function AccountManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Account & Role Management</h1>
-          <p className="text-muted-foreground">Manage user roles, permissions, and access control</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t('accountManagement.title')}</h1>
+          <p className="text-muted-foreground">{t('accountManagement.description')}</p>
         </div>
         <Button>
           <Plus className="w-4 h-4 mr-2" />
-          Add User
+          {t('accountManagement.addUser')}
         </Button>
       </div>
 
@@ -45,7 +47,7 @@ export default function AccountManagement() {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Users className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">{role.users} users</span>
+                  <span className="text-sm">{role.users} {t('accountManagement.users')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Shield className="w-4 h-4 text-muted-foreground" />
@@ -68,8 +70,8 @@ export default function AccountManagement() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Role Hierarchy</CardTitle>
-            <CardDescription>View and manage role permissions structure</CardDescription>
+            <CardTitle>{t('accountManagement.roleHierarchy')}</CardTitle>
+            <CardDescription>{t('accountManagement.viewManagePermissions')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -79,24 +81,24 @@ export default function AccountManagement() {
                     <Shield className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <p className="font-medium">Admin</p>
-                    <p className="text-sm text-muted-foreground">Full system access</p>
+                    <p className="font-medium">{t('accountManagement.roles.admin')}</p>
+                    <p className="text-sm text-muted-foreground">{t('accountManagement.fullSystemAccess')}</p>
                   </div>
                 </div>
-                <Badge variant="outline">Level 1</Badge>
+                <Badge variant="outline">{t('accountManagement.level')} 1</Badge>
               </div>
               <div className="ml-4 space-y-2">
                 <div className="flex items-center justify-between p-2 border rounded">
-                  <span className="text-sm">Finance</span>
-                  <Badge variant="secondary">Level 2</Badge>
+                  <span className="text-sm">{t('accountManagement.roles.finance')}</span>
+                  <Badge variant="secondary">{t('accountManagement.level')} 2</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 border rounded">
-                  <span className="text-sm">Merchant Manager</span>
-                  <Badge variant="secondary">Level 2</Badge>
+                  <span className="text-sm">{t('accountManagement.roles.merchantManager')}</span>
+                  <Badge variant="secondary">{t('accountManagement.level')} 2</Badge>
                 </div>
                 <div className="flex items-center justify-between p-2 border rounded">
-                  <span className="text-sm">Support</span>
-                  <Badge variant="secondary">Level 3</Badge>
+                  <span className="text-sm">{t('accountManagement.roles.support')}</span>
+                  <Badge variant="secondary">{t('accountManagement.level')} 3</Badge>
                 </div>
               </div>
             </div>
@@ -105,8 +107,8 @@ export default function AccountManagement() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Audit trail of recent system actions</CardDescription>
+            <CardTitle>{t('accountManagement.recentActivity')}</CardTitle>
+            <CardDescription>{t('accountManagement.auditTrail')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -131,34 +133,34 @@ export default function AccountManagement() {
 
       <Card>
         <CardHeader>
-          <CardTitle>SSO Integration</CardTitle>
-          <CardDescription>Configure single sign-on providers</CardDescription>
+          <CardTitle>{t('accountManagement.ssoIntegration')}</CardTitle>
+          <CardDescription>{t('accountManagement.configureSso')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-4 border rounded-lg">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-medium">Google SSO</h4>
-                <Badge variant="outline" className="text-green-600">Active</Badge>
+                <Badge variant="outline" className="text-green-600">{t('accountManagement.active')}</Badge>
               </div>
               <p className="text-sm text-muted-foreground mb-3">OAuth 2.0 integration</p>
-              <Button variant="outline" size="sm">Configure</Button>
+              <Button variant="outline" size="sm">{t('accountManagement.configure')}</Button>
             </div>
             <div className="p-4 border rounded-lg">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-medium">Microsoft AD</h4>
-                <Badge variant="outline" className="text-gray-600">Inactive</Badge>
+                <Badge variant="outline" className="text-gray-600">{t('accountManagement.inactive')}</Badge>
               </div>
               <p className="text-sm text-muted-foreground mb-3">Active Directory sync</p>
-              <Button variant="outline" size="sm">Setup</Button>
+              <Button variant="outline" size="sm">{t('accountManagement.setup')}</Button>
             </div>
             <div className="p-4 border rounded-lg">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-medium">SAML 2.0</h4>
-                <Badge variant="outline" className="text-gray-600">Inactive</Badge>
+                <Badge variant="outline" className="text-gray-600">{t('accountManagement.inactive')}</Badge>
               </div>
               <p className="text-sm text-muted-foreground mb-3">Enterprise SSO</p>
-              <Button variant="outline" size="sm">Setup</Button>
+              <Button variant="outline" size="sm">{t('accountManagement.setup')}</Button>
             </div>
           </div>
         </CardContent>
