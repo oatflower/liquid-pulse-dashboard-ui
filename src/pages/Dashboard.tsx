@@ -11,7 +11,7 @@ import { CardExpiryAlerts } from '@/components/dashboard/CardExpiryAlerts';
 import { TopUpAnalytics } from '@/components/dashboard/TopUpAnalytics';
 import { InsightsAlerts } from '@/components/dashboard/InsightsAlerts';
 
-// Import all new page components
+// Import all page components
 import AccountManagement from './AccountManagement';
 import CardInventory from './CardInventory';
 import TransactionManagement from './TransactionManagement';
@@ -22,6 +22,9 @@ import SecurityFraud from './SecurityFraud';
 import IntegrationAPI from './IntegrationAPI';
 import NotificationManagement from './NotificationManagement';
 import Configuration from './Configuration';
+import GiftCardManagement from './GiftCardManagement';
+import DeviceMonitoring from './DeviceMonitoring';
+import CustomerSupport from './CustomerSupport';
 
 const Dashboard = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
@@ -93,6 +96,15 @@ const Dashboard = () => {
             
             {/* Configuration & Settings */}
             {activeModule === 'settings' && <Configuration />}
+            
+            {/* Gift Card Management */}
+            {activeModule === 'gift-cards' && <GiftCardManagement />}
+            
+            {/* Device & Infrastructure Monitoring */}
+            {activeModule === 'device-monitoring' && <DeviceMonitoring />}
+            
+            {/* Customer Support Tools */}
+            {activeModule === 'customer-support' && <CustomerSupport />}
           </div>
         </main>
       </div>
