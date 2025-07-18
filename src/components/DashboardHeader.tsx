@@ -1,45 +1,89 @@
-
-import React from 'react';
-import { Search, Bell, User, Globe, Settings } from 'lucide-react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { LanguageToggle } from '@/components/LanguageToggle';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { Bell, User, Settings, LogOut, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
-export function DashboardHeader() {
+export default function DashboardHeader() {
+  const { t } = useLanguage();
+
   return (
-    <div className="border-b border-border/30 bg-card/50 backdrop-blur-sm p-8">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <SidebarTrigger className="hover:bg-muted/50 rounded-lg p-2 transition-colors" />
-          <div className="h-8 w-px bg-border/30" />
-          <div className="space-y-1">
-            <h1 className="text-3xl font-light text-foreground tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, manage your gift card system</p>
-          </div>
-        </div>
+    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
+      <div className="flex h-16 items-center gap-4 px-6">
+        <SidebarTrigger className="lg:hidden" />
         
-        <div className="flex items-center gap-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input 
-              placeholder="Search..." 
-              className="pl-10 w-80 bg-muted/30 border-border/30 text-foreground placeholder:text-muted-foreground"
-            />
+        <div className="flex flex-1 items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="space-y-1">
+              <h1 className="text-xl font-semibold text-foreground">
+                {t('header.welcome')}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {t('dashboard.subtitle')}
+              </p>
+            </div>
           </div>
-          <div className="h-6 w-px bg-border/30" />
-          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hover:bg-muted/50">
-            <Globe className="w-4 h-4 mr-2" />
-            ไทย / EN
-          </Button>
-          <Button variant="ghost" size="sm" className="relative text-muted-foreground hover:text-foreground hover:bg-muted/50">
-            <Bell className="w-4 h-4" />
-            <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
-          </Button>
-          <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-            <User className="w-5 h-5 text-primary" />
+          
+          <div className="flex items-center gap-4">
+            <div className="relative hidden md:block">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input 
+                placeholder={t('common.search') + '...'} 
+                className="pl-10 w-80 bg-muted/30 border-border/30"
+              />
+            </div>
+            
+            <LanguageToggle />
+            
+            <Button variant="outline" size="sm" className="relative">
+              <Bell className="w-4 h-4" />
+              <Badge 
+                variant="destructive" 
+                className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 text-xs flex items-center justify-center"
+              >
+                3
+              </Badge>
+              <span className="sr-only">{t('header.notifications')}</span>
+            </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <User className="w-4 h-4 mr-2" />
+                  Admin
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 bg-background border border-border z-50">
+                <DropdownMenuLabel>{t('header.profile')}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Settings className="w-4 h-4 mr-2" />
+                  {t('header.settings')}
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Bell className="w-4 h-4 mr-2" />
+                  {t('header.notifications')}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  {t('header.logout')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

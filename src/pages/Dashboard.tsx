@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/AppSidebar';
-import { DashboardHeader } from '@/components/DashboardHeader';
+import AppSidebar from '@/components/AppSidebar';
+import DashboardHeader from '@/components/DashboardHeader';
 import { DashboardOverview } from '@/components/dashboard/DashboardOverview';
 import { TransactionFeed } from '@/components/dashboard/TransactionFeed';
 import { MerchantSpending } from '@/components/dashboard/MerchantSpending';

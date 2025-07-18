@@ -1,214 +1,294 @@
-
-import React from 'react';
-import { 
-  BarChart3, 
-  CreditCard, 
-  Users, 
-  Store, 
-  FileText, 
-  Shield, 
-  Settings, 
+import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import {
+  BarChart3,
+  Users,
+  CreditCard,
+  Activity,
+  Building2,
+  Calculator,
+  Shield,
+  Globe,
   Bell,
-  PlusCircle,
-  Layers,
-  TrendingUp,
-  DollarSign,
-  AlertTriangle,
-  Zap,
-  MessageSquare,
-  Globe
+  Settings2,
+  Gift,
+  Monitor,
+  HeadphonesIcon,
+  ChevronDown,
+  ChevronRight,
 } from 'lucide-react';
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarHeader,
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { Separator } from '@/components/ui/separator';
 
 interface AppSidebarProps {
   activeModule: string;
   setActiveModule: (module: string) => void;
 }
 
-const menuItems = [
-  {
-    title: 'Dashboard & Analytics',
-    icon: BarChart3,
-    id: 'dashboard',
-    items: [
-      { title: 'Overview', id: 'overview' },
-      { title: 'Key Metrics', id: 'key-metrics' },
-      { title: 'Trend & Forecast', id: 'trend-forecast' },
-      { title: 'Top-Up Overview', id: 'topup-overview' },
-      { title: 'Merchant Spending', id: 'merchant-spending' },
-      { title: 'Customer Demographics', id: 'demographics' },
-      { title: 'Expiry Alerts', id: 'expiry-alerts' },
-      { title: 'Insights & Alerts', id: 'insights-alerts' },
-    ]
-  },
-  {
-    title: 'Account & Role Management',
-    icon: Users,
-    id: 'accounts',
-    items: [
-      { title: 'Roles & Permissions', id: 'roles-permissions' },
-      { title: 'Audit Trail', id: 'audit-trail' },
-      { title: 'SSO Integration', id: 'sso-integration' },
-      { title: 'Role Hierarchy', id: 'role-hierarchy' },
-      { title: 'Session Management', id: 'session-management' },
-    ]
-  },
-  {
-    title: 'Card & Inventory',
-    icon: CreditCard,
-    id: 'cards',
-    items: [
-      { title: 'Corporate Generation', id: 'corporate-generation' },
-      { title: 'Physical & E-Gift Issuance', id: 'card-issuance' },
-      { title: 'Top-Up & Reload', id: 'topup-reload' },
-      { title: 'Card Status & Expiry', id: 'card-status' },
-    ]
-  },
-  {
-    title: 'Transaction Management',
-    icon: TrendingUp,
-    id: 'transactions',
-    items: [
-      { title: 'Real-Time Feed', id: 'transaction-feed' },
-      { title: 'Partial Redemption', id: 'partial-redemption' },
-      { title: 'Reversal & Refund', id: 'reversal-refund' },
-      { title: 'Dispute Handling', id: 'dispute-handling' },
-    ]
-  },
-  {
-    title: 'Merchant & Tenant',
-    icon: Store,
-    id: 'merchants',
-    items: [
-      { title: 'Onboarding', id: 'merchant-onboarding' },
-      { title: 'Merchant Dashboard', id: 'merchant-dashboard' },
-      { title: 'Fee Structure', id: 'fee-structure' },
-      { title: 'Settlement Cycle', id: 'settlement-cycle' },
-    ]
-  },
-  {
-    title: 'Settlement & Reconciliation',
-    icon: DollarSign,
-    id: 'settlement',
-    items: [
-      { title: 'Automated Reconciliation', id: 'auto-reconciliation' },
-      { title: 'Settlement Export', id: 'settlement-export' },
-      { title: 'Float Management', id: 'float-management' },
-    ]
-  },
-  {
-    title: 'Compliance & Audit',
-    icon: Shield,
-    id: 'compliance',
-    items: [
-      { title: 'Regulatory Reporting', id: 'regulatory-reporting' },
-      { title: 'Data Retention', id: 'data-retention' },
-      { title: 'Consent Management', id: 'consent-management' },
-    ]
-  },
-  {
-    title: 'Security & Fraud',
-    icon: AlertTriangle,
-    id: 'security',
-    items: [
-      { title: 'Authentication & MFA', id: 'auth-mfa' },
-      { title: 'Fraud Rules Engine', id: 'fraud-rules' },
-      { title: 'Encryption Settings', id: 'encryption' },
-    ]
-  },
-  {
-    title: 'Integration & API',
-    icon: Layers,
-    id: 'integration',
-    items: [
-      { title: 'API Catalog & Sandbox', id: 'api-catalog' },
-      { title: 'Webhooks', id: 'webhooks' },
-      { title: 'Rate Limiting', id: 'rate-limiting' },
-      { title: 'API Status', id: 'api-status' },
-    ]
-  },
-  {
-    title: 'Notifications',
-    icon: Bell,
-    id: 'notifications',
-    items: [
-      { title: 'System Alerts', id: 'system-alerts' },
-      { title: 'Scheduled Notifications', id: 'scheduled-notifications' },
-      { title: 'Email/SMS Templates', id: 'templates' },
-    ]
-  },
-  {
-    title: 'Configuration',
-    icon: Settings,
-    id: 'settings',
-    items: [
-      { title: 'Business Rules', id: 'business-rules' },
-      { title: 'Localization', id: 'localization' },
-      { title: 'Feature Flags', id: 'feature-flags' },
-    ]
-  },
-];
+export default function AppSidebar({ activeModule, setActiveModule }: AppSidebarProps) {
+  const { t } = useLanguage();
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
+    dashboard: true,
+  });
 
-export function AppSidebar({ activeModule, setActiveModule }: AppSidebarProps) {
-  const { state } = useSidebar();
-  const isCollapsed = state === 'collapsed';
+  const toggleMenu = (menuId: string) => {
+    setOpenMenus(prev => ({
+      ...prev,
+      [menuId]: !prev[menuId],
+    }));
+  };
+
+  const menuItems = [
+    {
+      title: t('navigation.dashboard'),
+      icon: BarChart3,
+      id: 'dashboard',
+      items: [
+        { title: t('navigation.overview'), id: 'overview' },
+        { title: t('navigation.keyMetrics'), id: 'key-metrics' },
+        { title: t('navigation.trendForecast'), id: 'trend-forecast' },
+        { title: t('navigation.topupOverview'), id: 'topup-overview' },
+        { title: t('navigation.merchantSpending'), id: 'merchant-spending' },
+        { title: t('navigation.demographics'), id: 'demographics' },
+        { title: t('navigation.expiryAlerts'), id: 'expiry-alerts' },
+        { title: t('navigation.insightsAlerts'), id: 'insights-alerts' },
+      ]
+    },
+    {
+      title: t('navigation.accountManagement'),
+      icon: Users,
+      id: 'accounts',
+      items: [
+        { title: t('navigation.rolesPermissions'), id: 'roles-permissions' },
+        { title: t('navigation.auditTrail'), id: 'audit-trail' },
+        { title: t('navigation.ssoIntegration'), id: 'sso-integration' },
+        { title: t('navigation.roleHierarchy'), id: 'role-hierarchy' },
+        { title: t('navigation.sessionManagement'), id: 'session-management' },
+      ]
+    },
+    {
+      title: t('navigation.cardInventory'),
+      icon: CreditCard,
+      id: 'cards',
+      items: [
+        { title: t('navigation.corporateGeneration'), id: 'corporate-generation' },
+        { title: t('navigation.cardIssuance'), id: 'card-issuance' },
+        { title: t('navigation.topupReload'), id: 'topup-reload' },
+        { title: t('navigation.cardStatus'), id: 'card-status' },
+      ]
+    },
+    {
+      title: t('navigation.transactionManagement'),
+      icon: Activity,
+      id: 'transactions',
+      items: [
+        { title: t('navigation.realTimeFeed'), id: 'real-time-feed' },
+        { title: t('navigation.partialRedemption'), id: 'partial-redemption' },
+        { title: t('navigation.reversalRefund'), id: 'reversal-refund' },
+        { title: t('navigation.disputeHandling'), id: 'dispute-handling' },
+      ]
+    },
+    {
+      title: t('navigation.merchantManagement'),
+      icon: Building2,
+      id: 'merchants',
+      items: [
+        { title: t('navigation.onboarding'), id: 'onboarding' },
+        { title: t('navigation.merchantDashboard'), id: 'merchant-dashboard' },
+        { title: t('navigation.feeStructure'), id: 'fee-structure' },
+        { title: t('navigation.settlementCycle'), id: 'settlement-cycle' },
+      ]
+    },
+    {
+      title: t('navigation.settlementReconciliation'),
+      icon: Calculator,
+      id: 'settlement',
+      items: [
+        { title: t('navigation.automatedReconciliation'), id: 'automated-reconciliation' },
+        { title: t('navigation.settlementFiles'), id: 'settlement-files' },
+        { title: t('navigation.floatManagement'), id: 'float-management' },
+      ]
+    },
+    {
+      title: t('navigation.complianceAudit'),
+      icon: Shield,
+      id: 'compliance',
+      items: [
+        { title: t('navigation.regulatoryReporting'), id: 'regulatory-reporting' },
+        { title: t('navigation.dataRetention'), id: 'data-retention' },
+        { title: t('navigation.consentManagement'), id: 'consent-management' },
+      ]
+    },
+    {
+      title: t('navigation.securityFraud'),
+      icon: Shield,
+      id: 'security',
+      items: [
+        { title: t('navigation.authenticationMfa'), id: 'authentication-mfa' },
+        { title: t('navigation.fraudRules'), id: 'fraud-rules' },
+        { title: t('navigation.encryptionSettings'), id: 'encryption-settings' },
+      ]
+    },
+    {
+      title: t('navigation.integrationApi'),
+      icon: Globe,
+      id: 'integration',
+      items: [
+        { title: t('navigation.apiCatalog'), id: 'api-catalog' },
+        { title: t('navigation.sandbox'), id: 'sandbox' },
+        { title: t('navigation.webhooks'), id: 'webhooks' },
+        { title: t('navigation.rateLimiting'), id: 'rate-limiting' },
+      ]
+    },
+    {
+      title: t('navigation.notificationManagement'),
+      icon: Bell,
+      id: 'notifications',
+      items: [
+        { title: t('navigation.systemAlerts'), id: 'system-alerts' },
+        { title: t('navigation.scheduledNotifications'), id: 'scheduled-notifications' },
+        { title: t('navigation.emailSmsTemplates'), id: 'email-sms-templates' },
+      ]
+    },
+    {
+      title: t('navigation.reportingAnalytics'),
+      icon: BarChart3,
+      id: 'reporting',
+      items: [
+        { title: t('navigation.liabilityReporting'), id: 'liability-reporting' },
+        { title: t('navigation.salesPerformance'), id: 'sales-performance' },
+        { title: t('navigation.visualizationTools'), id: 'visualization-tools' },
+      ]
+    },
+    {
+      title: t('navigation.configuration'),
+      icon: Settings2,
+      id: 'settings',
+      items: [
+        { title: t('navigation.businessRules'), id: 'business-rules' },
+        { title: t('navigation.localization'), id: 'localization' },
+        { title: t('navigation.featureFlags'), id: 'feature-flags' },
+      ]
+    },
+  ];
+
+  const quickAccessItems = [
+    { id: 'gift-cards', title: t('navigation.giftCards'), icon: Gift, badge: '2,847 ' + t('dashboard.activeCards') },
+    { id: 'device-monitoring', title: t('navigation.deviceMonitoring'), icon: Monitor, badge: '98% ' + t('dashboard.uptime') },
+    { id: 'customer-support', title: t('navigation.customerSupport'), icon: HeadphonesIcon, badge: '12 ' + t('dashboard.pending') },
+  ];
 
   return (
-    <Sidebar className="border-r border-border bg-card">
-      <SidebarHeader className="border-b border-border p-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-            <CreditCard className="w-5 h-5 text-primary-foreground" />
+    <Sidebar className="border-r border-border bg-card/50 backdrop-blur-sm">
+      <SidebarHeader className="p-4 border-b border-border">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
+            <CreditCard className="w-4 h-4 text-primary-foreground" />
           </div>
-          {!isCollapsed && (
-            <div>
-              <h1 className="text-xl font-light text-foreground">GiftCard Pro</h1>
-              <p className="text-sm text-muted-foreground">Closed-Loop System</p>
-            </div>
-          )}
+          <div>
+            <h2 className="font-semibold text-sm">One Bangkok</h2>
+            <p className="text-xs text-muted-foreground">{t('navigation.giftCards')}</p>
+          </div>
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => setActiveModule(item.id)}
-                    className={`
-                      group relative rounded-lg transition-all duration-200 
-                      hover:bg-muted/50 border-0
-                      ${activeModule === item.id 
-                        ? 'bg-primary/10 text-primary shadow-none' 
-                        : 'text-muted-foreground hover:text-foreground'
-                      }
-                    `}
-                  >
-                    <item.icon className="w-5 h-5" />
-                    {!isCollapsed && (
-                      <span className="font-normal">{item.title}</span>
-                    )}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+      <SidebarContent className="flex flex-col gap-0">
+        <div className="p-2">
+          <p className="px-3 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+            {t('common.overview')}
+          </p>
+          <div className="space-y-1">
+            {quickAccessItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveModule(item.id)}
+                className={`w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors ${
+                  activeModule === item.id
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-muted'
+                }`}
+              >
+                <item.icon className="w-4 h-4 flex-shrink-0" />
+                <span className="flex-1 text-left truncate">{item.title}</span>
+                {item.badge && (
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                    {item.badge}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="p-2">
+          <p className="px-3 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+            {t('common.management')}
+          </p>
+          <div className="space-y-1">
+            {menuItems.map((menu) => (
+              <div key={menu.id}>
+                <button
+                  onClick={() => toggleMenu(menu.id)}
+                  className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors hover:bg-muted text-foreground"
+                >
+                  <menu.icon className="w-4 h-4 flex-shrink-0" />
+                  <span className="flex-1 text-left truncate">{menu.title}</span>
+                  {openMenus[menu.id] ? (
+                    <ChevronDown className="w-3 h-3 flex-shrink-0" />
+                  ) : (
+                    <ChevronRight className="w-3 h-3 flex-shrink-0" />
+                  )}
+                </button>
+                {openMenus[menu.id] && (
+                  <div className="mt-1 space-y-1">
+                    {menu.items.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => setActiveModule(getModuleId(menu.id, item.id))}
+                        className={`w-full flex items-center gap-3 px-6 py-1.5 text-sm rounded-lg transition-colors ${
+                          activeModule === getModuleId(menu.id, item.id)
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                        }`}
+                      >
+                        <span className="text-left truncate">{item.title}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </SidebarContent>
     </Sidebar>
   );
+}
+
+// Helper function to map menu items to module IDs
+function getModuleId(menuId: string, itemId: string): string {
+  const moduleMap: Record<string, string> = {
+    'accounts': 'account-management',
+    'cards': 'card-inventory',
+    'transactions': 'transaction-management',
+    'merchants': 'merchant-management',
+    'settlement': 'settlement-reconciliation',
+    'compliance': 'compliance-audit',
+    'security': 'security-fraud',
+    'integration': 'integration-api',
+    'notifications': 'notification-management',
+    'reporting': 'reporting-analytics',
+    'settings': 'configuration',
+  };
+  
+  return moduleMap[menuId] || 'dashboard';
 }
