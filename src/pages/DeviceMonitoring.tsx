@@ -698,7 +698,7 @@ const DeviceMonitoring = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">Network Error</span>
-                      <Badge variant="warning">0.1%</Badge>
+                      <Badge variant="outline">0.1%</Badge>
                     </div>
                   </div>
                 </div>

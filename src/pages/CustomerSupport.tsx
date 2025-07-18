@@ -77,7 +77,7 @@ const CustomerSupport = () => {
   const getPriorityColor = (priority: string) => {
     switch (priority.toLowerCase()) {
       case 'high': return 'destructive';
-      case 'medium': return 'warning';
+      case 'medium': return 'outline';
       case 'low': return 'secondary';
       default: return 'outline';
     }
@@ -501,7 +501,7 @@ const CustomerSupport = () => {
                     </div>
                     <div className="flex justify-between">
                       <span>Merchant Response:</span>
-                      <Badge variant="warning">Pending</Badge>
+                      <Badge variant="outline">Pending</Badge>
                     </div>
                     <div className="flex justify-between">
                       <span>Investigation Days:</span>
@@ -589,7 +589,7 @@ const CustomerSupport = () => {
                       </div>
 
                       <div className="flex items-center space-x-4">
-                        <Badge variant={getPriorityColor(dispute.priority) as "destructive" | "warning" | "secondary"}>
+                        <Badge variant={getPriorityColor(dispute.priority) as "destructive" | "outline" | "secondary"}>
                           {dispute.priority}
                         </Badge>
                         
