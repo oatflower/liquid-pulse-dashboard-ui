@@ -5,15 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Store, Plus, Edit, Eye, DollarSign, Calendar, Users, TrendingUp } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function MerchantManagement() {
-  const { t } = useLanguage();
   const merchantStats = [
-    { label: t('merchantManagement.totalMerchants'), value: '1,245', change: '+8.5%', color: 'text-blue-600' },
-    { label: t('merchantManagement.activeMerchants'), value: '1,187', change: '+6.2%', color: 'text-green-600' },
-    { label: t('merchantManagement.pendingApproval'), value: '34', change: '+12.3%', color: 'text-yellow-600' },
-    { label: t('accountManagement.inactive'), value: '24', change: '-15.2%', color: 'text-red-600' },
+    { label: 'Total Merchants', value: '1,245', change: '+8.5%', color: 'text-blue-600' },
+    { label: 'Active Merchants', value: '1,187', change: '+6.2%', color: 'text-green-600' },
+    { label: 'Pending Approval', value: '34', change: '+12.3%', color: 'text-yellow-600' },
+    { label: 'Inactive', value: '24', change: '-15.2%', color: 'text-red-600' },
   ];
 
   const topMerchants = [
@@ -40,17 +38,17 @@ export default function MerchantManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">{t('merchantManagement.title')}</h1>
-          <p className="text-muted-foreground">{t('merchantManagement.description')}</p>
+          <h1 className="text-2xl font-semibold text-foreground">Merchant & Tenant Management</h1>
+          <p className="text-muted-foreground">Manage merchant onboarding, dashboards, and settlements</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Eye className="w-4 h-4 mr-2" />
-            {t('merchantManagement.viewAll')}
+            View All
           </Button>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
-            {t('merchantManagement.addMerchant')}
+            Add Merchant
           </Button>
         </div>
       </div>

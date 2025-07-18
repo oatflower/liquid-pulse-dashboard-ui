@@ -8,10 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Label } from '@/components/ui/label';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import { TrendingUp, Download, Calendar, DollarSign, CreditCard, Users, Activity, Eye, Filter, RefreshCw } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ReportingAnalytics() {
-  const { t } = useLanguage();
   const liabilityData = [
     { month: 'Jul', outstanding: 45200000, active: 42800000, inactive: 2400000 },
     { month: 'Aug', outstanding: 47100000, active: 44300000, inactive: 2800000 },
@@ -61,21 +59,21 @@ export default function ReportingAnalytics() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">{t('reportingAnalytics.title')}</h1>
-          <p className="text-muted-foreground">{t('reportingAnalytics.description')}</p>
+          <h1 className="text-2xl font-semibold text-foreground">Reporting & Analytics</h1>
+          <p className="text-muted-foreground">Comprehensive reporting dashboard with real-time analytics and visualization</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Filter className="w-4 h-4 mr-2" />
-            {t('reportingAnalytics.filters')}
+            Filters
           </Button>
           <Button variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
-            {t('reportingAnalytics.refresh')}
+            Refresh
           </Button>
           <Button>
             <Download className="w-4 h-4 mr-2" />
-            {t('reportingAnalytics.exportAll')}
+            Export All
           </Button>
         </div>
       </div>
