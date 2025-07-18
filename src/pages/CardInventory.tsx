@@ -5,13 +5,16 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { CreditCard, Upload, Plus, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function CardInventory() {
+  const { t } = useLanguage();
+  
   const cardStats = [
-    { label: 'Total Cards Issued', value: '125,420', change: '+12.5%', color: 'text-blue-600' },
-    { label: 'Active Cards', value: '98,350', change: '+8.2%', color: 'text-green-600' },
-    { label: 'Expired Cards', value: '15,240', change: '+2.1%', color: 'text-red-600' },
-    { label: 'Pending Activation', value: '11,830', change: '-5.3%', color: 'text-yellow-600' },
+    { label: t.cardInventory.totalCardsIssued, value: '125,420', change: '+12.5%', color: 'text-blue-600' },
+    { label: t.cardInventory.activeCards, value: '98,350', change: '+8.2%', color: 'text-green-600' },
+    { label: t.cardInventory.expiredCards, value: '15,240', change: '+2.1%', color: 'text-red-600' },
+    { label: t.cardInventory.pendingActivation, value: '11,830', change: '-5.3%', color: 'text-yellow-600' },
   ];
 
   const recentBatches = [
@@ -21,26 +24,26 @@ export default function CardInventory() {
   ];
 
   const cardTypes = [
-    { type: 'Physical Cards', issued: 45000, active: 42000, expired: 3000 },
-    { type: 'E-Gift Cards', issued: 65000, active: 58000, expired: 7000 },
-    { type: 'Corporate Cards', issued: 15420, active: 14200, expired: 1220 },
+    { type: t.cardInventory.physicalCards, issued: 45000, active: 42000, expired: 3000 },
+    { type: t.cardInventory.eGiftCards, issued: 65000, active: 58000, expired: 7000 },
+    { type: t.cardInventory.corporateCards, issued: 15420, active: 14200, expired: 1220 },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Card & Inventory Management</h1>
-          <p className="text-muted-foreground">Manage card issuance, inventory, and lifecycle</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t.cardInventory.title}</h1>
+          <p className="text-muted-foreground">{t.cardInventory.subtitle}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Upload className="w-4 h-4 mr-2" />
-            Bulk Upload
+            {t.cardInventory.bulkUpload}
           </Button>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
-            New Batch
+            {t.cardInventory.newBatch}
           </Button>
         </div>
       </div>
@@ -62,41 +65,41 @@ export default function CardInventory() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Corporate Generation</CardTitle>
-            <CardDescription>Create and manage corporate card batches</CardDescription>
+            <CardTitle>{t.cardInventory.corporateGeneration}</CardTitle>
+            <CardDescription>{t.cardInventory.corporateGenerationDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Campaign Name</label>
-                <Input placeholder="Enter campaign name" />
+                <label className="text-sm font-medium">{t.cardInventory.campaignName}</label>
+                <Input placeholder={t.cardInventory.enterCampaignName} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Batch Amount</label>
+                  <label className="text-sm font-medium">{t.cardInventory.batchAmount}</label>
                   <Input type="number" placeholder="10,000" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Card Value</label>
+                  <label className="text-sm font-medium">{t.cardInventory.cardValue}</label>
                   <Input type="number" placeholder="500" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Whitelist Upload</label>
+                <label className="text-sm font-medium">{t.cardInventory.whitelistUpload}</label>
                 <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
                   <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">Drop CSV file here or click to browse</p>
+                  <p className="text-sm text-muted-foreground">{t.cardInventory.dropCsvFile}</p>
                 </div>
               </div>
-              <Button className="w-full">Generate Batch</Button>
+              <Button className="w-full">{t.cardInventory.generateBatch}</Button>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Recent Batches</CardTitle>
-            <CardDescription>Track batch generation progress</CardDescription>
+            <CardTitle>{t.cardInventory.recentBatches}</CardTitle>
+            <CardDescription>{t.cardInventory.recentBatchesDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -104,7 +107,7 @@ export default function CardInventory() {
                 <div key={batch.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
                     <p className="font-medium">{batch.campaign}</p>
-                    <p className="text-sm text-muted-foreground">{batch.id} • {batch.amount.toLocaleString()} cards</p>
+                    <p className="text-sm text-muted-foreground">{batch.id} • {batch.amount.toLocaleString()} {t.cardInventory.cards}</p>
                     <p className="text-xs text-muted-foreground">{batch.date}</p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -112,7 +115,7 @@ export default function CardInventory() {
                     {batch.status === 'processing' && <Clock className="w-4 h-4 text-yellow-600" />}
                     {batch.status === 'pending' && <AlertTriangle className="w-4 h-4 text-red-600" />}
                     <Badge variant={batch.status === 'completed' ? 'default' : batch.status === 'processing' ? 'secondary' : 'destructive'}>
-                      {batch.status}
+                      {batch.status === 'completed' ? t.cardInventory.completed : batch.status === 'processing' ? t.cardInventory.processing : t.cardInventory.pending}
                     </Badge>
                   </div>
                 </div>
@@ -124,8 +127,8 @@ export default function CardInventory() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Card Type Distribution</CardTitle>
-          <CardDescription>Overview of card types and their status</CardDescription>
+            <CardTitle>{t.cardInventory.cardTypeDistribution}</CardTitle>
+            <CardDescription>{t.cardInventory.cardTypeDistributionDesc}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -133,12 +136,12 @@ export default function CardInventory() {
               <div key={card.type} className="space-y-2">
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium">{card.type}</h4>
-                  <span className="text-sm text-muted-foreground">{card.issued.toLocaleString()} total</span>
+                  <span className="text-sm text-muted-foreground">{card.issued.toLocaleString()} {t.cardInventory.total}</span>
                 </div>
                 <div className="space-y-1">
                   <div className="flex justify-between text-sm">
-                    <span>Active: {card.active.toLocaleString()}</span>
-                    <span>Expired: {card.expired.toLocaleString()}</span>
+                    <span>{t.cardInventory.active}: {card.active.toLocaleString()}</span>
+                    <span>{t.cardInventory.expired}: {card.expired.toLocaleString()}</span>
                   </div>
                   <Progress value={(card.active / card.issued) * 100} className="h-2" />
                 </div>
@@ -151,31 +154,31 @@ export default function CardInventory() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Top-Up & Reload Controls</CardTitle>
-            <CardDescription>Manage card reloading and top-up settings</CardDescription>
+            <CardTitle>{t.cardInventory.topUpReloadControls}</CardTitle>
+            <CardDescription>{t.cardInventory.topUpReloadControlsDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                 <div>
-                  <p className="font-medium">Auto Top-Up</p>
-                  <p className="text-sm text-muted-foreground">Automatic balance reload</p>
+                  <p className="font-medium">{t.cardInventory.autoTopUp}</p>
+                  <p className="text-sm text-muted-foreground">{t.cardInventory.autoTopUpDesc}</p>
                 </div>
-                <Badge variant="outline" className="text-green-600">Enabled</Badge>
+                <Badge variant="outline" className="text-green-600">{t.cardInventory.enabled}</Badge>
               </div>
               <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                 <div>
-                  <p className="font-medium">Manual Reload</p>
-                  <p className="text-sm text-muted-foreground">User-initiated top-ups</p>
+                  <p className="font-medium">{t.cardInventory.manualReload}</p>
+                  <p className="text-sm text-muted-foreground">{t.cardInventory.manualReloadDesc}</p>
                 </div>
-                <Badge variant="outline" className="text-green-600">Enabled</Badge>
+                <Badge variant="outline" className="text-green-600">{t.cardInventory.enabled}</Badge>
               </div>
               <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                 <div>
-                  <p className="font-medium">Corporate Reload</p>
-                  <p className="text-sm text-muted-foreground">Bulk corporate top-ups</p>
+                  <p className="font-medium">{t.cardInventory.corporateReload}</p>
+                  <p className="text-sm text-muted-foreground">{t.cardInventory.corporateReloadDesc}</p>
                 </div>
-                <Badge variant="outline" className="text-green-600">Enabled</Badge>
+                <Badge variant="outline" className="text-green-600">{t.cardInventory.enabled}</Badge>
               </div>
             </div>
           </CardContent>
@@ -183,30 +186,30 @@ export default function CardInventory() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Expiry Management</CardTitle>
-            <CardDescription>Card expiration and recall settings</CardDescription>
+            <CardTitle>{t.cardInventory.expiryManagement}</CardTitle>
+            <CardDescription>{t.cardInventory.expiryManagementDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 bg-muted/50 rounded-lg text-center">
                   <p className="text-2xl font-semibold text-yellow-600">2,450</p>
-                  <p className="text-sm text-muted-foreground">Expiring Soon</p>
+                  <p className="text-sm text-muted-foreground">{t.cardInventory.expiringSoon}</p>
                 </div>
                 <div className="p-3 bg-muted/50 rounded-lg text-center">
                   <p className="text-2xl font-semibold text-red-600">890</p>
-                  <p className="text-sm text-muted-foreground">Expired Today</p>
+                  <p className="text-sm text-muted-foreground">{t.cardInventory.expiredToday}</p>
                 </div>
               </div>
               <Separator />
               <div className="space-y-2">
                 <Button variant="outline" className="w-full">
                   <AlertTriangle className="w-4 h-4 mr-2" />
-                  Send Expiry Notifications
+                  {t.cardInventory.sendExpiryNotifications}
                 </Button>
                 <Button variant="outline" className="w-full">
                   <CreditCard className="w-4 h-4 mr-2" />
-                  Recall Expired Cards
+                  {t.cardInventory.recallExpiredCards}
                 </Button>
               </div>
             </div>
