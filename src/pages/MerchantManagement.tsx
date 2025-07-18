@@ -5,13 +5,16 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Store, Plus, Edit, Eye, DollarSign, Calendar, Users, TrendingUp } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function MerchantManagement() {
+  const { t } = useLanguage();
+  
   const merchantStats = [
-    { label: 'Total Merchants', value: '1,245', change: '+8.5%', color: 'text-blue-600' },
-    { label: 'Active Merchants', value: '1,187', change: '+6.2%', color: 'text-green-600' },
-    { label: 'Pending Approval', value: '34', change: '+12.3%', color: 'text-yellow-600' },
-    { label: 'Inactive', value: '24', change: '-15.2%', color: 'text-red-600' },
+    { label: t.merchant.totalMerchants, value: '1,245', change: '+8.5%', color: 'text-blue-600' },
+    { label: t.merchant.activeMerchants, value: '1,187', change: '+6.2%', color: 'text-green-600' },
+    { label: t.merchant.pendingApproval, value: '34', change: '+12.3%', color: 'text-yellow-600' },
+    { label: t.merchant.inactive, value: '24', change: '-15.2%', color: 'text-red-600' },
   ];
 
   const topMerchants = [
@@ -23,32 +26,32 @@ export default function MerchantManagement() {
   ];
 
   const pendingApprovals = [
-    { name: 'Local Coffee Shop', category: 'Food & Beverage', submitted: '2 days ago', documents: 'Complete' },
-    { name: 'Tech Gadgets Store', category: 'Electronics', submitted: '3 days ago', documents: 'Pending' },
-    { name: 'Fashion Boutique', category: 'Retail', submitted: '1 week ago', documents: 'Complete' },
+    { name: 'Local Coffee Shop', category: t.merchant.foodBeverage, submitted: '2 days ago', documents: t.merchant.complete },
+    { name: 'Tech Gadgets Store', category: t.merchant.electronics, submitted: '3 days ago', documents: t.merchant.pending },
+    { name: 'Fashion Boutique', category: t.merchant.retail, submitted: '1 week ago', documents: t.merchant.complete },
   ];
 
   const settlementData = [
-    { merchant: 'Starbucks', amount: 12500, cycle: 'Daily', nextDate: '2024-01-16', status: 'scheduled' },
-    { merchant: 'Amazon', amount: 45000, cycle: 'Weekly', nextDate: '2024-01-18', status: 'scheduled' },
-    { merchant: 'Target', amount: 28000, cycle: 'Bi-weekly', nextDate: '2024-01-20', status: 'processing' },
+    { merchant: 'Starbucks', amount: 12500, cycle: t.merchant.daily, nextDate: '2024-01-16', status: t.merchant.scheduled },
+    { merchant: 'Amazon', amount: 45000, cycle: t.merchant.weekly, nextDate: '2024-01-18', status: t.merchant.scheduled },
+    { merchant: 'Target', amount: 28000, cycle: t.merchant.biweekly, nextDate: '2024-01-20', status: t.merchant.processing },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Merchant & Tenant Management</h1>
-          <p className="text-muted-foreground">Manage merchant onboarding, dashboards, and settlements</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t.merchant.title}</h1>
+          <p className="text-muted-foreground">{t.merchant.subtitle}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Eye className="w-4 h-4 mr-2" />
-            View All
+            {t.merchant.viewAll}
           </Button>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
-            Add Merchant
+            {t.merchant.addMerchant}
           </Button>
         </div>
       </div>
@@ -70,45 +73,45 @@ export default function MerchantManagement() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Merchant Onboarding</CardTitle>
-            <CardDescription>Quick onboarding form for new merchants</CardDescription>
+            <CardTitle>{t.merchant.merchantOnboarding}</CardTitle>
+            <CardDescription>{t.merchant.merchantOnboardingDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Business Name</label>
-                <Input placeholder="Enter business name" />
+                <label className="text-sm font-medium">{t.merchant.businessName}</label>
+                <Input placeholder={t.merchant.enterBusinessName} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Category</label>
-                  <Input placeholder="Food & Beverage" />
+                  <label className="text-sm font-medium">{t.merchant.category}</label>
+                  <Input placeholder={t.merchant.foodBeverage} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Contact Email</label>
+                  <label className="text-sm font-medium">{t.merchant.contactEmail}</label>
                   <Input type="email" placeholder="contact@business.com" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Business Address</label>
+                <label className="text-sm font-medium">{t.merchant.businessAddress}</label>
                 <Input placeholder="123 Main St, City, State" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Fee Structure</label>
+                <label className="text-sm font-medium">{t.merchant.feeStructure}</label>
                 <div className="grid grid-cols-2 gap-2">
-                  <Input placeholder="Transaction %" />
-                  <Input placeholder="Monthly fee" />
+                  <Input placeholder={t.merchant.transactionPercent} />
+                  <Input placeholder={t.merchant.monthlyFee} />
                 </div>
               </div>
-              <Button className="w-full">Submit Application</Button>
+              <Button className="w-full">{t.merchant.submitApplication}</Button>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Pending Approvals</CardTitle>
-            <CardDescription>Merchants awaiting approval</CardDescription>
+            <CardTitle>{t.merchant.pendingApprovals}</CardTitle>
+            <CardDescription>{t.merchant.pendingApprovalsDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -116,26 +119,26 @@ export default function MerchantManagement() {
                 <div key={index} className="p-3 border rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium">{merchant.name}</h4>
-                    <Badge variant={merchant.documents === 'Complete' ? 'default' : 'secondary'}>
+                    <Badge variant={merchant.documents === t.merchant.complete ? 'default' : 'secondary'}>
                       {merchant.documents}
                     </Badge>
                   </div>
                   <div className="space-y-1 text-sm">
                     <div className="flex justify-between">
-                      <span>Category:</span>
+                      <span>{t.merchant.category}:</span>
                       <span>{merchant.category}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Submitted:</span>
+                      <span>{t.merchant.submitted}:</span>
                       <span>{merchant.submitted}</span>
                     </div>
                   </div>
                   <div className="flex gap-2 mt-3">
                     <Button variant="outline" size="sm">
                       <Eye className="w-3 h-3 mr-1" />
-                      Review
+                      {t.merchant.review}
                     </Button>
-                    <Button size="sm">Approve</Button>
+                    <Button size="sm">{t.merchant.approve}</Button>
                   </div>
                 </div>
               ))}
@@ -146,8 +149,8 @@ export default function MerchantManagement() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Top Performing Merchants</CardTitle>
-          <CardDescription>Merchant performance dashboard and analytics</CardDescription>
+          <CardTitle>{t.merchant.topPerformingMerchants}</CardTitle>
+          <CardDescription>{t.merchant.topPerformingMerchantsDesc}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -159,22 +162,22 @@ export default function MerchantManagement() {
                   </div>
                   <div>
                     <h4 className="font-medium">{merchant.name}</h4>
-                    <p className="text-sm text-muted-foreground">{merchant.transactions.toLocaleString()} transactions</p>
+                    <p className="text-sm text-muted-foreground">{merchant.transactions.toLocaleString()} {t.merchant.transactions}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="text-right">
                     <p className="font-medium">${merchant.revenue.toLocaleString()}</p>
-                    <p className="text-sm text-muted-foreground">Revenue</p>
+                    <p className="text-sm text-muted-foreground">{t.merchant.revenue}</p>
                   </div>
                   <div className="text-right">
                     <p className="font-medium text-green-600">+{merchant.growth}%</p>
-                    <p className="text-sm text-muted-foreground">Growth</p>
+                    <p className="text-sm text-muted-foreground">{t.merchant.growth}</p>
                   </div>
-                  <Badge variant="outline" className="text-green-600">{merchant.status}</Badge>
+                  <Badge variant="outline" className="text-green-600">{t.merchant.active}</Badge>
                   <Button variant="outline" size="sm">
                     <Edit className="w-3 h-3 mr-1" />
-                    Edit
+                    {t.merchant.edit}
                   </Button>
                 </div>
               </div>
@@ -186,48 +189,48 @@ export default function MerchantManagement() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Fee Structure Management</CardTitle>
-            <CardDescription>Configure merchant fee structures</CardDescription>
+            <CardTitle>{t.merchant.feeStructureManagement}</CardTitle>
+            <CardDescription>{t.merchant.feeStructureManagementDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="p-4 bg-muted/50 rounded-lg">
-                <h4 className="font-medium mb-3">Standard Fee Structure</h4>
+                <h4 className="font-medium mb-3">{t.merchant.standardFeeStructure}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span>Transaction Fee:</span>
+                    <span>{t.merchant.transactionFee}:</span>
                     <span className="font-medium">2.5%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Monthly Fee:</span>
+                    <span>{t.merchant.monthlyFee}:</span>
                     <span className="font-medium">$29.99</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Setup Fee:</span>
+                    <span>{t.merchant.setupFee}:</span>
                     <span className="font-medium">$99.00</span>
                   </div>
                 </div>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
-                <h4 className="font-medium mb-3">Premium Fee Structure</h4>
+                <h4 className="font-medium mb-3">{t.merchant.premiumFeeStructure}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span>Transaction Fee:</span>
+                    <span>{t.merchant.transactionFee}:</span>
                     <span className="font-medium">2.0%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Monthly Fee:</span>
+                    <span>{t.merchant.monthlyFee}:</span>
                     <span className="font-medium">$79.99</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Setup Fee:</span>
+                    <span>{t.merchant.setupFee}:</span>
                     <span className="font-medium">$199.00</span>
                   </div>
                 </div>
               </div>
               <Button variant="outline" className="w-full">
                 <Edit className="w-4 h-4 mr-2" />
-                Edit Fee Structures
+                {t.merchant.editFeeStructures}
               </Button>
             </div>
           </CardContent>
@@ -235,8 +238,8 @@ export default function MerchantManagement() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Settlement Cycles</CardTitle>
-            <CardDescription>Manage merchant settlement schedules</CardDescription>
+            <CardTitle>{t.merchant.settlementCycles}</CardTitle>
+            <CardDescription>{t.merchant.settlementCyclesDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -244,21 +247,21 @@ export default function MerchantManagement() {
                 <div key={index} className="p-3 border rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium">{settlement.merchant}</h4>
-                    <Badge variant={settlement.status === 'scheduled' ? 'default' : 'secondary'}>
+                    <Badge variant={settlement.status === t.merchant.scheduled ? 'default' : 'secondary'}>
                       {settlement.status}
                     </Badge>
                   </div>
                   <div className="space-y-1 text-sm">
                     <div className="flex justify-between">
-                      <span>Amount:</span>
+                      <span>{t.merchant.amount}:</span>
                       <span className="font-medium">${settlement.amount.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Cycle:</span>
+                      <span>{t.merchant.cycle}:</span>
                       <span>{settlement.cycle}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Next Settlement:</span>
+                      <span>{t.merchant.nextSettlement}:</span>
                       <span>{settlement.nextDate}</span>
                     </div>
                   </div>
@@ -266,7 +269,7 @@ export default function MerchantManagement() {
               ))}
               <Button variant="outline" className="w-full">
                 <Calendar className="w-4 h-4 mr-2" />
-                Configure Schedules
+                {t.merchant.configureSchedules}
               </Button>
             </div>
           </CardContent>
