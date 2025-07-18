@@ -4,44 +4,47 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Download, RefreshCw, AlertCircle, CheckCircle, Clock, DollarSign } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function SettlementReconciliation() {
+  const { t } = useLanguage();
+  
   const settlementStats = [
-    { label: 'Total Float', value: '$2,456,780', change: '+5.2%', color: 'text-blue-600' },
-    { label: 'Pending Settlements', value: '$345,200', change: '+8.1%', color: 'text-yellow-600' },
-    { label: 'Reconciled Today', value: '$128,900', change: '+12.3%', color: 'text-green-600' },
-    { label: 'Exceptions', value: '12', change: '-25.0%', color: 'text-red-600' },
+    { label: t.settlement.totalFloat, value: '$2,456,780', change: '+5.2%', color: 'text-blue-600' },
+    { label: t.settlement.pendingSettlements, value: '$345,200', change: '+8.1%', color: 'text-yellow-600' },
+    { label: t.settlement.reconciledToday, value: '$128,900', change: '+12.3%', color: 'text-green-600' },
+    { label: t.settlement.exceptions, value: '12', change: '-25.0%', color: 'text-red-600' },
   ];
 
   const reconciliationTasks = [
-    { merchant: 'Starbucks', amount: 45000, status: 'completed', lastRun: '2 hours ago', nextRun: '22 hours' },
-    { merchant: 'Amazon', amount: 67500, status: 'running', lastRun: '1 hour ago', nextRun: '23 hours' },
-    { merchant: 'Target', amount: 32000, status: 'pending', lastRun: '4 hours ago', nextRun: '20 hours' },
-    { merchant: 'Walmart', amount: 28900, status: 'failed', lastRun: '6 hours ago', nextRun: 'Manual' },
+    { merchant: 'Starbucks', amount: 45000, status: 'completed', lastRun: `2 ${t.settlement.hoursAgo}`, nextRun: `22 ${t.settlement.hoursAgo}` },
+    { merchant: 'Amazon', amount: 67500, status: 'running', lastRun: `1 ${t.settlement.hoursAgo}`, nextRun: `23 ${t.settlement.hoursAgo}` },
+    { merchant: 'Target', amount: 32000, status: 'pending', lastRun: `4 ${t.settlement.hoursAgo}`, nextRun: `20 ${t.settlement.hoursAgo}` },
+    { merchant: 'Walmart', amount: 28900, status: 'failed', lastRun: `6 ${t.settlement.hoursAgo}`, nextRun: t.settlement.manual },
   ];
 
   const floatMovements = [
-    { type: 'Card Issuance', amount: -125000, timestamp: '2 hours ago', reference: 'BATCH-2024-001' },
-    { type: 'Merchant Settlement', amount: -67500, timestamp: '3 hours ago', reference: 'SETT-AMZ-001' },
-    { type: 'Card Top-up', amount: +89000, timestamp: '4 hours ago', reference: 'TOPUP-BULK-001' },
-    { type: 'Refund Processing', amount: -12300, timestamp: '5 hours ago', reference: 'REF-2024-045' },
+    { type: t.settlement.cardIssuance, amount: -125000, timestamp: `2 ${t.settlement.hoursAgo}`, reference: 'BATCH-2024-001' },
+    { type: t.settlement.merchantSettlement, amount: -67500, timestamp: `3 ${t.settlement.hoursAgo}`, reference: 'SETT-AMZ-001' },
+    { type: t.settlement.cardTopUp, amount: +89000, timestamp: `4 ${t.settlement.hoursAgo}`, reference: 'TOPUP-BULK-001' },
+    { type: t.settlement.refundProcessing, amount: -12300, timestamp: `5 ${t.settlement.hoursAgo}`, reference: 'REF-2024-045' },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Settlement & Reconciliation</h1>
-          <p className="text-muted-foreground">Manage automated reconciliation and float management</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t.settlement.title}</h1>
+          <p className="text-muted-foreground">{t.settlement.subtitle}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Download className="w-4 h-4 mr-2" />
-            Export Report
+            {t.settlement.exportReport}
           </Button>
           <Button variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
-            Reconcile Now
+            {t.settlement.reconcileNow}
           </Button>
         </div>
       </div>
@@ -63,8 +66,8 @@ export default function SettlementReconciliation() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Automated Reconciliation</CardTitle>
-            <CardDescription>Real-time reconciliation status for all merchants</CardDescription>
+            <CardTitle>{t.settlement.automatedReconciliation}</CardTitle>
+            <CardDescription>{t.settlement.automatedReconciliationDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -78,8 +81,8 @@ export default function SettlementReconciliation() {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right text-sm">
-                      <div className="text-muted-foreground">Last: {task.lastRun}</div>
-                      <div className="text-muted-foreground">Next: {task.nextRun}</div>
+                      <div className="text-muted-foreground">{t.settlement.last}: {task.lastRun}</div>
+                      <div className="text-muted-foreground">{t.settlement.next}: {task.nextRun}</div>
                     </div>
                     <div className="flex items-center gap-2">
                       {task.status === 'completed' && <CheckCircle className="w-4 h-4 text-green-600" />}
@@ -87,7 +90,7 @@ export default function SettlementReconciliation() {
                       {task.status === 'pending' && <Clock className="w-4 h-4 text-yellow-600" />}
                       {task.status === 'failed' && <AlertCircle className="w-4 h-4 text-red-600" />}
                       <Badge variant={task.status === 'completed' ? 'default' : task.status === 'running' ? 'secondary' : task.status === 'pending' ? 'outline' : 'destructive'}>
-                        {task.status}
+                        {task.status === 'completed' ? t.settlement.completed : task.status === 'running' ? t.settlement.running : task.status === 'pending' ? t.settlement.pending : t.settlement.failed}
                       </Badge>
                     </div>
                   </div>
@@ -99,26 +102,26 @@ export default function SettlementReconciliation() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Float Management</CardTitle>
-            <CardDescription>Monitor and manage system float balance</CardDescription>
+            <CardTitle>{t.settlement.floatManagement}</CardTitle>
+            <CardDescription>{t.settlement.floatManagementDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="p-4 bg-muted/50 rounded-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium">Current Float Balance</h4>
+                  <h4 className="font-medium">{t.settlement.currentFloatBalance}</h4>
                   <DollarSign className="w-5 h-5 text-blue-600" />
                 </div>
                 <div className="text-2xl font-semibold text-blue-600">$2,456,780</div>
                 <Progress value={75} className="mt-2" />
                 <div className="flex justify-between text-sm text-muted-foreground mt-1">
-                  <span>75% of target</span>
-                  <span>Target: $3,200,000</span>
+                  <span>75% {t.settlement.ofTarget}</span>
+                  <span>{t.settlement.target}: $3,200,000</span>
                 </div>
               </div>
               
               <div className="space-y-2">
-                <h4 className="font-medium">Float Movements</h4>
+                <h4 className="font-medium">{t.settlement.floatMovements}</h4>
                 {floatMovements.map((movement, index) => (
                   <div key={index} className="flex items-center justify-between p-2 border rounded">
                     <div className="flex flex-col">
@@ -141,33 +144,33 @@ export default function SettlementReconciliation() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Settlement File Export</CardTitle>
-          <CardDescription>Generate and download settlement reports</CardDescription>
+          <CardTitle>{t.settlement.settlementFileExport}</CardTitle>
+          <CardDescription>{t.settlement.settlementFileExportDesc}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-4 border rounded-lg">
-              <h4 className="font-medium mb-2">Daily Settlement</h4>
-              <p className="text-sm text-muted-foreground mb-3">Export daily settlement summary</p>
+              <h4 className="font-medium mb-2">{t.settlement.dailySettlement}</h4>
+              <p className="text-sm text-muted-foreground mb-3">{t.settlement.dailySettlementDesc}</p>
               <div className="space-y-2">
-                <Button variant="outline" size="sm" className="w-full">Generate Report</Button>
-                <p className="text-xs text-muted-foreground">Last generated: 2 hours ago</p>
+                <Button variant="outline" size="sm" className="w-full">{t.settlement.generateReport}</Button>
+                <p className="text-xs text-muted-foreground">{t.settlement.lastGenerated}: 2 {t.settlement.hoursAgo}</p>
               </div>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-medium mb-2">Monthly Reconciliation</h4>
-              <p className="text-sm text-muted-foreground mb-3">Monthly reconciliation report</p>
+              <h4 className="font-medium mb-2">{t.settlement.monthlyReconciliation}</h4>
+              <p className="text-sm text-muted-foreground mb-3">{t.settlement.monthlyReconciliationDesc}</p>
               <div className="space-y-2">
-                <Button variant="outline" size="sm" className="w-full">Generate Report</Button>
-                <p className="text-xs text-muted-foreground">Last generated: 1 day ago</p>
+                <Button variant="outline" size="sm" className="w-full">{t.settlement.generateReport}</Button>
+                <p className="text-xs text-muted-foreground">{t.settlement.lastGenerated}: 1 {t.settlement.dayAgo}</p>
               </div>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-medium mb-2">Exception Report</h4>
-              <p className="text-sm text-muted-foreground mb-3">Failed reconciliation details</p>
+              <h4 className="font-medium mb-2">{t.settlement.exceptionReport}</h4>
+              <p className="text-sm text-muted-foreground mb-3">{t.settlement.exceptionReportDesc}</p>
               <div className="space-y-2">
-                <Button variant="outline" size="sm" className="w-full">Generate Report</Button>
-                <p className="text-xs text-muted-foreground">Last generated: 6 hours ago</p>
+                <Button variant="outline" size="sm" className="w-full">{t.settlement.generateReport}</Button>
+                <p className="text-xs text-muted-foreground">{t.settlement.lastGenerated}: 6 {t.settlement.hoursAgo}</p>
               </div>
             </div>
           </div>
