@@ -1,11 +1,14 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowUpRight, ArrowDownRight, CreditCard, Users, DollarSign, TrendingUp } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function DashboardOverview() {
+  const { t } = useLanguage();
+  
   const stats = [
     {
-      title: 'Total Cards Issued',
+      title: t.dashboard.totalCardsIssued,
       value: '12,847',
       change: '+12.5%',
       trend: 'up',
@@ -13,7 +16,7 @@ export function DashboardOverview() {
       color: 'text-primary'
     },
     {
-      title: 'Active Cards',
+      title: t.dashboard.activeCards,
       value: '10,234',
       change: '+8.2%',
       trend: 'up', 
@@ -21,7 +24,7 @@ export function DashboardOverview() {
       color: 'text-success'
     },
     {
-      title: 'Outstanding Float',
+      title: t.dashboard.outstandingFloat,
       value: '$2.4M',
       change: '+5.1%',
       trend: 'up',
@@ -29,7 +32,7 @@ export function DashboardOverview() {
       color: 'text-primary'
     },
     {
-      title: 'Redemption Rate',
+      title: t.dashboard.redemptionRate,
       value: '87.3%',
       change: '-2.1%',
       trend: 'down',

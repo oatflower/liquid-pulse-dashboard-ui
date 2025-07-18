@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Smartphone, Store, Globe } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const trendData = [
   { month: 'Jan', issued: 4000, redeemed: 2400 },
@@ -14,27 +15,29 @@ const trendData = [
   { month: 'Jun', issued: 6390, redeemed: 5300 },
 ];
 
-const channelData = [
-  { name: 'Corporate Portal', value: 45, color: '#3B82F6' },
-  { name: 'Retail POS', value: 35, color: '#8B5CF6' },
-  { name: 'Online', value: 20, color: '#10B981' },
-];
-
 export function TopUpAnalytics() {
+  const { t } = useLanguage();
+  
+  const channelData = [
+    { name: t.topup.corporatePortal, value: 45, color: '#3B82F6' },
+    { name: t.topup.retailPOS, value: 35, color: '#8B5CF6' },
+    { name: t.topup.online, value: 20, color: '#10B981' },
+  ];
+
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
       <Card className="xl:col-span-2 bg-white/20 backdrop-blur-xl border-white/30 hover:bg-white/30 transition-all duration-300">
         <CardHeader>
           <CardTitle className="text-slate-800 flex items-center gap-2">
             <TrendingUp className="w-5 h-5" />
-            Issuance vs Redemption Trend
+            {t.topup.issuanceVsRedemption}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <ChartContainer
             config={{
-              issued: { label: 'Issued', color: '#3B82F6' },
-              redeemed: { label: 'Redeemed', color: '#10B981' }
+              issued: { label: t.topup.issued, color: '#3B82F6' },
+              redeemed: { label: t.topup.redeemed, color: '#10B981' }
             }}
             className="h-64"
           >
@@ -79,7 +82,7 @@ export function TopUpAnalytics() {
         <CardHeader>
           <CardTitle className="text-slate-800 flex items-center gap-2">
             <Globe className="w-5 h-5" />
-            Channel Breakdown
+            {t.topup.channelBreakdown}
           </CardTitle>
         </CardHeader>
         <CardContent>

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Activity, CreditCard, RefreshCw, Filter, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const transactions = [
   {
@@ -59,24 +60,26 @@ const transactions = [
 ];
 
 export function TransactionFeed() {
+  const { t } = useLanguage();
+  
   return (
     <Card className="bg-white/20 backdrop-blur-xl border-white/30 hover:bg-white/30 transition-all duration-300">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-slate-800 flex items-center gap-2">
           <Activity className="w-5 h-5" />
-          Real-time Transaction Feed
+          {t.transactions.title}
         </CardTitle>
         <div className="flex items-center gap-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
             <Input 
-              placeholder="Search transactions..." 
+              placeholder={t.transactions.search}
               className="pl-10 w-64 bg-white/30 backdrop-blur-sm border-white/40 text-slate-800 placeholder:text-slate-500"
             />
           </div>
           <Button variant="outline" size="sm" className="bg-white/30 backdrop-blur-sm border-white/40 hover:bg-white/40">
             <Filter className="w-4 h-4 mr-2" />
-            Filter
+            {t.transactions.filter}
           </Button>
           <Button variant="outline" size="sm" className="bg-white/30 backdrop-blur-sm border-white/40 hover:bg-white/40">
             <RefreshCw className="w-4 h-4" />
@@ -105,7 +108,7 @@ export function TransactionFeed() {
               
               <div className="flex items-center gap-6">
                 <div className="text-right">
-                  <div className="text-sm text-slate-600">Card ID</div>
+                  <div className="text-sm text-slate-600">{t.transactions.cardId}</div>
                   <div className="font-medium text-slate-800">{transaction.cardId}</div>
                 </div>
                 
@@ -118,7 +121,7 @@ export function TransactionFeed() {
                     {transaction.type === 'redemption' || transaction.type === 'partial_redemption' ? '-' : '+'}
                     ฿{transaction.amount.toLocaleString()}
                   </div>
-                  <div className="text-sm text-slate-500">Balance: ฿{transaction.balance.toLocaleString()}</div>
+                  <div className="text-sm text-slate-500">{t.transactions.balance}: ฿{transaction.balance.toLocaleString()}</div>
                 </div>
                 
                 <div className="text-right">
@@ -127,9 +130,14 @@ export function TransactionFeed() {
                       ? 'bg-green-100 text-green-700' 
                       : 'bg-yellow-100 text-yellow-700'
                   }`}>
-                    {transaction.status}
+                    {transaction.status === 'completed' ? t.transactions.completed : t.transactions.pending}
                   </span>
-                  <div className="text-xs text-slate-500 mt-1 capitalize">{transaction.type.replace('_', ' ')}</div>
+                  <div className="text-xs text-slate-500 mt-1 capitalize">
+                    {transaction.type === 'redemption' ? t.transactions.redemption :
+                     transaction.type === 'topup' ? t.transactions.topup :
+                     transaction.type === 'partial_redemption' ? t.transactions.partialRedemption :
+                     t.transactions.refund}
+                  </div>
                 </div>
               </div>
             </div>
