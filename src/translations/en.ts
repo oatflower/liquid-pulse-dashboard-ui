@@ -35,6 +35,38 @@ export const en = {
     refund: "refund",
   },
 
+  // Account Management
+  account: {
+    title: "Account & Role Management",
+    subtitle: "Manage user roles, permissions, and access control",
+    addUser: "Add User",
+    users: "users",
+    permissions: "permissions",
+    roleHierarchy: "Role Hierarchy",
+    roleHierarchyDesc: "View and manage role permissions structure",
+    recentActivity: "Recent Activity",
+    recentActivityDesc: "Audit trail of recent system actions",
+    ssoIntegration: "SSO Integration",
+    ssoIntegrationDesc: "Configure single sign-on providers",
+    fullAccess: "Full Access",
+    settlementReports: "Settlement, Reports",
+    merchantOperations: "Merchant Operations",
+    customerSupport: "Customer Support",
+    fullSystemAccess: "Full system access",
+    configure: "Configure",
+    setup: "Setup",
+    active: "Active",
+    inactive: "Inactive",
+    oauth: "OAuth 2.0 integration",
+    activeDirectory: "Active Directory sync",
+    enterpriseSSO: "Enterprise SSO",
+    createdMerchant: "Created merchant account",
+    updatedSettlement: "Updated settlement rules",
+    deletedCards: "Deleted expired cards",
+    minAgo: "min ago",
+    hourAgo: "hour ago",
+  },
+
   // Common
   common: {
     language: "Language",
