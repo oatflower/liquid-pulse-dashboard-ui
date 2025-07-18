@@ -1,3 +1,4 @@
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -7,11 +8,12 @@ import { Progress } from '@/components/ui/progress';
 import { CreditCard, Upload, Plus, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 
 export default function CardInventory() {
+  const { t } = useLanguage();
   const cardStats = [
-    { label: 'Total Cards Issued', value: '125,420', change: '+12.5%', color: 'text-blue-600' },
-    { label: 'Active Cards', value: '98,350', change: '+8.2%', color: 'text-green-600' },
-    { label: 'Expired Cards', value: '15,240', change: '+2.1%', color: 'text-red-600' },
-    { label: 'Pending Activation', value: '11,830', change: '-5.3%', color: 'text-yellow-600' },
+    { label: t('cardManagement.totalCards'), value: '2,847', change: '+12.5%', color: 'text-green-600' },
+    { label: t('dashboard.activeCards'), value: '2,134', change: '+8.2%', color: 'text-blue-600' },
+    { label: t('cardManagement.blocked'), value: '45', change: '-2.1%', color: 'text-red-600' },
+    { label: t('cardManagement.expired'), value: '668', change: '+15.3%', color: 'text-yellow-600' },
   ];
 
   const recentBatches = [
@@ -30,17 +32,17 @@ export default function CardInventory() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Card & Inventory Management</h1>
-          <p className="text-muted-foreground">Manage card issuance, inventory, and lifecycle</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t('cardManagement.title')}</h1>
+          <p className="text-muted-foreground">{t('navigation.cardInventory')}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Upload className="w-4 h-4 mr-2" />
-            Bulk Upload
+            {t('common.upload')} CSV
           </Button>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
-            New Batch
+            {t('cardManagement.createCard')}
           </Button>
         </div>
       </div>
