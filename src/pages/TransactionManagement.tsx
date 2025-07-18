@@ -5,13 +5,16 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Filter, Download, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function TransactionManagement() {
+  const { t } = useLanguage();
+  
   const transactionStats = [
-    { label: 'Total Transactions', value: '245,680', change: '+15.3%', color: 'text-blue-600' },
-    { label: 'Successful', value: '238,420', change: '+14.8%', color: 'text-green-600' },
-    { label: 'Failed', value: '4,250', change: '-2.1%', color: 'text-red-600' },
-    { label: 'Pending', value: '3,010', change: '+5.2%', color: 'text-yellow-600' },
+    { label: t.transactions.totalTransactions, value: '245,680', change: '+15.3%', color: 'text-blue-600' },
+    { label: t.transactions.successful, value: '238,420', change: '+14.8%', color: 'text-green-600' },
+    { label: t.transactions.failed, value: '4,250', change: '-2.1%', color: 'text-red-600' },
+    { label: t.transactions.pending, value: '3,010', change: '+5.2%', color: 'text-yellow-600' },
   ];
 
   const recentTransactions = [
@@ -63,17 +66,17 @@ export default function TransactionManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Transaction Management</h1>
-          <p className="text-muted-foreground">Monitor and manage all card transactions</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t.transactions.managementTitle}</h1>
+          <p className="text-muted-foreground">{t.transactions.managementSubtitle}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Download className="w-4 h-4 mr-2" />
-            Export
+            {t.transactions.export}
           </Button>
           <Button variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
+            {t.transactions.refresh}
           </Button>
         </div>
       </div>
@@ -94,25 +97,25 @@ export default function TransactionManagement() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Real-Time Transaction Feed</CardTitle>
-          <CardDescription>Live transaction monitoring with advanced filters</CardDescription>
+          <CardTitle>{t.transactions.realTimeFeed}</CardTitle>
+          <CardDescription>{t.transactions.realTimeFeedDesc}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="flex gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search transactions..." className="pl-10" />
+                <Input placeholder={t.transactions.search} className="pl-10" />
               </div>
               <Select>
                 <SelectTrigger className="w-48">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="failed">Failed</SelectItem>
+                  <SelectItem value="all">{t.transactions.allStatus}</SelectItem>
+                  <SelectItem value="completed">{t.transactions.completed}</SelectItem>
+                  <SelectItem value="pending">{t.transactions.pending}</SelectItem>
+                  <SelectItem value="failed">{t.transactions.failed}</SelectItem>
                 </SelectContent>
               </Select>
               <Select>
@@ -120,15 +123,15 @@ export default function TransactionManagement() {
                   <SelectValue placeholder="Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Types</SelectItem>
-                  <SelectItem value="purchase">Purchase</SelectItem>
-                  <SelectItem value="topup">Top-up</SelectItem>
-                  <SelectItem value="refund">Refund</SelectItem>
+                  <SelectItem value="all">{t.transactions.allTypes}</SelectItem>
+                  <SelectItem value="purchase">{t.transactions.purchase}</SelectItem>
+                  <SelectItem value="topup">{t.transactions.topup}</SelectItem>
+                  <SelectItem value="refund">{t.transactions.refund}</SelectItem>
                 </SelectContent>
               </Select>
               <Button variant="outline">
                 <Filter className="w-4 h-4 mr-2" />
-                Filter
+                {t.transactions.filter}
               </Button>
             </div>
 
@@ -148,15 +151,15 @@ export default function TransactionManagement() {
                   </div>
                   <div className="flex items-center gap-4">
                     <Badge variant={txn.type === 'purchase' ? 'default' : 'secondary'}>
-                      {txn.type}
+                      {txn.type === 'purchase' ? t.transactions.purchase : t.transactions.topup}
                     </Badge>
                     <div className="flex items-center gap-2">
                       {txn.status === 'completed' && <CheckCircle className="w-4 h-4 text-green-600" />}
                       {txn.status === 'pending' && <AlertCircle className="w-4 h-4 text-yellow-600" />}
                       {txn.status === 'failed' && <AlertCircle className="w-4 h-4 text-red-600" />}
-                      <Badge variant={txn.status === 'completed' ? 'default' : txn.status === 'pending' ? 'secondary' : 'destructive'}>
-                        {txn.status}
-                      </Badge>
+                    <Badge variant={txn.status === 'completed' ? 'default' : txn.status === 'pending' ? 'secondary' : 'destructive'}>
+                      {txn.status === 'completed' ? t.transactions.completed : txn.status === 'pending' ? t.transactions.pending : t.transactions.failed}
+                    </Badge>
                     </div>
                     <span className="text-sm text-muted-foreground">{txn.time}</span>
                   </div>
@@ -170,40 +173,40 @@ export default function TransactionManagement() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Partial Redemption</CardTitle>
-            <CardDescription>Manage partial card redemptions and balances</CardDescription>
+            <CardTitle>{t.transactions.partialRedemptionTitle}</CardTitle>
+            <CardDescription>{t.transactions.partialRedemptionDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="p-4 bg-muted/50 rounded-lg">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-medium">Partial Redemption Rules</h4>
-                  <Badge variant="outline" className="text-green-600">Active</Badge>
+                  <h4 className="font-medium">{t.transactions.partialRedemptionRules}</h4>
+                  <Badge variant="outline" className="text-green-600">{t.transactions.active}</Badge>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span>Minimum balance required:</span>
+                    <span>{t.transactions.minimumBalance}:</span>
                     <span className="font-medium">$5.00</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Allow partial redemptions:</span>
-                    <span className="font-medium">Yes</span>
+                    <span>{t.transactions.allowPartialRedemptions}:</span>
+                    <span className="font-medium">{t.transactions.yes}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Minimum transaction amount:</span>
+                    <span>{t.transactions.minimumTransactionAmount}:</span>
                     <span className="font-medium">$1.00</span>
                   </div>
                 </div>
               </div>
-              <Button variant="outline" className="w-full">Configure Rules</Button>
+              <Button variant="outline" className="w-full">{t.transactions.configureRules}</Button>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Dispute Handling</CardTitle>
-            <CardDescription>Manage transaction disputes and refunds</CardDescription>
+            <CardTitle>{t.transactions.disputeHandling}</CardTitle>
+            <CardDescription>{t.transactions.disputeHandlingDesc}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -212,20 +215,20 @@ export default function TransactionManagement() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium">{dispute.id}</span>
                     <Badge variant={dispute.status === 'resolved' ? 'default' : dispute.status === 'investigating' ? 'secondary' : 'destructive'}>
-                      {dispute.status}
+                      {dispute.status === 'resolved' ? t.transactions.resolved : dispute.status === 'investigating' ? t.transactions.investigating : t.transactions.pending}
                     </Badge>
                   </div>
                   <div className="space-y-1 text-sm">
                     <div className="flex justify-between">
-                      <span>Transaction:</span>
+                      <span>{t.transactions.transaction}:</span>
                       <span>{dispute.txnId}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Amount:</span>
+                      <span>{t.transactions.amount}:</span>
                       <span>${dispute.amount.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Reason:</span>
+                      <span>{t.transactions.reason}:</span>
                       <span>{dispute.reason}</span>
                     </div>
                   </div>
@@ -238,25 +241,25 @@ export default function TransactionManagement() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Reversal & Refund Center</CardTitle>
-          <CardDescription>Process transaction reversals and refunds</CardDescription>
+          <CardTitle>{t.transactions.reversalRefundCenter}</CardTitle>
+          <CardDescription>{t.transactions.reversalRefundCenterDesc}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-4 border rounded-lg text-center">
               <div className="text-2xl font-semibold text-blue-600">45</div>
-              <p className="text-sm text-muted-foreground">Pending Reversals</p>
-              <Button variant="outline" size="sm" className="mt-2">Process</Button>
+              <p className="text-sm text-muted-foreground">{t.transactions.pendingReversals}</p>
+              <Button variant="outline" size="sm" className="mt-2">{t.transactions.process}</Button>
             </div>
             <div className="p-4 border rounded-lg text-center">
               <div className="text-2xl font-semibold text-green-600">128</div>
-              <p className="text-sm text-muted-foreground">Completed Refunds</p>
-              <Button variant="outline" size="sm" className="mt-2">View</Button>
+              <p className="text-sm text-muted-foreground">{t.transactions.completedRefunds}</p>
+              <Button variant="outline" size="sm" className="mt-2">{t.transactions.view}</Button>
             </div>
             <div className="p-4 border rounded-lg text-center">
               <div className="text-2xl font-semibold text-yellow-600">12</div>
-              <p className="text-sm text-muted-foreground">Failed Reversals</p>
-              <Button variant="outline" size="sm" className="mt-2">Retry</Button>
+              <p className="text-sm text-muted-foreground">{t.transactions.failedReversals}</p>
+              <Button variant="outline" size="sm" className="mt-2">{t.transactions.retry}</Button>
             </div>
           </div>
         </CardContent>
