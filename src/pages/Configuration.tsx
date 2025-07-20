@@ -6,41 +6,44 @@ import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Settings, Globe, Flag, Code, Save, RefreshCw } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Configuration() {
+  const { t } = useLanguage();
+  
   const businessRules = [
-    { name: 'Card Expiry Period', value: '24 months', category: 'Cards', editable: true },
-    { name: 'Maximum Card Value', value: '$5,000', category: 'Cards', editable: true },
-    { name: 'Minimum Top-up Amount', value: '$10', category: 'Top-up', editable: true },
-    { name: 'Transaction Timeout', value: '30 seconds', category: 'Transactions', editable: true },
-    { name: 'Daily Transaction Limit', value: '$2,000', category: 'Transactions', editable: true },
-    { name: 'Settlement Frequency', value: 'Daily', category: 'Settlement', editable: true },
+    { name: t.configuration.businessRules.cardExpiryPeriod, value: `24 ${t.configuration.businessRules.months}`, category: t.configuration.businessRules.cards, editable: true },
+    { name: t.configuration.businessRules.maximumCardValue, value: '$5,000', category: t.configuration.businessRules.cards, editable: true },
+    { name: t.configuration.businessRules.minimumTopUpAmount, value: '$10', category: t.configuration.businessRules.topUp, editable: true },
+    { name: t.configuration.businessRules.transactionTimeout, value: `30 ${t.configuration.businessRules.seconds}`, category: t.configuration.businessRules.transactions, editable: true },
+    { name: t.configuration.businessRules.dailyTransactionLimit, value: '$2,000', category: t.configuration.businessRules.transactions, editable: true },
+    { name: t.configuration.businessRules.settlementFrequency, value: t.configuration.businessRules.daily, category: t.configuration.businessRules.settlement, editable: true },
   ];
 
   const featureFlags = [
-    { name: 'Mobile App Integration', enabled: true, description: 'Enable mobile app card management' },
-    { name: 'Loyalty Points System', enabled: false, description: 'Integrate with loyalty program' },
-    { name: 'Real-time Notifications', enabled: true, description: 'Push notifications for transactions' },
-    { name: 'Advanced Analytics', enabled: true, description: 'Enhanced reporting and analytics' },
-    { name: 'Multi-currency Support', enabled: false, description: 'Support for multiple currencies' },
-    { name: 'Biometric Authentication', enabled: false, description: 'Fingerprint and face ID support' },
+    { name: t.configuration.featureFlags.mobileAppIntegration, enabled: true, description: t.configuration.featureFlags.enableMobileCardManagement },
+    { name: t.configuration.featureFlags.loyaltyPointsSystem, enabled: false, description: t.configuration.featureFlags.integrateWithLoyaltyProgram },
+    { name: t.configuration.featureFlags.realTimeNotifications, enabled: true, description: t.configuration.featureFlags.pushNotificationsForTransactions },
+    { name: t.configuration.featureFlags.advancedAnalytics, enabled: true, description: t.configuration.featureFlags.enhancedReportingAndAnalytics },
+    { name: t.configuration.featureFlags.multiCurrencySupport, enabled: false, description: t.configuration.featureFlags.supportForMultipleCurrencies },
+    { name: t.configuration.featureFlags.biometricAuthentication, enabled: false, description: t.configuration.featureFlags.fingerprintAndFaceIdSupport },
   ];
 
   const systemSettings = [
-    { category: 'Authentication', settings: [
-      { name: 'Session Timeout', value: '30 minutes', type: 'time' },
-      { name: 'Password Expiry', value: '90 days', type: 'time' },
-      { name: 'Failed Login Attempts', value: '3', type: 'number' },
+    { category: t.configuration.systemSettings.authentication, settings: [
+      { name: t.configuration.systemSettings.sessionTimeout, value: `30 ${t.configuration.systemSettings.minutes}`, type: t.configuration.systemSettings.time },
+      { name: t.configuration.systemSettings.passwordExpiry, value: `90 ${t.configuration.systemSettings.days}`, type: t.configuration.systemSettings.time },
+      { name: t.configuration.systemSettings.failedLoginAttempts, value: '3', type: t.configuration.systemSettings.number },
     ]},
-    { category: 'Security', settings: [
-      { name: 'Encryption Level', value: 'AES-256', type: 'select' },
-      { name: 'TLS Version', value: 'TLS 1.3', type: 'select' },
-      { name: 'API Rate Limiting', value: '1000/min', type: 'rate' },
+    { category: t.configuration.systemSettings.security, settings: [
+      { name: t.configuration.systemSettings.encryptionLevel, value: 'AES-256', type: t.configuration.systemSettings.select },
+      { name: t.configuration.systemSettings.tlsVersion, value: 'TLS 1.3', type: t.configuration.systemSettings.select },
+      { name: t.configuration.systemSettings.apiRateLimiting, value: `1000${t.configuration.systemSettings.perMin}`, type: t.configuration.systemSettings.rate },
     ]},
-    { category: 'Performance', settings: [
-      { name: 'Database Connection Pool', value: '50', type: 'number' },
-      { name: 'Cache Expiry', value: '1 hour', type: 'time' },
-      { name: 'Log Retention', value: '90 days', type: 'time' },
+    { category: t.configuration.systemSettings.performance, settings: [
+      { name: t.configuration.systemSettings.databaseConnectionPool, value: '50', type: t.configuration.systemSettings.number },
+      { name: t.configuration.systemSettings.cacheExpiry, value: `1 ${t.configuration.systemSettings.hour}`, type: t.configuration.systemSettings.time },
+      { name: t.configuration.systemSettings.logRetention, value: `90 ${t.configuration.systemSettings.days}`, type: t.configuration.systemSettings.time },
     ]},
   ];
 
@@ -48,17 +51,17 @@ export default function Configuration() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Configuration & Settings</h1>
-          <p className="text-muted-foreground">Manage system settings, business rules, and feature flags</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t.configuration.title}</h1>
+          <p className="text-muted-foreground">{t.configuration.subtitle}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
-            Reset to Default
+            {t.configuration.resetToDefault}
           </Button>
           <Button>
             <Save className="w-4 h-4 mr-2" />
-            Save All
+            {t.configuration.saveAll}
           </Button>
         </div>
       </div>
@@ -66,8 +69,8 @@ export default function Configuration() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Business Rules</CardTitle>
-            <CardDescription>Configure core business logic and constraints</CardDescription>
+            <CardTitle>{t.configuration.businessRules.title}</CardTitle>
+            <CardDescription>{t.configuration.businessRules.subtitle}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -83,7 +86,7 @@ export default function Configuration() {
                     </div>
                     <Button variant="outline" size="sm" disabled={!rule.editable}>
                       <Settings className="w-3 h-3 mr-1" />
-                      Edit
+                      {t.configuration.businessRules.edit}
                     </Button>
                   </div>
                 </div>
@@ -94,32 +97,32 @@ export default function Configuration() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Localization</CardTitle>
-            <CardDescription>Configure language and regional settings</CardDescription>
+            <CardTitle>{t.configuration.localization.title}</CardTitle>
+            <CardDescription>{t.configuration.localization.subtitle}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="p-4 bg-muted/50 rounded-lg">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-medium">Language Settings</h4>
+                  <h4 className="font-medium">{t.configuration.localization.languageSettings}</h4>
                   <Globe className="w-5 h-5 text-blue-600" />
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">Default Language</span>
+                    <span className="text-sm">{t.configuration.localization.defaultLanguage}</span>
                     <Select>
                       <SelectTrigger className="w-32">
-                        <SelectValue placeholder="English" />
+                        <SelectValue placeholder={t.configuration.localization.english} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="en">English</SelectItem>
-                        <SelectItem value="th">ไทย</SelectItem>
-                        <SelectItem value="es">Español</SelectItem>
+                        <SelectItem value="en">{t.configuration.localization.english}</SelectItem>
+                        <SelectItem value="th">{t.configuration.localization.thai}</SelectItem>
+                        <SelectItem value="es">{t.configuration.localization.spanish}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">Date Format</span>
+                    <span className="text-sm">{t.configuration.localization.dateFormat}</span>
                     <Select>
                       <SelectTrigger className="w-32">
                         <SelectValue placeholder="MM/DD/YYYY" />
@@ -132,7 +135,7 @@ export default function Configuration() {
                     </Select>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">Currency</span>
+                    <span className="text-sm">{t.configuration.localization.currency}</span>
                     <Select>
                       <SelectTrigger className="w-32">
                         <SelectValue placeholder="USD" />
@@ -149,12 +152,12 @@ export default function Configuration() {
               
               <div className="p-4 bg-muted/50 rounded-lg">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-medium">Regional Settings</h4>
+                  <h4 className="font-medium">{t.configuration.localization.regionalSettings}</h4>
                   <Flag className="w-5 h-5 text-green-600" />
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">Time Zone</span>
+                    <span className="text-sm">{t.configuration.localization.timeZone}</span>
                     <Select>
                       <SelectTrigger className="w-40">
                         <SelectValue placeholder="UTC-5" />
@@ -167,7 +170,7 @@ export default function Configuration() {
                     </Select>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">Number Format</span>
+                    <span className="text-sm">{t.configuration.localization.numberFormat}</span>
                     <Select>
                       <SelectTrigger className="w-40">
                         <SelectValue placeholder="1,234.56" />
@@ -188,8 +191,8 @@ export default function Configuration() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Feature Flags</CardTitle>
-          <CardDescription>Enable or disable system features and capabilities</CardDescription>
+          <CardTitle>{t.configuration.featureFlags.title}</CardTitle>
+          <CardDescription>{t.configuration.featureFlags.subtitle}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -213,8 +216,8 @@ export default function Configuration() {
 
       <Card>
         <CardHeader>
-          <CardTitle>System Settings</CardTitle>
-          <CardDescription>Configure advanced system parameters</CardDescription>
+          <CardTitle>{t.configuration.systemSettings.title}</CardTitle>
+          <CardDescription>{t.configuration.systemSettings.subtitle}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -232,10 +235,10 @@ export default function Configuration() {
                         <Badge variant="outline">{setting.type}</Badge>
                       </div>
                       <div className="space-y-2">
-                        <div className="text-sm text-muted-foreground">Current: {setting.value}</div>
+                        <div className="text-sm text-muted-foreground">{t.configuration.systemSettings.current}: {setting.value}</div>
                         <Button variant="outline" size="sm" className="w-full">
                           <Settings className="w-3 h-3 mr-1" />
-                          Configure
+                          {t.configuration.systemSettings.configure}
                         </Button>
                       </div>
                     </div>
