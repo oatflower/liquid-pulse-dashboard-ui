@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Store, TrendingUp, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const merchantData = [
   { name: 'Central Department Store', amount: 1250000, percentage: 28.5, growth: '+12%' },
@@ -18,6 +19,8 @@ const merchantData = [
 ];
 
 export function MerchantSpending() {
+  const navigate = useNavigate();
+
   return (
     <Card className="bg-white/20 backdrop-blur-xl border-white/30 hover:bg-white/30 transition-all duration-300">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -25,9 +28,14 @@ export function MerchantSpending() {
           <Store className="w-5 h-5" />
           Top Merchant Spending
         </CardTitle>
-        <Button variant="outline" size="sm" className="bg-white/30 backdrop-blur-sm border-white/40 hover:bg-white/40">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="bg-white/30 backdrop-blur-sm border-white/40 hover:bg-white/40"
+          onClick={() => navigate('/merchant-spending-details')}
+        >
           <Filter className="w-4 h-4 mr-2" />
-          Filters
+          View All & Filters
         </Button>
       </CardHeader>
       <CardContent>
