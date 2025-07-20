@@ -386,6 +386,69 @@ const thTranslations = {
       enabled: 'เปิดใช้งาน',
       disabled: 'ปิดใช้งาน'
     }
+  },
+  integration: {
+    title: 'การรวมระบบและการจัดการ API',
+    subtitle: 'จัดการจุดปลาย API เว็บฮุก และการรวมระบบภายนอก',
+    totalApiCalls: 'จำนวน API Calls ทั้งหมด',
+    successRate: 'อัตราความสำเร็จ',
+    avgResponseTime: 'เวลาตอบสนองเฉลี่ย',
+    rateLimitHits: 'จำนวนการเข้าถึงขีดจำกัด',
+    viewDocs: 'ดูเอกสาร',
+    apiConsole: 'API Console',
+    apiCatalogSandbox: {
+      title: 'API Catalog และ Sandbox',
+      subtitle: 'จัดการจุดปลาย API และทดสอบในสภาพแวดล้อม sandbox',
+      cardIssuance: 'การออกการ์ด',
+      transactionProcessing: 'การประมวลผลธุรกรรม',
+      balanceInquiry: 'การสอบถามยอดเงิน',
+      merchantVerification: 'การยืนยันร้านค้า',
+      uptime: 'uptime',
+      calls: 'calls',
+      rateLimit: 'ขีดจำกัดอัตรา',
+      test: 'ทดสอบ',
+      openSandbox: 'เปิด Sandbox'
+    },
+    apiStatusDashboard: {
+      title: 'แดชบอร์ดสถานะ API',
+      subtitle: 'ติดตามการรวมระบบภายนอก',
+      crmSystem: 'ระบบ CRM',
+      paymentGateway: 'เกตเวย์การชำระเงิน',
+      merchantDirectory: 'ไดเรกทอรีร้านค้า',
+      notificationService: 'บริการแจ้งเตือน',
+      active: 'ใช้งานอยู่',
+      inactive: 'ไม่ใช้งาน',
+      lastHeartbeat: 'Heartbeat ล่าสุด',
+      errorRate: 'อัตราข้อผิดพลาด',
+      retryCount: 'จำนวนการลองใหม่',
+      minAgo: 'นาทีที่แล้ว',
+      secAgo: 'วินาทีที่แล้ว'
+    },
+    webhookManagement: {
+      title: 'การจัดการ Webhook',
+      subtitle: 'กำหนดค่าและจัดการจุดปลาย webhook',
+      transactionCompleted: 'ธุรกรรมสำเร็จ',
+      cardIssued: 'การ์ดถูกออก',
+      balanceUpdated: 'ยอดเงินอัปเดต',
+      merchantOnboarded: 'ร้านค้าขึ้นทะเบียน',
+      lastTrigger: 'ทริกเกอร์ล่าสุด',
+      edit: 'แก้ไข',
+      addWebhook: 'เพิ่ม Webhook',
+      hourAgo: 'ชั่วโมงที่แล้ว',
+      dayAgo: 'วันที่แล้ว'
+    },
+    rateLimiting: {
+      title: 'การจำกัดอัตรา',
+      subtitle: 'กำหนดค่าขีดจำกัดและโควต้า API',
+      currentUsage: 'การใช้งานปัจจุบัน',
+      apiCallsPerMinute: 'API Calls (ต่อนาที)',
+      concurrentConnections: 'การเชื่อมต่อพร้อมกัน',
+      webhookDeliveries: 'การส่ง Webhook',
+      rateLimitConfig: 'การกำหนดค่าขีดจำกัดอัตรา',
+      requestsPerMinute: 'คำขอต่อนาที',
+      burstLimit: 'ขีดจำกัด Burst',
+      updateLimits: 'อัปเดตขีดจำกัด'
+    }
   }
 };
 
@@ -773,6 +836,69 @@ const enTranslations = {
       years3: '3 years',
       enabled: 'Enabled',
       disabled: 'Disabled'
+    }
+  },
+  integration: {
+    title: 'Integration & API Management',
+    subtitle: 'Manage API endpoints, webhooks, and external integrations',
+    totalApiCalls: 'Total API Calls',
+    successRate: 'Success Rate',
+    avgResponseTime: 'Avg Response Time',
+    rateLimitHits: 'Rate Limit Hits',
+    viewDocs: 'View Docs',
+    apiConsole: 'API Console',
+    apiCatalogSandbox: {
+      title: 'API Catalog & Sandbox',
+      subtitle: 'Manage API endpoints and test in sandbox environment',
+      cardIssuance: 'Card Issuance',
+      transactionProcessing: 'Transaction Processing',
+      balanceInquiry: 'Balance Inquiry',
+      merchantVerification: 'Merchant Verification',
+      uptime: 'uptime',
+      calls: 'calls',
+      rateLimit: 'Rate limit',
+      test: 'Test',
+      openSandbox: 'Open Sandbox'
+    },
+    apiStatusDashboard: {
+      title: 'API Status Dashboard',
+      subtitle: 'Monitor external system integrations',
+      crmSystem: 'CRM System',
+      paymentGateway: 'Payment Gateway',
+      merchantDirectory: 'Merchant Directory',
+      notificationService: 'Notification Service',
+      active: 'active',
+      inactive: 'inactive',
+      lastHeartbeat: 'Last heartbeat',
+      errorRate: 'Error rate',
+      retryCount: 'Retry count',
+      minAgo: 'min ago',
+      secAgo: 'sec ago'
+    },
+    webhookManagement: {
+      title: 'Webhook Management',
+      subtitle: 'Configure and manage webhook endpoints',
+      transactionCompleted: 'Transaction Completed',
+      cardIssued: 'Card Issued',
+      balanceUpdated: 'Balance Updated',
+      merchantOnboarded: 'Merchant Onboarded',
+      lastTrigger: 'Last trigger',
+      edit: 'Edit',
+      addWebhook: 'Add Webhook',
+      hourAgo: 'hour ago',
+      dayAgo: 'day ago'
+    },
+    rateLimiting: {
+      title: 'Rate Limiting',
+      subtitle: 'Configure API rate limits and quotas',
+      currentUsage: 'Current Usage',
+      apiCallsPerMinute: 'API Calls (per minute)',
+      concurrentConnections: 'Concurrent Connections',
+      webhookDeliveries: 'Webhook Deliveries',
+      rateLimitConfig: 'Rate Limit Configuration',
+      requestsPerMinute: 'Requests per minute',
+      burstLimit: 'Burst limit',
+      updateLimits: 'Update Limits'
     }
   }
 };
