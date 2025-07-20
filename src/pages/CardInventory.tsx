@@ -6,9 +6,25 @@ import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { CreditCard, Upload, Plus, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useToast } from '@/hooks/use-toast';
 
 export default function CardInventory() {
   const { t } = useLanguage();
+  const { toast } = useToast();
+
+  const handleBulkUpload = () => {
+    toast({
+      title: "Bulk Upload",
+      description: "เปิดหน้าต่างสำหรับอัพโหลดไฟล์จำนวนมาก",
+    });
+  };
+
+  const handleNewBatch = () => {
+    toast({
+      title: "New Batch",
+      description: "เปิดหน้าต่างสำหรับสร้างชุดใหม่",
+    });
+  };
   
   const cardStats = [
     { label: t.cardInventory.totalCardsIssued, value: '125,420', change: '+12.5%', color: 'text-blue-600' },
@@ -37,11 +53,11 @@ export default function CardInventory() {
           <p className="text-muted-foreground">{t.cardInventory.subtitle}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleBulkUpload}>
             <Upload className="w-4 h-4 mr-2" />
             {t.cardInventory.bulkUpload}
           </Button>
-          <Button>
+          <Button onClick={handleNewBatch}>
             <Plus className="w-4 h-4 mr-2" />
             {t.cardInventory.newBatch}
           </Button>
