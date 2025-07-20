@@ -198,7 +198,13 @@ export default function TransactionManagement() {
                   </div>
                 </div>
               </div>
-              <Button variant="outline" className="w-full">{t.transactions.configureRules}</Button>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={() => window.location.href = '/transaction-rule-configuration'}
+              >
+                {t.transactions.configureRules}
+              </Button>
             </div>
           </CardContent>
         </Card>
