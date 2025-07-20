@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Users, Shield, Search, Plus, Edit, Trash2, User, Mail, Phone, Building, Calendar } from 'lucide-react';
@@ -15,6 +16,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 export default function AccountManagement() {
   const { t } = useLanguage();
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [isEditRoleOpen, setIsEditRoleOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<any>(null);
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
@@ -27,13 +30,30 @@ export default function AccountManagement() {
     profileImage: '',
     notes: ''
   });
-  
-  const roles = [
-    { name: 'Admin', users: 5, permissions: t.account.fullAccess, color: 'bg-red-500' },
-    { name: 'Finance', users: 12, permissions: t.account.settlementReports, color: 'bg-blue-500' },
-    { name: 'Merchant Manager', users: 8, permissions: t.account.merchantOperations, color: 'bg-green-500' },
-    { name: 'Support', users: 25, permissions: t.account.customerSupport, color: 'bg-yellow-500' },
-  ];
+
+  const [roles, setRoles] = useState([
+    { name: 'Admin', users: 5, permissions: t.account.fullAccess, color: 'bg-red-500', description: 'ผู้ดูแลระบบทั้งหมด' },
+    { name: 'Finance', users: 12, permissions: t.account.settlementReports, color: 'bg-blue-500', description: 'เจ้าหน้าที่การเงิน' },
+    { name: 'Merchant Manager', users: 8, permissions: t.account.merchantOperations, color: 'bg-green-500', description: 'ผู้จัดการร้านค้า' },
+    { name: 'Support', users: 25, permissions: t.account.customerSupport, color: 'bg-yellow-500', description: 'เจ้าหน้าที่สนับสนุน' },
+  ]);
+
+  const handleEditRole = (role: any) => {
+    setSelectedRole({...role});
+    setIsEditRoleOpen(true);
+  };
+
+  const handleSaveRole = () => {
+    if (selectedRole) {
+      setRoles(roles.map(r => r.name === selectedRole.name ? selectedRole : r));
+      setIsEditRoleOpen(false);
+      setSelectedRole(null);
+    }
+  };
+
+  const handleDeleteRole = (roleName: string) => {
+    setRoles(roles.filter(r => r.name !== roleName));
+  };
 
   const auditLogs = [
     { user: 'John Smith', action: t.account.createdMerchant, time: `2 ${t.account.minAgo}`, type: 'CREATE' },
@@ -267,12 +287,112 @@ export default function AccountManagement() {
                   <span className="text-sm text-muted-foreground">{role.permissions}</span>
                 </div>
                 <div className="flex gap-2 pt-2">
-                  <Button variant="outline" size="sm">
-                    <Edit className="w-3 h-3" />
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Trash2 className="w-3 h-3" />
-                  </Button>
+                  <Dialog open={isEditRoleOpen} onOpenChange={setIsEditRoleOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm" onClick={() => handleEditRole(role)}>
+                        <Edit className="w-3 h-3" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[500px]">
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                          <Shield className="w-5 h-5" />
+                          แก้ไขบทบาท: {selectedRole?.name}
+                        </DialogTitle>
+                        <DialogDescription>
+                          แก้ไขข้อมูลบทบาทและสิทธิ์การเข้าถึง
+                        </DialogDescription>
+                      </DialogHeader>
+                      {selectedRole && (
+                        <div className="grid gap-4 py-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="role-name">ชื่อบทบาท</Label>
+                            <Input
+                              id="role-name"
+                              value={selectedRole.name}
+                              onChange={(e) => setSelectedRole({...selectedRole, name: e.target.value})}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="role-description">คำอธิบาย</Label>
+                            <Textarea
+                              id="role-description"
+                              value={selectedRole.description || ''}
+                              onChange={(e) => setSelectedRole({...selectedRole, description: e.target.value})}
+                              placeholder="อธิบายหน้าที่ของบทบาทนี้"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="role-permissions">สิทธิ์การเข้าถึง</Label>
+                            <Textarea
+                              id="role-permissions"
+                              value={selectedRole.permissions}
+                              onChange={(e) => setSelectedRole({...selectedRole, permissions: e.target.value})}
+                              placeholder="กำหนดสิทธิ์การเข้าถึง"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="role-color">สีประจำบทบาท</Label>
+                            <Select 
+                              value={selectedRole.color} 
+                              onValueChange={(value) => setSelectedRole({...selectedRole, color: value})}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="bg-red-500">แดง</SelectItem>
+                                <SelectItem value="bg-blue-500">น้ำเงิน</SelectItem>
+                                <SelectItem value="bg-green-500">เขียว</SelectItem>
+                                <SelectItem value="bg-yellow-500">เหลือง</SelectItem>
+                                <SelectItem value="bg-purple-500">ม่วง</SelectItem>
+                                <SelectItem value="bg-pink-500">ชมพู</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                      )}
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsEditRoleOpen(false)}>
+                          ยกเลิก
+                        </Button>
+                        <Button onClick={handleSaveRole}>
+                          <Edit className="w-4 h-4 mr-2" />
+                          บันทึกการแก้ไข
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                  
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        <Trash2 className="w-3 h-3" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="flex items-center gap-2">
+                          <Trash2 className="w-5 h-5 text-destructive" />
+                          ลบบทบาท "{role.name}"
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          คุณแน่ใจหรือไม่ว่าต้องการลบบทบาท "{role.name}"? 
+                          การดำเนินการนี้ไม่สามารถยกเลิกได้ และจะส่งผลต่อผู้ใช้งาน {role.users} คน
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+                        <AlertDialogAction 
+                          onClick={() => handleDeleteRole(role.name)}
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          ลบบทบาท
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
             </CardContent>
