@@ -17,9 +17,7 @@ export default function AccountManagement() {
   const { t } = useLanguage();
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [isEditRoleOpen, setIsEditRoleOpen] = useState(false);
-  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<any>(null);
-  const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
@@ -40,12 +38,6 @@ export default function AccountManagement() {
     { name: 'Support', users: 25, permissions: t.account.customerSupport, color: 'bg-yellow-500', description: 'เจ้าหน้าที่สนับสนุน' },
   ]);
 
-  const [users, setUsers] = useState([
-    { id: 1, name: 'John Smith', email: 'john@example.com', role: 'Admin', department: 'IT' },
-    { id: 2, name: 'Sarah Johnson', email: 'sarah@example.com', role: 'Finance', department: 'การเงิน' },
-    { id: 3, name: 'Mike Chen', email: 'mike@example.com', role: 'Support', department: 'สนับสนุน' },
-  ]);
-
   const handleEditRole = (role: any) => {
     setSelectedRole({...role});
     setIsEditRoleOpen(true);
@@ -61,23 +53,6 @@ export default function AccountManagement() {
 
   const handleDeleteRole = (roleName: string) => {
     setRoles(roles.filter(r => r.name !== roleName));
-  };
-
-  const handleEditUser = (user: any) => {
-    setSelectedUser({...user});
-    setIsEditUserOpen(true);
-  };
-
-  const handleSaveUser = () => {
-    if (selectedUser) {
-      setUsers(users.map(u => u.id === selectedUser.id ? selectedUser : u));
-      setIsEditUserOpen(false);
-      setSelectedUser(null);
-    }
-  };
-
-  const handleDeleteUser = (userId: number) => {
-    setUsers(users.filter(u => u.id !== userId));
   };
 
   const auditLogs = [
@@ -312,226 +287,6 @@ export default function AccountManagement() {
                   <span className="text-sm text-muted-foreground">{role.permissions}</span>
                 </div>
                 <div className="flex gap-2 pt-2">
-                  {/* Role Management Buttons */}
-                  <div className="flex gap-1">
-                    <Dialog open={isEditRoleOpen} onOpenChange={setIsEditRoleOpen}>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" onClick={() => handleEditRole(role)}>
-                          <Edit className="w-3 h-3" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-[500px]">
-                        <DialogHeader>
-                          <DialogTitle className="flex items-center gap-2">
-                            <Shield className="w-5 h-5" />
-                            แก้ไขบทบาท: {selectedRole?.name}
-                          </DialogTitle>
-                          <DialogDescription>
-                            แก้ไขข้อมูลบทบาทและสิทธิ์การเข้าถึง
-                          </DialogDescription>
-                        </DialogHeader>
-                        {selectedRole && (
-                          <div className="grid gap-4 py-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="role-name">ชื่อบทบาท</Label>
-                              <Input
-                                id="role-name"
-                                value={selectedRole.name}
-                                onChange={(e) => setSelectedRole({...selectedRole, name: e.target.value})}
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="role-description">คำอธิบาย</Label>
-                              <Textarea
-                                id="role-description"
-                                value={selectedRole.description || ''}
-                                onChange={(e) => setSelectedRole({...selectedRole, description: e.target.value})}
-                                placeholder="อธิบายหน้าที่ของบทบาทนี้"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="role-permissions">สิทธิ์การเข้าถึง</Label>
-                              <Textarea
-                                id="role-permissions"
-                                value={selectedRole.permissions}
-                                onChange={(e) => setSelectedRole({...selectedRole, permissions: e.target.value})}
-                                placeholder="กำหนดสิทธิ์การเข้าถึง"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="role-color">สีประจำบทบาท</Label>
-                              <Select 
-                                value={selectedRole.color} 
-                                onValueChange={(value) => setSelectedRole({...selectedRole, color: value})}
-                              >
-                                <SelectTrigger>
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="bg-red-500">แดง</SelectItem>
-                                  <SelectItem value="bg-blue-500">น้ำเงิน</SelectItem>
-                                  <SelectItem value="bg-green-500">เขียว</SelectItem>
-                                  <SelectItem value="bg-yellow-500">เหลือง</SelectItem>
-                                  <SelectItem value="bg-purple-500">ม่วง</SelectItem>
-                                  <SelectItem value="bg-pink-500">ชมพู</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
-                        )}
-                        <DialogFooter>
-                          <Button variant="outline" onClick={() => setIsEditRoleOpen(false)}>
-                            ยกเลิก
-                          </Button>
-                          <Button onClick={handleSaveRole}>
-                            <Edit className="w-4 h-4 mr-2" />
-                            บันทึกการแก้ไข
-                          </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                    
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          <Trash2 className="w-3 h-3" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle className="flex items-center gap-2">
-                            <Trash2 className="w-5 h-5 text-destructive" />
-                            ลบบทบาท "{role.name}"
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            คุณแน่ใจหรือไม่ว่าต้องการลบบทบาท "{role.name}"? 
-                            การดำเนินการนี้ไม่สามารถยกเลิกได้ และจะส่งผลต่อผู้ใช้งาน {role.users} คน
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
-                          <AlertDialogAction 
-                            onClick={() => handleDeleteRole(role.name)}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            ลบบทบาท
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
-
-                  <Separator orientation="vertical" className="h-6" />
-
-                  {/* User Management Buttons */}
-                  <div className="flex gap-1">
-                    <Dialog open={isEditUserOpen} onOpenChange={setIsEditUserOpen}>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" onClick={() => handleEditUser(users.find(u => u.role === role.name))}>
-                          <User className="w-3 h-3" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-[500px]">
-                        <DialogHeader>
-                          <DialogTitle className="flex items-center gap-2">
-                            <User className="w-5 h-5" />
-                            แก้ไขผู้ใช้งาน: {selectedUser?.name}
-                          </DialogTitle>
-                          <DialogDescription>
-                            แก้ไขข้อมูลผู้ใช้งาน
-                          </DialogDescription>
-                        </DialogHeader>
-                        {selectedUser && (
-                          <div className="grid gap-4 py-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="user-name">ชื่อ</Label>
-                              <Input
-                                id="user-name"
-                                value={selectedUser.name}
-                                onChange={(e) => setSelectedUser({...selectedUser, name: e.target.value})}
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="user-email">อีเมล</Label>
-                              <Input
-                                id="user-email"
-                                type="email"
-                                value={selectedUser.email}
-                                onChange={(e) => setSelectedUser({...selectedUser, email: e.target.value})}
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="user-role">บทบาท</Label>
-                              <Select 
-                                value={selectedUser.role} 
-                                onValueChange={(value) => setSelectedUser({...selectedUser, role: value})}
-                              >
-                                <SelectTrigger>
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {roles.map(r => (
-                                    <SelectItem key={r.name} value={r.name}>{r.name}</SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="user-department">แผนก</Label>
-                              <Input
-                                id="user-department"
-                                value={selectedUser.department}
-                                onChange={(e) => setSelectedUser({...selectedUser, department: e.target.value})}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        <DialogFooter>
-                          <Button variant="outline" onClick={() => setIsEditUserOpen(false)}>
-                            ยกเลิก
-                          </Button>
-                          <Button onClick={handleSaveUser}>
-                            <User className="w-4 h-4 mr-2" />
-                            บันทึกการแก้ไข
-                          </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          <Trash2 className="w-3 h-3 text-red-500" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle className="flex items-center gap-2">
-                            <Trash2 className="w-5 h-5 text-destructive" />
-                            ลบผู้ใช้งาน
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งานใน บทบาท "{role.name}"? 
-                            การดำเนินการนี้ไม่สามารถยกเลิกได้
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
-                          <AlertDialogAction 
-                            onClick={() => {
-                              const userToDelete = users.find(u => u.role === role.name);
-                              if (userToDelete) handleDeleteUser(userToDelete.id);
-                            }}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            ลบผู้ใช้งาน
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
                   <Dialog open={isEditRoleOpen} onOpenChange={setIsEditRoleOpen}>
                     <DialogTrigger asChild>
                       <Button variant="outline" size="sm" onClick={() => handleEditRole(role)}>
