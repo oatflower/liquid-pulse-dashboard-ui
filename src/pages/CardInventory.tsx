@@ -20,10 +20,7 @@ export default function CardInventory() {
   };
 
   const handleNewBatch = () => {
-    toast({
-      title: "New Batch",
-      description: "เปิดหน้าต่างสำหรับสร้างชุดใหม่",
-    });
+    window.location.href = '/add-card-one-by-one';
   };
   
   const cardStats = [
@@ -73,14 +70,6 @@ export default function CardInventory() {
             <CardContent>
               <div className="text-2xl font-semibold">{stat.value}</div>
               <div className={`text-sm ${stat.color}`}>{stat.change}</div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="mt-2" 
-                onClick={() => window.location.href = '/add-card-one-by-one'}
-              >
-                Add One by One
-              </Button>
             </CardContent>
           </Card>
         ))}
