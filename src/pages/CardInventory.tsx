@@ -73,6 +73,14 @@ export default function CardInventory() {
             <CardContent>
               <div className="text-2xl font-semibold">{stat.value}</div>
               <div className={`text-sm ${stat.color}`}>{stat.change}</div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="mt-2" 
+                onClick={() => window.location.href = '/add-card-one-by-one'}
+              >
+                Add One by One
+              </Button>
             </CardContent>
           </Card>
         ))}
