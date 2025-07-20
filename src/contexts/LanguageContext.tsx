@@ -247,6 +247,62 @@ const thTranslations = {
     language: "ภาษา",
     thai: "ไทย",
     english: "อังกฤษ",
+  },
+  compliance: {
+    title: 'การปฏิบัติตามกฎระเบียบและการตรวจสอบ',
+    subtitle: 'การปฏิบัติตามกฎระเบียบ การเก็บรักษาข้อมูล และการจัดการการตรวจสอบ',
+    complianceScore: 'คะแนนการปฏิบัติตามกฎระเบียบ',
+    activePolicies: 'นโยบายที่ใช้งาน',
+    pendingReviews: 'รอการตรวจสอบ',
+    violations: 'การละเมิด',
+    exportReport: 'ส่งออกรายงาน',
+    generateAudit: 'สร้างการตรวจสอบ',
+    regulatoryReporting: {
+      title: 'การรายงานตามกฎระเบียบ',
+      subtitle: 'ติดตามสถานะการปฏิบัติตามกฎระเบียบและสร้างรายงานตามกฎระเบียบ',
+      lastAudit: 'ตรวจสอบล่าสุด',
+      nextDue: 'ครบกำหนดถัดไป',
+      highPriority: 'ลำดับความสำคัญสูง',
+      mediumPriority: 'ลำดับความสำคัญปานกลาง',
+      compliant: 'ปฏิบัติตาม',
+      pending: 'รอดำเนินการ',
+      view: 'ดู'
+    },
+    dataRetention: {
+      title: 'นโยบายการเก็บรักษาข้อมูล',
+      subtitle: 'จัดการวงจรชีวิตข้อมูลและกฎการเก็บรักษา',
+      autoDelete: 'ลบอัตโนมัติ',
+      manual: 'ลบด้วยตนเอง',
+      retentionPeriod: 'ระยะเวลาการเก็บรักษา',
+      lastCleanup: 'ทำความสะอาดล่าสุด',
+      configurePolicies: 'กำหนดค่านโยบาย',
+      transactionRecords: 'บันทึกธุรกรรม',
+      customerData: 'ข้อมูลลูกค้า',
+      auditLogs: 'บันทึกการตรวจสอบ',
+      financialReports: 'รายงานทางการเงิน',
+      years: 'ปี'
+    },
+    consentManagement: {
+      title: 'การจัดการความยินยอม',
+      subtitle: 'ติดตามและจัดการการตั้งค่าความยินยอมของผู้ใช้',
+      total: 'รวม',
+      consented: 'ยินยอม',
+      declined: 'ปฏิเสธ',
+      pending: 'รอดำเนินการ',
+      manageConsent: 'จัดการความยินยอม',
+      marketingCommunications: 'การสื่อสารการตลาด',
+      dataProcessing: 'การประมวลผลข้อมูล',
+      thirdPartySharing: 'การแบ่งปันข้อมูลกับบุคคลที่สาม'
+    },
+    auditTrail: {
+      title: 'บันทึกการตรวจสอบ',
+      subtitle: 'บันทึกการตรวจสอบที่ครอบคลุมและการติดตามกิจกรรม',
+      systemEventsToday: 'เหตุการณ์ระบบวันนี้',
+      auditCoverage: 'ความครอบคลุมการตรวจสอบ',
+      securityAlerts: 'การแจ้งเตือนความปลอดภัย',
+      viewFullAuditLog: 'ดูบันทึกการตรวจสอบทั้งหมด',
+      exportAuditReport: 'ส่งออกรายงานการตรวจสอบ'
+    }
   }
 };
 
@@ -496,6 +552,62 @@ const enTranslations = {
     language: "Language",
     thai: "Thai",
     english: "English",
+  },
+  compliance: {
+    title: 'Compliance & Audit',
+    subtitle: 'Regulatory compliance, data retention, and audit management',
+    complianceScore: 'Compliance Score',
+    activePolicies: 'Active Policies',
+    pendingReviews: 'Pending Reviews',
+    violations: 'Violations',
+    exportReport: 'Export Report',
+    generateAudit: 'Generate Audit',
+    regulatoryReporting: {
+      title: 'Regulatory Reporting',
+      subtitle: 'Track compliance status and generate regulatory reports',
+      lastAudit: 'Last audit',
+      nextDue: 'Next due',
+      highPriority: 'high priority',
+      mediumPriority: 'medium priority',
+      compliant: 'compliant',
+      pending: 'pending',
+      view: 'View'
+    },
+    dataRetention: {
+      title: 'Data Retention Policies',
+      subtitle: 'Manage data lifecycle and retention rules',
+      autoDelete: 'Auto-delete',
+      manual: 'Manual',
+      retentionPeriod: 'Retention Period',
+      lastCleanup: 'Last Cleanup',
+      configurePolicies: 'Configure Policies',
+      transactionRecords: 'Transaction Records',
+      customerData: 'Customer Data',
+      auditLogs: 'Audit Logs',
+      financialReports: 'Financial Reports',
+      years: 'years'
+    },
+    consentManagement: {
+      title: 'Consent Management',
+      subtitle: 'Track and manage user consent preferences',
+      total: 'total',
+      consented: 'Consented',
+      declined: 'Declined',
+      pending: 'Pending',
+      manageConsent: 'Manage Consent',
+      marketingCommunications: 'Marketing Communications',
+      dataProcessing: 'Data Processing',
+      thirdPartySharing: 'Third-party Sharing'
+    },
+    auditTrail: {
+      title: 'Audit Trail',
+      subtitle: 'Comprehensive audit log and activity tracking',
+      systemEventsToday: 'System Events Today',
+      auditCoverage: 'Audit Coverage',
+      securityAlerts: 'Security Alerts',
+      viewFullAuditLog: 'View Full Audit Log',
+      exportAuditReport: 'Export Audit Report'
+    }
   }
 };
 

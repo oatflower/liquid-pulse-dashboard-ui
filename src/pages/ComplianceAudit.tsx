@@ -4,13 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Shield, FileText, Download, AlertTriangle, CheckCircle, Calendar, Users } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ComplianceAudit() {
+  const { t } = useLanguage();
+  
   const complianceStats = [
-    { label: 'Compliance Score', value: '94%', change: '+2.1%', color: 'text-green-600' },
-    { label: 'Active Policies', value: '47', change: '+3', color: 'text-blue-600' },
-    { label: 'Pending Reviews', value: '8', change: '-5', color: 'text-yellow-600' },
-    { label: 'Violations', value: '2', change: '-3', color: 'text-red-600' },
+    { label: t.compliance.complianceScore, value: '94%', change: '+2.1%', color: 'text-green-600' },
+    { label: t.compliance.activePolicies, value: '47', change: '+3', color: 'text-blue-600' },
+    { label: t.compliance.pendingReviews, value: '8', change: '-5', color: 'text-yellow-600' },
+    { label: t.compliance.violations, value: '2', change: '-3', color: 'text-red-600' },
   ];
 
   const regulatoryReports = [
@@ -21,33 +24,33 @@ export default function ComplianceAudit() {
   ];
 
   const dataRetentionPolicies = [
-    { dataType: 'Transaction Records', retention: '7 years', autoDelete: true, lastCleanup: '2024-01-01' },
-    { dataType: 'Customer Data', retention: '5 years', autoDelete: true, lastCleanup: '2024-01-01' },
-    { dataType: 'Audit Logs', retention: '10 years', autoDelete: false, lastCleanup: 'N/A' },
-    { dataType: 'Financial Reports', retention: '7 years', autoDelete: true, lastCleanup: '2024-01-01' },
+    { dataType: t.compliance.dataRetention.transactionRecords, retention: `7 ${t.compliance.dataRetention.years}`, autoDelete: true, lastCleanup: '2024-01-01' },
+    { dataType: t.compliance.dataRetention.customerData, retention: `5 ${t.compliance.dataRetention.years}`, autoDelete: true, lastCleanup: '2024-01-01' },
+    { dataType: t.compliance.dataRetention.auditLogs, retention: `10 ${t.compliance.dataRetention.years}`, autoDelete: false, lastCleanup: 'N/A' },
+    { dataType: t.compliance.dataRetention.financialReports, retention: `7 ${t.compliance.dataRetention.years}`, autoDelete: true, lastCleanup: '2024-01-01' },
   ];
 
   const consentRecords = [
-    { category: 'Marketing Communications', consented: 85420, declined: 12300, pending: 2450 },
-    { category: 'Data Processing', consented: 98750, declined: 890, pending: 1560 },
-    { category: 'Third-party Sharing', consented: 45600, declined: 52400, pending: 3200 },
+    { category: t.compliance.consentManagement.marketingCommunications, consented: 85420, declined: 12300, pending: 2450 },
+    { category: t.compliance.consentManagement.dataProcessing, consented: 98750, declined: 890, pending: 1560 },
+    { category: t.compliance.consentManagement.thirdPartySharing, consented: 45600, declined: 52400, pending: 3200 },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Compliance & Audit</h1>
-          <p className="text-muted-foreground">Regulatory compliance, data retention, and audit management</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t.compliance.title}</h1>
+          <p className="text-muted-foreground">{t.compliance.subtitle}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Download className="w-4 h-4 mr-2" />
-            Export Report
+            {t.compliance.exportReport}
           </Button>
           <Button>
             <FileText className="w-4 h-4 mr-2" />
-            Generate Audit
+            {t.compliance.generateAudit}
           </Button>
         </div>
       </div>
@@ -68,8 +71,8 @@ export default function ComplianceAudit() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Regulatory Reporting</CardTitle>
-          <CardDescription>Track compliance status and generate regulatory reports</CardDescription>
+          <CardTitle>{t.compliance.regulatoryReporting.title}</CardTitle>
+          <CardDescription>{t.compliance.regulatoryReporting.subtitle}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -83,27 +86,27 @@ export default function ComplianceAudit() {
                     <h4 className="font-medium">{report.name}</h4>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Calendar className="w-3 h-3" />
-                      <span>Last audit: {report.lastAudit}</span>
+                      <span>{t.compliance.regulatoryReporting.lastAudit}: {report.lastAudit}</span>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <div className="text-sm font-medium">Next due: {report.nextDue}</div>
+                    <div className="text-sm font-medium">{t.compliance.regulatoryReporting.nextDue}: {report.nextDue}</div>
                     <Badge variant={report.priority === 'high' ? 'destructive' : 'secondary'}>
-                      {report.priority} priority
+                      {report.priority === 'high' ? t.compliance.regulatoryReporting.highPriority : t.compliance.regulatoryReporting.mediumPriority}
                     </Badge>
                   </div>
                   <div className="flex items-center gap-2">
                     {report.status === 'compliant' && <CheckCircle className="w-4 h-4 text-green-600" />}
                     {report.status === 'pending' && <AlertTriangle className="w-4 h-4 text-yellow-600" />}
                     <Badge variant={report.status === 'compliant' ? 'default' : 'secondary'}>
-                      {report.status}
+                      {report.status === 'compliant' ? t.compliance.regulatoryReporting.compliant : t.compliance.regulatoryReporting.pending}
                     </Badge>
                   </div>
                   <Button variant="outline" size="sm">
                     <FileText className="w-3 h-3 mr-1" />
-                    View
+                    {t.compliance.regulatoryReporting.view}
                   </Button>
                 </div>
               </div>
@@ -115,8 +118,8 @@ export default function ComplianceAudit() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Data Retention Policies</CardTitle>
-            <CardDescription>Manage data lifecycle and retention rules</CardDescription>
+            <CardTitle>{t.compliance.dataRetention.title}</CardTitle>
+            <CardDescription>{t.compliance.dataRetention.subtitle}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -125,16 +128,16 @@ export default function ComplianceAudit() {
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium">{policy.dataType}</h4>
                     <Badge variant={policy.autoDelete ? 'default' : 'secondary'}>
-                      {policy.autoDelete ? 'Auto-delete' : 'Manual'}
+                      {policy.autoDelete ? t.compliance.dataRetention.autoDelete : t.compliance.dataRetention.manual}
                     </Badge>
                   </div>
                   <div className="space-y-1 text-sm">
                     <div className="flex justify-between">
-                      <span>Retention Period:</span>
+                      <span>{t.compliance.dataRetention.retentionPeriod}:</span>
                       <span className="font-medium">{policy.retention}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Last Cleanup:</span>
+                      <span>{t.compliance.dataRetention.lastCleanup}:</span>
                       <span>{policy.lastCleanup}</span>
                     </div>
                   </div>
@@ -142,7 +145,7 @@ export default function ComplianceAudit() {
               ))}
               <Button variant="outline" className="w-full">
                 <FileText className="w-4 h-4 mr-2" />
-                Configure Policies
+                {t.compliance.dataRetention.configurePolicies}
               </Button>
             </div>
           </CardContent>
@@ -150,8 +153,8 @@ export default function ComplianceAudit() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Consent Management</CardTitle>
-            <CardDescription>Track and manage user consent preferences</CardDescription>
+            <CardTitle>{t.compliance.consentManagement.title}</CardTitle>
+            <CardDescription>{t.compliance.consentManagement.subtitle}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -160,14 +163,14 @@ export default function ComplianceAudit() {
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium">{record.category}</h4>
                     <span className="text-sm text-muted-foreground">
-                      {(record.consented + record.declined + record.pending).toLocaleString()} total
+                      {(record.consented + record.declined + record.pending).toLocaleString()} {t.compliance.consentManagement.total}
                     </span>
                   </div>
                   <div className="space-y-1">
                     <div className="flex justify-between text-sm">
-                      <span>Consented: {record.consented.toLocaleString()}</span>
-                      <span>Declined: {record.declined.toLocaleString()}</span>
-                      <span>Pending: {record.pending.toLocaleString()}</span>
+                      <span>{t.compliance.consentManagement.consented}: {record.consented.toLocaleString()}</span>
+                      <span>{t.compliance.consentManagement.declined}: {record.declined.toLocaleString()}</span>
+                      <span>{t.compliance.consentManagement.pending}: {record.pending.toLocaleString()}</span>
                     </div>
                     <Progress value={(record.consented / (record.consented + record.declined + record.pending)) * 100} className="h-2" />
                   </div>
@@ -175,7 +178,7 @@ export default function ComplianceAudit() {
               ))}
               <Button variant="outline" className="w-full">
                 <Users className="w-4 h-4 mr-2" />
-                Manage Consent
+                {t.compliance.consentManagement.manageConsent}
               </Button>
             </div>
           </CardContent>
@@ -184,33 +187,33 @@ export default function ComplianceAudit() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Audit Trail</CardTitle>
-          <CardDescription>Comprehensive audit log and activity tracking</CardDescription>
+          <CardTitle>{t.compliance.auditTrail.title}</CardTitle>
+          <CardDescription>{t.compliance.auditTrail.subtitle}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-4 bg-muted/50 rounded-lg text-center">
               <div className="text-2xl font-semibold text-blue-600">1,247</div>
-              <p className="text-sm text-muted-foreground">System Events Today</p>
+              <p className="text-sm text-muted-foreground">{t.compliance.auditTrail.systemEventsToday}</p>
             </div>
             <div className="p-4 bg-muted/50 rounded-lg text-center">
               <div className="text-2xl font-semibold text-green-600">98.5%</div>
-              <p className="text-sm text-muted-foreground">Audit Coverage</p>
+              <p className="text-sm text-muted-foreground">{t.compliance.auditTrail.auditCoverage}</p>
             </div>
             <div className="p-4 bg-muted/50 rounded-lg text-center">
               <div className="text-2xl font-semibold text-yellow-600">5</div>
-              <p className="text-sm text-muted-foreground">Security Alerts</p>
+              <p className="text-sm text-muted-foreground">{t.compliance.auditTrail.securityAlerts}</p>
             </div>
           </div>
           <Separator className="my-4" />
           <div className="space-y-2">
             <Button variant="outline" className="w-full">
               <FileText className="w-4 h-4 mr-2" />
-              View Full Audit Log
+              {t.compliance.auditTrail.viewFullAuditLog}
             </Button>
             <Button variant="outline" className="w-full">
               <Download className="w-4 h-4 mr-2" />
-              Export Audit Report
+              {t.compliance.auditTrail.exportAuditReport}
             </Button>
           </div>
         </CardContent>
