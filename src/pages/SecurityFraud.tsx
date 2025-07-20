@@ -9,13 +9,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Label } from '@/components/ui/label';
 import { Shield, AlertTriangle, Key, Lock, Eye, Settings, Users, FileText, Database, UserCheck, Clock, Download, Search, Filter } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function SecurityFraud() {
+  const { t } = useLanguage();
+  
   const securityStats = [
-    { label: 'Fraud Detection Rate', value: '99.2%', change: '+0.3%', color: 'text-green-600' },
-    { label: 'Blocked Transactions', value: '1,247', change: '+5.2%', color: 'text-red-600' },
-    { label: 'MFA Coverage', value: '87%', change: '+12%', color: 'text-blue-600' },
-    { label: 'Security Alerts', value: '23', change: '-8', color: 'text-yellow-600' },
+    { label: t.security.fraudDetectionRate, value: '99.2%', change: '+0.3%', color: 'text-green-600' },
+    { label: t.security.blockedTransactions, value: '1,247', change: '+5.2%', color: 'text-red-600' },
+    { label: t.security.mfaCoverage, value: '87%', change: '+12%', color: 'text-blue-600' },
+    { label: t.security.securityAlerts, value: '23', change: '-8', color: 'text-yellow-600' },
   ];
 
   const users = [
@@ -61,27 +64,27 @@ export default function SecurityFraud() {
   ];
 
   const mfaSettings = [
-    { method: 'SMS Authentication', enabled: true, coverage: 92, description: 'Text message verification' },
-    { method: 'Email Verification', enabled: true, coverage: 78, description: 'Email-based authentication' },
-    { method: 'Authenticator App', enabled: true, coverage: 45, description: 'TOTP app verification' },
-    { method: 'Hardware Token', enabled: false, coverage: 12, description: 'Physical security keys' },
+    { method: t.security.authentication.smsAuth, enabled: true, coverage: 92, description: t.security.authentication.textMessageVerification },
+    { method: t.security.authentication.emailVerification, enabled: true, coverage: 78, description: t.security.authentication.emailBasedAuth },
+    { method: t.security.authentication.authenticatorApp, enabled: true, coverage: 45, description: t.security.authentication.totpAppVerification },
+    { method: t.security.authentication.hardwareToken, enabled: false, coverage: 12, description: t.security.authentication.physicalSecurityKeys },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Security & Compliance</h1>
-          <p className="text-muted-foreground">Manage user access, audit trails, fraud detection, and compliance tools</p>
+          <h1 className="text-2xl font-semibold text-foreground">{t.security.title}</h1>
+          <p className="text-muted-foreground">{t.security.subtitle}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Eye className="w-4 h-4 mr-2" />
-            View Logs
+            {t.security.viewLogs}
           </Button>
           <Button>
             <Settings className="w-4 h-4 mr-2" />
-            Configure Rules
+            {t.security.configureRules}
           </Button>
         </div>
       </div>
@@ -102,29 +105,29 @@ export default function SecurityFraud() {
 
       <Tabs defaultValue="access-control" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="access-control">User Access Control</TabsTrigger>
-          <TabsTrigger value="audit-trail">Audit Trail</TabsTrigger>
-          <TabsTrigger value="aml-reporting">AML Reporting</TabsTrigger>
-          <TabsTrigger value="pdpa-compliance">PDPA Compliance</TabsTrigger>
+          <TabsTrigger value="access-control">{t.security.userAccessControl}</TabsTrigger>
+          <TabsTrigger value="audit-trail">{t.security.auditTrail}</TabsTrigger>
+          <TabsTrigger value="aml-reporting">{t.security.amlReporting}</TabsTrigger>
+          <TabsTrigger value="pdpa-compliance">{t.security.pdpaCompliance}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="access-control" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>User Management</CardTitle>
-                <CardDescription>Create and manage user accounts with role-based permissions</CardDescription>
+                <CardTitle>{t.security.userManagement.title}</CardTitle>
+                <CardDescription>{t.security.userManagement.subtitle}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex gap-2">
                     <Button>
                       <Users className="w-4 h-4 mr-2" />
-                      Add User
+                      {t.security.userManagement.addUser}
                     </Button>
                     <Button variant="outline">
                       <Download className="w-4 h-4 mr-2" />
-                      Export Users
+                      {t.security.userManagement.exportUsers}
                     </Button>
                   </div>
                   <div className="space-y-3">
@@ -141,40 +144,40 @@ export default function SecurityFraud() {
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge variant={user.status === 'Active' ? 'outline' : 'secondary'}>
-                            {user.status}
+                            {user.status === 'Active' ? t.security.userManagement.active : t.security.userManagement.inactive}
                           </Badge>
                           {user.mfa && <Badge variant="outline" className="text-green-600">MFA</Badge>}
                         </div>
                       </div>
                     ))}
                   </div>
-                  <Button variant="outline" className="w-full">View All Users</Button>
+                  <Button variant="outline" className="w-full">{t.security.userManagement.viewAllUsers}</Button>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Role-Based Permissions</CardTitle>
-                <CardDescription>Manage roles and permission templates</CardDescription>
+                <CardTitle>{t.security.rolePermissions.title}</CardTitle>
+                <CardDescription>{t.security.rolePermissions.subtitle}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-2">
-                    <Button variant="outline">Create Role</Button>
-                    <Button variant="outline">Permission Matrix</Button>
+                    <Button variant="outline">{t.security.rolePermissions.createRole}</Button>
+                    <Button variant="outline">{t.security.rolePermissions.permissionMatrix}</Button>
                   </div>
                   <div className="space-y-3">
                     {[
-                      { role: 'System Admin', users: 3, permissions: 'Full Access', description: 'Complete system access' },
-                      { role: 'Finance Manager', users: 5, permissions: 'Financial Operations', description: 'Settlement & reconciliation' },
-                      { role: 'Support Agent', users: 12, permissions: 'Customer Support', description: 'Card inquiry & assistance' },
-                      { role: 'Merchant Manager', users: 8, permissions: 'Tenant Management', description: 'Merchant operations' },
+                      { role: t.security.rolePermissions.systemAdmin, users: 3, permissions: t.security.rolePermissions.fullAccess, description: t.security.rolePermissions.completeSystemAccess },
+                      { role: t.security.rolePermissions.financeManager, users: 5, permissions: t.security.rolePermissions.financialOperations, description: t.security.rolePermissions.settlementReconciliation },
+                      { role: t.security.rolePermissions.supportAgent, users: 12, permissions: t.security.rolePermissions.customerSupport, description: t.security.rolePermissions.cardInquiryAssistance },
+                      { role: t.security.rolePermissions.merchantManager, users: 8, permissions: t.security.rolePermissions.tenantManagement, description: t.security.rolePermissions.merchantOperations },
                     ].map((role, index) => (
                       <div key={index} className="p-3 border rounded-lg">
                         <div className="flex justify-between items-center mb-2">
                           <div className="font-medium">{role.role}</div>
-                          <Badge variant="outline">{role.users} users</Badge>
+                          <Badge variant="outline">{role.users} {t.security.rolePermissions.users}</Badge>
                         </div>
                         <div className="text-sm text-muted-foreground mb-1">{role.permissions}</div>
                         <div className="text-xs text-muted-foreground">{role.description}</div>
@@ -188,13 +191,13 @@ export default function SecurityFraud() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Authentication Settings</CardTitle>
-              <CardDescription>Multi-factor authentication and SSO configuration</CardDescription>
+              <CardTitle>{t.security.authentication.title}</CardTitle>
+              <CardDescription>{t.security.authentication.subtitle}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-medium">Multi-Factor Authentication</h4>
+                  <h4 className="font-medium">{t.security.authentication.multiFactorAuth}</h4>
                   {mfaSettings.map((method, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
@@ -212,7 +215,7 @@ export default function SecurityFraud() {
                   ))}
                 </div>
                 <div className="space-y-4">
-                  <h4 className="font-medium">SSO Integration</h4>
+                  <h4 className="font-medium">{t.security.authentication.ssoIntegration}</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
@@ -220,8 +223,8 @@ export default function SecurityFraud() {
                           <span className="text-red-600 font-bold text-sm">G</span>
                         </div>
                         <div>
-                          <div className="font-medium text-sm">Google SSO</div>
-                          <div className="text-xs text-muted-foreground">Gmail authentication</div>
+                          <div className="font-medium text-sm">{t.security.authentication.googleSSO}</div>
+                          <div className="text-xs text-muted-foreground">{t.security.authentication.gmailAuth}</div>
                         </div>
                       </div>
                       <Switch checked={true} />
@@ -232,8 +235,8 @@ export default function SecurityFraud() {
                           <span className="text-blue-600 font-bold text-sm">M</span>
                         </div>
                         <div>
-                          <div className="font-medium text-sm">Microsoft SSO</div>
-                          <div className="text-xs text-muted-foreground">Azure AD integration</div>
+                          <div className="font-medium text-sm">{t.security.authentication.microsoftSSO}</div>
+                          <div className="text-xs text-muted-foreground">{t.security.authentication.azureAdIntegration}</div>
                         </div>
                       </div>
                       <Switch checked={true} />
@@ -251,21 +254,21 @@ export default function SecurityFraud() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle>Activity Logging</CardTitle>
-                    <CardDescription>Real-time audit trail of all system activities</CardDescription>
+                    <CardTitle>{t.security.activityLogging.title}</CardTitle>
+                    <CardDescription>{t.security.activityLogging.subtitle}</CardDescription>
                   </div>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm">
                       <Search className="w-4 h-4 mr-2" />
-                      Search
+                      {t.security.activityLogging.search}
                     </Button>
                     <Button variant="outline" size="sm">
                       <Filter className="w-4 h-4 mr-2" />
-                      Filter
+                      {t.security.activityLogging.filter}
                     </Button>
                     <Button variant="outline" size="sm">
                       <Download className="w-4 h-4 mr-2" />
-                      Export
+                      {t.security.activityLogging.export}
                     </Button>
                   </div>
                 </div>
@@ -274,10 +277,10 @@ export default function SecurityFraud() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Timestamp</TableHead>
-                      <TableHead>User</TableHead>
-                      <TableHead>Action</TableHead>
-                      <TableHead>Module</TableHead>
+                      <TableHead>{t.security.activityLogging.timestamp}</TableHead>
+                      <TableHead>{t.security.activityLogging.user}</TableHead>
+                      <TableHead>{t.security.activityLogging.action}</TableHead>
+                      <TableHead>{t.security.activityLogging.module}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -303,27 +306,27 @@ export default function SecurityFraud() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Log Management</CardTitle>
-                <CardDescription>Configure log retention and archival</CardDescription>
+                <CardTitle>{t.security.logManagement.title}</CardTitle>
+                <CardDescription>{t.security.logManagement.subtitle}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="retention">Log Retention Period</Label>
+                    <Label htmlFor="retention">{t.security.logManagement.retentionPeriod}</Label>
                     <Select defaultValue="365">
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="90">90 days</SelectItem>
-                        <SelectItem value="180">180 days</SelectItem>
-                        <SelectItem value="365">1 year</SelectItem>
-                        <SelectItem value="1095">3 years</SelectItem>
+                        <SelectItem value="90">{t.security.logManagement.days90}</SelectItem>
+                        <SelectItem value="180">{t.security.logManagement.days180}</SelectItem>
+                        <SelectItem value="365">{t.security.logManagement.year1}</SelectItem>
+                        <SelectItem value="1095">{t.security.logManagement.years3}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="archival">Auto Archival</Label>
+                    <Label htmlFor="archival">{t.security.logManagement.autoArchival}</Label>
                     <Select defaultValue="enabled">
                       <SelectTrigger>
                         <SelectValue />
