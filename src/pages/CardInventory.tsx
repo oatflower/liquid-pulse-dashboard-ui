@@ -66,8 +66,9 @@ export default function CardInventory() {
 
       </div>
 
-      {/* Filter Section */}
+      {/* Combined Card Management Section */}
       <Card className="w-full">
+        {/* Filter Section */}
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between w-full">
             <CardTitle className="text-lg">กรองข้อมูลบัตร</CardTitle>
@@ -98,66 +99,73 @@ export default function CardInventory() {
             </div>
           </div>
         </CardHeader>
-      </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {cardStats.map((stat) => (
-          <Card key={stat.label}>
-            <CardHeader className="pb-3">
-              <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-semibold">{stat.value}</div>
-              <div className={`text-sm ${stat.color}`}>{stat.change}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+        <CardContent className="space-y-6">
+          {/* Card Statistics Section */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold">สถิติการ์ด</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {cardStats.map((stat) => (
+                <Card key={stat.label} className="border-muted">
+                  <CardHeader className="pb-3">
+                    <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-semibold">{stat.value}</div>
+                    <div className={`text-sm ${stat.color}`}>{stat.change}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{t.cardInventory.cardTypeDistribution}</CardTitle>
-          <CardDescription>{t.cardInventory.cardTypeDistributionDesc}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {cardTypes
-              .filter(card => {
-                if (cardCategoryFilter === 'all') return true;
-                
-                // Filter by main category
-                if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
-                  if (card.type === t.cardInventory.corporateCards) return false;
-                }
-                if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
-                  if (card.type !== t.cardInventory.corporateCards) return false;
-                }
-                
-                // Filter by sub-category
-                if (cardCategoryFilter.endsWith('-physical')) {
-                  if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
-                }
-                if (cardCategoryFilter.endsWith('-egift')) {
-                  if (card.type !== t.cardInventory.eGiftCards) return false;
-                }
-                
-                return true;
-              })
-              .map((card) => (
-              <div key={card.type} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-medium">{card.type}</h4>
-                  <span className="text-sm text-muted-foreground">{card.issued.toLocaleString()} {t.cardInventory.total}</span>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-sm">
-                    <span>{t.cardInventory.active}: {card.active.toLocaleString()}</span>
-                    <span>{t.cardInventory.expired}: {card.expired.toLocaleString()}</span>
+          <Separator />
+
+          {/* Card Type Distribution Section */}
+          <div className="space-y-3">
+            <div>
+              <h3 className="text-lg font-semibold">{t.cardInventory.cardTypeDistribution}</h3>
+              <p className="text-sm text-muted-foreground">{t.cardInventory.cardTypeDistributionDesc}</p>
+            </div>
+            <div className="space-y-6">
+              {cardTypes
+                .filter(card => {
+                  if (cardCategoryFilter === 'all') return true;
+                  
+                  // Filter by main category
+                  if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
+                    if (card.type === t.cardInventory.corporateCards) return false;
+                  }
+                  if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
+                    if (card.type !== t.cardInventory.corporateCards) return false;
+                  }
+                  
+                  // Filter by sub-category
+                  if (cardCategoryFilter.endsWith('-physical')) {
+                    if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
+                  }
+                  if (cardCategoryFilter.endsWith('-egift')) {
+                    if (card.type !== t.cardInventory.eGiftCards) return false;
+                  }
+                  
+                  return true;
+                })
+                .map((card) => (
+                <div key={card.type} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium">{card.type}</h4>
+                    <span className="text-sm text-muted-foreground">{card.issued.toLocaleString()} {t.cardInventory.total}</span>
                   </div>
-                  <Progress value={(card.active / card.issued) * 100} className="h-2" />
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>{t.cardInventory.active}: {card.active.toLocaleString()}</span>
+                      <span>{t.cardInventory.expired}: {card.expired.toLocaleString()}</span>
+                    </div>
+                    <Progress value={(card.active / card.issued) * 100} className="h-2" />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>
