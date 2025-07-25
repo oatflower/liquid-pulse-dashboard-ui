@@ -12,7 +12,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Switch } from '@/components/ui/switch';
-import { Users, Shield, Search, Plus, Edit, Trash2, User, Mail, Phone, Building, Calendar, MoreHorizontal, Eye, Lock, Unlock } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Users, Shield, Search, Plus, Edit, Trash2, User, Mail, Phone, Building, Calendar, MoreHorizontal, Eye, Lock, Unlock, Upload, Download, FileSpreadsheet } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -199,11 +200,23 @@ export default function AccountManagement() {
                 เพิ่มผู้ใช้งานใหม่
               </DialogTitle>
               <DialogDescription>
-                กรอกข้อมูลผู้ใช้งานใหม่เพื่อเพิ่มเข้าสู่ระบบ
+                เลือกวิธีการเพิ่มผู้ใช้งานใหม่เข้าสู่ระบบ
               </DialogDescription>
             </DialogHeader>
             
-            <div className="grid gap-6 py-4">
+            <Tabs defaultValue="single" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="single" className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  เพิ่มทีละคน
+                </TabsTrigger>
+                <TabsTrigger value="excel" className="flex items-center gap-2">
+                  <FileSpreadsheet className="w-4 h-4" />
+                  นำเข้าจาก Excel
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="single" className="space-y-6 mt-6">
               {/* Profile Image Section */}
               <div className="flex flex-col items-center gap-4">
                 <Avatar className="w-20 h-20">
@@ -352,9 +365,48 @@ export default function AccountManagement() {
                   />
                 </div>
               </div>
-            </div>
+              </TabsContent>
+              
+              <TabsContent value="excel" className="space-y-6 mt-6">
+                <div className="text-center space-y-6">
+                  {/* Excel Template Download */}
+                  <div className="border-2 border-dashed border-green-200 rounded-lg p-8 bg-green-50/50">
+                    <FileSpreadsheet className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-green-800 mb-2">นำเข้าผู้ใช้งานจาก Excel</h3>
+                    <p className="text-green-700 mb-6">อัปโหลดไฟล์ Excel เพื่อเพิ่มผู้ใช้งานจำนวนมากพร้อมกัน</p>
+                    
+                    <div className="space-y-4">
+                      <Button variant="outline" className="mb-4">
+                        <Download className="w-4 h-4 mr-2" />
+                        ดาวน์โหลดเทมเพลต Excel
+                      </Button>
+                      
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-white">
+                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-600 mb-2">ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์</p>
+                        <input type="file" accept=".xlsx,.xls" className="hidden" />
+                        <Button variant="outline" size="sm">
+                          เลือกไฟล์ Excel
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Instructions */}
+                  <div className="text-left bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-blue-800 mb-2">วิธีการใช้งาน:</h4>
+                    <ol className="list-decimal list-inside space-y-1 text-sm text-blue-700">
+                      <li>ดาวน์โหลดเทมเพลต Excel</li>
+                      <li>กรอกข้อมูลผู้ใช้งานตามรูปแบบที่กำหนด</li>
+                      <li>อัปโหลดไฟล์ที่กรอกข้อมูลแล้ว</li>
+                      <li>ตรวจสอบและยืนยันการสร้างผู้ใช้งาน</li>
+                    </ol>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
 
-            <DialogFooter className="gap-2">
+            <DialogFooter className="gap-2 mt-6">
               <Button variant="outline" onClick={() => setIsAddUserOpen(false)}>
                 ยกเลิก
               </Button>
