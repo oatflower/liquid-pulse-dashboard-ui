@@ -9,11 +9,13 @@ import { Store, Plus, Edit, Eye, DollarSign, Calendar, Users, TrendingUp, Upload
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import MerchantBulkUploadModal from '@/components/merchant/MerchantBulkUploadModal';
+import MerchantKYMModal from '@/components/merchant/MerchantKYMModal';
 
 export default function MerchantManagement() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
+  const [isKYMModalOpen, setIsKYMModalOpen] = useState(false);
   
   const merchantStats = [
     { label: t.merchant.totalMerchants, value: '1,245', change: '+8.5%', color: 'text-blue-600' },
@@ -58,7 +60,7 @@ export default function MerchantManagement() {
             <Eye className="w-4 h-4 mr-2" />
             {t.merchant.viewAll}
           </Button>
-          <Button onClick={() => toast({ title: "Add Merchant", description: "เปิดฟอร์มเพิ่ม merchant ใหม่" })}>
+          <Button onClick={() => setIsKYMModalOpen(true)}>
             <Plus className="w-4 h-4 mr-2" />
             {t.merchant.addMerchant}
           </Button>
@@ -80,133 +82,6 @@ export default function MerchantManagement() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t.merchant.merchantOnboarding}</CardTitle>
-            <CardDescription>KYM (Know Your Merchant) Process - ขั้นตอนการตรวจสอบและรับรอง Merchant</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              {/* Basic Information */}
-              <div className="space-y-4">
-                <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">ข้อมูลพื้นฐาน</h4>
-                <div className="space-y-3">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">{t.merchant.businessName}</label>
-                    <Input placeholder={t.merchant.enterBusinessName} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t.merchant.category}</label>
-                      <Input placeholder={t.merchant.foodBeverage} />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t.merchant.contactEmail}</label>
-                      <Input type="email" placeholder="contact@business.com" />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">{t.merchant.businessAddress}</label>
-                    <Input placeholder="123 Main St, City, State" />
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* KYM Documents */}
-              <div className="space-y-4">
-                <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">เอกสาร KYM</h4>
-                <div className="space-y-4">
-                  {/* Business Registration */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">ใบจัดตั้งร้านค้า / หนังสือรับรองการจดทะเบียน</label>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4">
-                      <div className="flex items-center gap-3">
-                        <Upload className="w-5 h-5 text-muted-foreground" />
-                        <div className="flex-1">
-                          <p className="text-sm">อัพโหลดใบจัดตั้งร้านค้า</p>
-                          <p className="text-xs text-muted-foreground">รองรับไฟล์ PDF, JPG, PNG (ขนาดไม่เกิน 5MB)</p>
-                        </div>
-                        <Button variant="outline" size="sm">เลือกไฟล์</Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* ID Card */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">บัตรประจำตัวประชาชน / Passport</label>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4">
-                      <div className="flex items-center gap-3">
-                        <Upload className="w-5 h-5 text-muted-foreground" />
-                        <div className="flex-1">
-                          <p className="text-sm">อัพโหลดบัตรประจำตัว (หน้า-หลัง)</p>
-                          <p className="text-xs text-muted-foreground">รองรับไฟล์ PDF, JPG, PNG (ขนาดไม่เกิน 5MB)</p>
-                        </div>
-                        <Button variant="outline" size="sm">เลือกไฟล์</Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bank Account */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">หนังสือรับรองบัญชีธนาคาร</label>
-                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4">
-                      <div className="flex items-center gap-3">
-                        <Upload className="w-5 h-5 text-muted-foreground" />
-                        <div className="flex-1">
-                          <p className="text-sm">อัพโหลดหนังสือรับรองบัญชี / สมุดคู่ฝาก</p>
-                          <p className="text-xs text-muted-foreground">รองรับไฟล์ PDF, JPG, PNG (ขนาดไม่เกิน 5MB)</p>
-                        </div>
-                        <Button variant="outline" size="sm">เลือกไฟล์</Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Fee Structure */}
-              <div className="space-y-4">
-                <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">โครงสร้างค่าธรรมเนียม</h4>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t.merchant.feeStructure}</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Input placeholder={t.merchant.transactionPercent} />
-                    <Input placeholder={t.merchant.monthlyFee} />
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* KYM Verification Status */}
-              <div className="space-y-4">
-                <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">สถานะการตรวจสอบ</h4>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="p-3 border rounded-lg text-center">
-                    <Badge variant="secondary" className="mb-2">รอดำเนินการ</Badge>
-                    <p className="text-xs text-muted-foreground">เอกสารพื้นฐาน</p>
-                  </div>
-                  <div className="p-3 border rounded-lg text-center">
-                    <Badge variant="secondary" className="mb-2">รอดำเนินการ</Badge>
-                    <p className="text-xs text-muted-foreground">ตรวจสอบ KYM</p>
-                  </div>
-                  <div className="p-3 border rounded-lg text-center">
-                    <Badge variant="secondary" className="mb-2">รอดำเนินการ</Badge>
-                    <p className="text-xs text-muted-foreground">อนุมัติสุดท้าย</p>
-                  </div>
-                </div>
-              </div>
-
-              <Button className="w-full" onClick={() => toast({ title: "Submit Application", description: "ส่งใบสมัครสำหรับการตรวจสอบ KYM" })}>
-                {t.merchant.submitApplication}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>{t.merchant.pendingApprovals}</CardTitle>
@@ -378,6 +253,11 @@ export default function MerchantManagement() {
       <MerchantBulkUploadModal 
         isOpen={isBulkUploadModalOpen}
         onClose={() => setIsBulkUploadModalOpen(false)}
+      />
+
+      <MerchantKYMModal
+        isOpen={isKYMModalOpen}
+        onClose={() => setIsKYMModalOpen(false)}
       />
     </div>
   );
