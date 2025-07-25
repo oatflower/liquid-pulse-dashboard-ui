@@ -18,9 +18,9 @@ type ViewState = 'selection' | 'creation' | 'dashboard';
 export default function CardInventory() {
   const { toast } = useToast();
   const [currentView, setCurrentView] = useState<ViewState>('selection');
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | Campaign[] | null>(null);
 
-  const handleSelectCampaign = (campaign: Campaign) => {
+  const handleSelectCampaign = (campaign: Campaign | Campaign[]) => {
     setSelectedCampaign(campaign);
     setCurrentView('dashboard');
   };

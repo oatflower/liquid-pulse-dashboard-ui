@@ -20,7 +20,7 @@ interface Campaign {
 }
 
 interface CampaignDashboardProps {
-  selectedCampaign: Campaign;
+  selectedCampaign: Campaign | Campaign[];
   onBack: () => void;
 }
 
@@ -28,6 +28,22 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
   const { t } = useLanguage();
   const { toast } = useToast();
   const [cardCategoryFilter, setCardCategoryFilter] = useState('all');
+
+  // Helper function to calculate aggregated values for multiple campaigns
+  const campaigns = Array.isArray(selectedCampaign) ? selectedCampaign : [selectedCampaign];
+  const totalCards = campaigns.reduce((sum, campaign) => sum + campaign.cards, 0);
+  const isMultipleCampaigns = Array.isArray(selectedCampaign);
+  
+  // Get display info for header
+  const displayName = isMultipleCampaigns 
+    ? `Combined Dashboard (${campaigns.length} campaigns)`
+    : selectedCampaign.name;
+  const displayType = isMultipleCampaigns 
+    ? campaigns.map(c => c.type).join(', ')
+    : selectedCampaign.type;
+  const displayId = isMultipleCampaigns 
+    ? campaigns.map(c => c.id).join(', ')
+    : selectedCampaign.id;
 
   const handleBulkUpload = () => {
     toast({
@@ -43,25 +59,25 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
   const cardStats = [
     {
       label: 'Total Cards Issued',
-      value: selectedCampaign.cards.toLocaleString(),
+      value: totalCards.toLocaleString(),
       change: '+12.5%',
       color: 'text-blue-600'
     },
     {
       label: 'Active Cards',
-      value: Math.floor(selectedCampaign.cards * 0.85).toLocaleString(),
+      value: Math.floor(totalCards * 0.85).toLocaleString(),
       change: '+8.2%',
       color: 'text-green-600'
     },
     {
       label: 'Expired Cards',
-      value: Math.floor(selectedCampaign.cards * 0.1).toLocaleString(),
+      value: Math.floor(totalCards * 0.1).toLocaleString(),
       change: '+2.1%',
       color: 'text-red-600'
     },
     {
       label: 'Pending Activation',
-      value: Math.floor(selectedCampaign.cards * 0.05).toLocaleString(),
+      value: Math.floor(totalCards * 0.05).toLocaleString(),
       change: '-5.3%',
       color: 'text-yellow-600'
     }
@@ -70,15 +86,15 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
   const cardTypes = [
     {
       type: 'Physical Cards',
-      issued: Math.floor(selectedCampaign.cards * 0.4),
-      active: Math.floor(selectedCampaign.cards * 0.35),
-      expired: Math.floor(selectedCampaign.cards * 0.05)
+      issued: Math.floor(totalCards * 0.4),
+      active: Math.floor(totalCards * 0.35),
+      expired: Math.floor(totalCards * 0.05)
     },
     {
       type: 'E-Gift Cards',
-      issued: Math.floor(selectedCampaign.cards * 0.6),
-      active: Math.floor(selectedCampaign.cards * 0.55),
-      expired: Math.floor(selectedCampaign.cards * 0.05)
+      issued: Math.floor(totalCards * 0.6),
+      active: Math.floor(totalCards * 0.55),
+      expired: Math.floor(totalCards * 0.05)
     }
   ];
 
@@ -92,12 +108,14 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
           </Button>
           <div>
             <h1 className="text-2xl font-semibold text-foreground">
-              {selectedCampaign.name}
-              <Badge className="ml-2" variant={selectedCampaign.type === 'B2B' ? 'default' : 'secondary'}>
-                {selectedCampaign.type}
-              </Badge>
+              {displayName}
+              {!isMultipleCampaigns && (
+                <Badge className="ml-2" variant={selectedCampaign.type === 'B2B' ? 'default' : 'secondary'}>
+                  {selectedCampaign.type}
+                </Badge>
+              )}
             </h1>
-            <p className="text-muted-foreground">Dashboard สำหรับ campaign {selectedCampaign.id}</p>
+            <p className="text-muted-foreground">Dashboard สำหรับ {isMultipleCampaigns ? 'campaigns' : 'campaign'} {displayId}</p>
           </div>
         </div>
         <div className="flex gap-2">
@@ -194,13 +212,13 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 bg-muted/50 rounded-lg text-center">
                   <p className="text-2xl font-semibold text-yellow-600">
-                    {Math.floor(selectedCampaign.cards * 0.02).toLocaleString()}
+                    {Math.floor(totalCards * 0.02).toLocaleString()}
                   </p>
                   <p className="text-sm text-muted-foreground">Expiring Soon</p>
                 </div>
                 <div className="p-3 bg-muted/50 rounded-lg text-center">
                   <p className="text-2xl font-semibold text-red-600">
-                    {Math.floor(selectedCampaign.cards * 0.01).toLocaleString()}
+                    {Math.floor(totalCards * 0.01).toLocaleString()}
                   </p>
                   <p className="text-sm text-muted-foreground">Expired Today</p>
                 </div>
