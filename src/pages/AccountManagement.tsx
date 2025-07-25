@@ -16,9 +16,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Users, Shield, Search, Plus, Edit, Trash2, User, Mail, Phone, Building, Calendar, MoreHorizontal, Eye, Lock, Unlock, Upload, Download, FileSpreadsheet } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/contexts/LanguageContext';
-
 export default function AccountManagement() {
-  const { t } = useLanguage();
+  const {
+    t
+  } = useLanguage();
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [isEditRoleOpen, setIsEditRoleOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<any>(null);
@@ -34,108 +35,114 @@ export default function AccountManagement() {
     profileImage: '',
     notes: ''
   });
-
-  const [roles, setRoles] = useState([
-    { name: 'Admin', users: 5, permissions: t.account.fullAccess, color: 'bg-red-500', description: 'ผู้ดูแลระบบทั้งหมด' },
-    { name: 'Finance', users: 12, permissions: t.account.settlementReports, color: 'bg-blue-500', description: 'เจ้าหน้าที่การเงิน' },
-    { name: 'Merchant Manager', users: 8, permissions: t.account.merchantOperations, color: 'bg-green-500', description: 'ผู้จัดการร้านค้า' },
-    { name: 'Support', users: 25, permissions: t.account.customerSupport, color: 'bg-yellow-500', description: 'เจ้าหน้าที่สนับสนุน' },
-  ]);
-
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      firstName: 'จิราภรณ์',
-      lastName: 'วงษ์สวัสดิ์',
-      email: 'jiraporn.w@company.com',
-      phone: '081-234-5678',
-      role: 'Admin',
-      department: 'IT',
-      employeeId: 'EMP001',
-      startDate: '2023-01-15',
-      status: 'active',
-      lastLogin: '2024-01-20 09:30',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b08c?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      id: 2,
-      firstName: 'ธนากร',
-      lastName: 'เจริญสุข',
-      email: 'thanakorn.c@company.com',
-      phone: '082-345-6789',
-      role: 'Finance',
-      department: 'การเงิน',
-      employeeId: 'EMP002',
-      startDate: '2023-03-20',
-      status: 'active',
-      lastLogin: '2024-01-20 08:15',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      id: 3,
-      firstName: 'วรรณา',
-      lastName: 'ศรีสุข',
-      email: 'wanna.s@company.com',
-      phone: '083-456-7890',
-      role: 'Merchant Manager',
-      department: 'ปฏิบัติการ',
-      employeeId: 'EMP003',
-      startDate: '2023-06-10',
-      status: 'active',
-      lastLogin: '2024-01-19 16:45',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      id: 4,
-      firstName: 'สมชาย',
-      lastName: 'ใจดี',
-      email: 'somchai.j@company.com',
-      phone: '084-567-8901',
-      role: 'Support',
-      department: 'สนับสนุน',
-      employeeId: 'EMP004',
-      startDate: '2023-09-05',
-      status: 'inactive',
-      lastLogin: '2024-01-18 14:20',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      id: 5,
-      firstName: 'นันทิดา',
-      lastName: 'แสนดี',
-      email: 'nantida.s@company.com',
-      phone: '085-678-9012',
-      role: 'Support',
-      department: 'สนับสนุน',
-      employeeId: 'EMP005',
-      startDate: '2023-11-12',
-      status: 'active',
-      lastLogin: '2024-01-20 07:30',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face'
-    }
-  ]);
-
+  const [roles, setRoles] = useState([{
+    name: 'Admin',
+    users: 5,
+    permissions: t.account.fullAccess,
+    color: 'bg-red-500',
+    description: 'ผู้ดูแลระบบทั้งหมด'
+  }, {
+    name: 'Finance',
+    users: 12,
+    permissions: t.account.settlementReports,
+    color: 'bg-blue-500',
+    description: 'เจ้าหน้าที่การเงิน'
+  }, {
+    name: 'Merchant Manager',
+    users: 8,
+    permissions: t.account.merchantOperations,
+    color: 'bg-green-500',
+    description: 'ผู้จัดการร้านค้า'
+  }, {
+    name: 'Support',
+    users: 25,
+    permissions: t.account.customerSupport,
+    color: 'bg-yellow-500',
+    description: 'เจ้าหน้าที่สนับสนุน'
+  }]);
+  const [users, setUsers] = useState([{
+    id: 1,
+    firstName: 'จิราภรณ์',
+    lastName: 'วงษ์สวัสดิ์',
+    email: 'jiraporn.w@company.com',
+    phone: '081-234-5678',
+    role: 'Admin',
+    department: 'IT',
+    employeeId: 'EMP001',
+    startDate: '2023-01-15',
+    status: 'active',
+    lastLogin: '2024-01-20 09:30',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b08c?w=150&h=150&fit=crop&crop=face'
+  }, {
+    id: 2,
+    firstName: 'ธนากร',
+    lastName: 'เจริญสุข',
+    email: 'thanakorn.c@company.com',
+    phone: '082-345-6789',
+    role: 'Finance',
+    department: 'การเงิน',
+    employeeId: 'EMP002',
+    startDate: '2023-03-20',
+    status: 'active',
+    lastLogin: '2024-01-20 08:15',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
+  }, {
+    id: 3,
+    firstName: 'วรรณา',
+    lastName: 'ศรีสุข',
+    email: 'wanna.s@company.com',
+    phone: '083-456-7890',
+    role: 'Merchant Manager',
+    department: 'ปฏิบัติการ',
+    employeeId: 'EMP003',
+    startDate: '2023-06-10',
+    status: 'active',
+    lastLogin: '2024-01-19 16:45',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
+  }, {
+    id: 4,
+    firstName: 'สมชาย',
+    lastName: 'ใจดี',
+    email: 'somchai.j@company.com',
+    phone: '084-567-8901',
+    role: 'Support',
+    department: 'สนับสนุน',
+    employeeId: 'EMP004',
+    startDate: '2023-09-05',
+    status: 'inactive',
+    lastLogin: '2024-01-18 14:20',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
+  }, {
+    id: 5,
+    firstName: 'นันทิดา',
+    lastName: 'แสนดี',
+    email: 'nantida.s@company.com',
+    phone: '085-678-9012',
+    role: 'Support',
+    department: 'สนับสนุน',
+    employeeId: 'EMP005',
+    startDate: '2023-11-12',
+    status: 'active',
+    lastLogin: '2024-01-20 07:30',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face'
+  }]);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
-
   const filteredUsers = users.filter(user => {
-    const matchesSearch = user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.employeeId.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) || user.email.toLowerCase().includes(searchTerm.toLowerCase()) || user.employeeId.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = roleFilter === 'all' || user.role === roleFilter;
     const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
     return matchesSearch && matchesRole && matchesStatus;
   });
-
   const handleEditRole = (role: any) => {
-    setSelectedRole({...role});
+    setSelectedRole({
+      ...role
+    });
     setIsEditRoleOpen(true);
   };
-
   const handleSaveRole = () => {
     if (selectedRole) {
       setRoles(roles.map(r => r.name === selectedRole.name ? selectedRole : r));
@@ -143,16 +150,15 @@ export default function AccountManagement() {
       setSelectedRole(null);
     }
   };
-
   const handleDeleteRole = (roleName: string) => {
     setRoles(roles.filter(r => r.name !== roleName));
   };
-
   const handleEditUser = (user: any) => {
-    setSelectedUser({...user});
+    setSelectedUser({
+      ...user
+    });
     setIsEditUserOpen(true);
   };
-
   const handleSaveUser = () => {
     if (selectedUser) {
       setUsers(users.map(u => u.id === selectedUser.id ? selectedUser : u));
@@ -160,27 +166,32 @@ export default function AccountManagement() {
       setSelectedUser(null);
     }
   };
-
   const handleDeleteUser = (userId: number) => {
     setUsers(users.filter(u => u.id !== userId));
   };
-
   const handleToggleUserStatus = (userId: number) => {
-    setUsers(users.map(u => 
-      u.id === userId 
-        ? {...u, status: u.status === 'active' ? 'inactive' : 'active'}
-        : u
-    ));
+    setUsers(users.map(u => u.id === userId ? {
+      ...u,
+      status: u.status === 'active' ? 'inactive' : 'active'
+    } : u));
   };
-
-  const auditLogs = [
-    { user: 'John Smith', action: t.account.createdMerchant, time: `2 ${t.account.minAgo}`, type: 'CREATE' },
-    { user: 'Sarah Johnson', action: t.account.updatedSettlement, time: `15 ${t.account.minAgo}`, type: 'UPDATE' },
-    { user: 'Mike Chen', action: t.account.deletedCards, time: `1 ${t.account.hourAgo}`, type: 'DELETE' },
-  ];
-
-  return (
-    <div className="space-y-6">
+  const auditLogs = [{
+    user: 'John Smith',
+    action: t.account.createdMerchant,
+    time: `2 ${t.account.minAgo}`,
+    type: 'CREATE'
+  }, {
+    user: 'Sarah Johnson',
+    action: t.account.updatedSettlement,
+    time: `15 ${t.account.minAgo}`,
+    type: 'UPDATE'
+  }, {
+    user: 'Mike Chen',
+    action: t.account.deletedCards,
+    time: `1 ${t.account.hourAgo}`,
+    type: 'DELETE'
+  }];
+  return <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">{t.account.title}</h1>
@@ -241,21 +252,17 @@ export default function AccountManagement() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">ชื่อ *</Label>
-                    <Input
-                      id="firstName"
-                      value={newUser.firstName}
-                      onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
-                      placeholder="กรอกชื่อ"
-                    />
+                    <Input id="firstName" value={newUser.firstName} onChange={e => setNewUser({
+                      ...newUser,
+                      firstName: e.target.value
+                    })} placeholder="กรอกชื่อ" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">นามสกุล *</Label>
-                    <Input
-                      id="lastName"
-                      value={newUser.lastName}
-                      onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
-                      placeholder="กรอกนามสกุล"
-                    />
+                    <Input id="lastName" value={newUser.lastName} onChange={e => setNewUser({
+                      ...newUser,
+                      lastName: e.target.value
+                    })} placeholder="กรอกนามสกุล" />
                   </div>
                 </div>
               </div>
@@ -269,22 +276,17 @@ export default function AccountManagement() {
                 <div className="grid gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="email">อีเมล *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={newUser.email}
-                      onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-                      placeholder="user@example.com"
-                    />
+                    <Input id="email" type="email" value={newUser.email} onChange={e => setNewUser({
+                      ...newUser,
+                      email: e.target.value
+                    })} placeholder="user@example.com" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">เบอร์โทรศัพท์</Label>
-                    <Input
-                      id="phone"
-                      value={newUser.phone}
-                      onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
-                      placeholder="08X-XXX-XXXX"
-                    />
+                    <Input id="phone" value={newUser.phone} onChange={e => setNewUser({
+                      ...newUser,
+                      phone: e.target.value
+                    })} placeholder="08X-XXX-XXXX" />
                   </div>
                 </div>
               </div>
@@ -298,7 +300,10 @@ export default function AccountManagement() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="role">บทบาท *</Label>
-                    <Select value={newUser.role} onValueChange={(value) => setNewUser({...newUser, role: value})}>
+                    <Select value={newUser.role} onValueChange={value => setNewUser({
+                      ...newUser,
+                      role: value
+                    })}>
                       <SelectTrigger>
                         <SelectValue placeholder="เลือกบทบาท" />
                       </SelectTrigger>
@@ -314,7 +319,10 @@ export default function AccountManagement() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="department">แผนก</Label>
-                    <Select value={newUser.department} onValueChange={(value) => setNewUser({...newUser, department: value})}>
+                    <Select value={newUser.department} onValueChange={value => setNewUser({
+                      ...newUser,
+                      department: value
+                    })}>
                       <SelectTrigger>
                         <SelectValue placeholder="เลือกแผนก" />
                       </SelectTrigger>
@@ -332,21 +340,17 @@ export default function AccountManagement() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="employeeId">รหัสพนักงาน</Label>
-                    <Input
-                      id="employeeId"
-                      value={newUser.employeeId}
-                      onChange={(e) => setNewUser({...newUser, employeeId: e.target.value})}
-                      placeholder="EMP001"
-                    />
+                    <Input id="employeeId" value={newUser.employeeId} onChange={e => setNewUser({
+                      ...newUser,
+                      employeeId: e.target.value
+                    })} placeholder="EMP001" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="startDate">วันที่เริ่มงาน</Label>
-                    <Input
-                      id="startDate"
-                      type="date"
-                      value={newUser.startDate}
-                      onChange={(e) => setNewUser({...newUser, startDate: e.target.value})}
-                    />
+                    <Input id="startDate" type="date" value={newUser.startDate} onChange={e => setNewUser({
+                      ...newUser,
+                      startDate: e.target.value
+                    })} />
                   </div>
                 </div>
               </div>
@@ -356,13 +360,10 @@ export default function AccountManagement() {
                 <h4 className="font-medium">หมายเหตุเพิ่มเติม</h4>
                 <div className="space-y-2">
                   <Label htmlFor="notes">บันทึกเพิ่มเติม</Label>
-                  <Textarea
-                    id="notes"
-                    value={newUser.notes}
-                    onChange={(e) => setNewUser({...newUser, notes: e.target.value})}
-                    placeholder="ข้อมูลเพิ่มเติมเกี่ยวกับผู้ใช้งาน..."
-                    rows={3}
-                  />
+                  <Textarea id="notes" value={newUser.notes} onChange={e => setNewUser({
+                    ...newUser,
+                    notes: e.target.value
+                  })} placeholder="ข้อมูลเพิ่มเติมเกี่ยวกับผู้ใช้งาน..." rows={3} />
                 </div>
               </div>
               </TabsContent>
@@ -411,23 +412,23 @@ export default function AccountManagement() {
                 ยกเลิก
               </Button>
               <Button onClick={() => {
-                // Handle user creation logic here
-                console.log('Creating user:', newUser);
-                setIsAddUserOpen(false);
-                // Reset form
-                setNewUser({
-                  firstName: '',
-                  lastName: '',
-                  email: '',
-                  phone: '',
-                  role: '',
-                  department: '',
-                  employeeId: '',
-                  startDate: '',
-                  profileImage: '',
-                  notes: ''
-                });
-              }}>
+              // Handle user creation logic here
+              console.log('Creating user:', newUser);
+              setIsAddUserOpen(false);
+              // Reset form
+              setNewUser({
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: '',
+                role: '',
+                department: '',
+                employeeId: '',
+                startDate: '',
+                profileImage: '',
+                notes: ''
+              });
+            }}>
                 <Plus className="w-4 h-4 mr-2" />
                 สร้างผู้ใช้งาน
               </Button>
@@ -437,8 +438,7 @@ export default function AccountManagement() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {roles.map((role) => (
-          <Card key={role.name} className="hover:shadow-md transition-shadow">
+        {roles.map(role => <Card key={role.name} className="hover:shadow-md transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg">{role.name}</CardTitle>
@@ -472,24 +472,20 @@ export default function AccountManagement() {
                           แก้ไขข้อมูลบทบาทและสิทธิ์การเข้าถึง
                         </DialogDescription>
                       </DialogHeader>
-                      {selectedRole && (
-                        <div className="grid gap-4 py-4">
+                      {selectedRole && <div className="grid gap-4 py-4">
                           <div className="space-y-2">
                             <Label htmlFor="role-name">ชื่อบทบาท</Label>
-                            <Input
-                              id="role-name"
-                              value={selectedRole.name}
-                              onChange={(e) => setSelectedRole({...selectedRole, name: e.target.value})}
-                            />
+                            <Input id="role-name" value={selectedRole.name} onChange={e => setSelectedRole({
+                        ...selectedRole,
+                        name: e.target.value
+                      })} />
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="role-description">คำอธิบาย</Label>
-                            <Textarea
-                              id="role-description"
-                              value={selectedRole.description || ''}
-                              onChange={(e) => setSelectedRole({...selectedRole, description: e.target.value})}
-                              placeholder="อธิบายหน้าที่ของบทบาทนี้"
-                            />
+                            <Textarea id="role-description" value={selectedRole.description || ''} onChange={e => setSelectedRole({
+                        ...selectedRole,
+                        description: e.target.value
+                      })} placeholder="อธิบายหน้าที่ของบทบาทนี้" />
                           </div>
                            <div className="space-y-4">
                              <Label>สิทธิ์การเข้าถึงระบบ</Label>
@@ -691,10 +687,10 @@ export default function AccountManagement() {
                            </div>
                           <div className="space-y-2">
                             <Label htmlFor="role-color">สีประจำบทบาท</Label>
-                            <Select 
-                              value={selectedRole.color} 
-                              onValueChange={(value) => setSelectedRole({...selectedRole, color: value})}
-                            >
+                            <Select value={selectedRole.color} onValueChange={value => setSelectedRole({
+                        ...selectedRole,
+                        color: value
+                      })}>
                               <SelectTrigger>
                                 <SelectValue />
                               </SelectTrigger>
@@ -708,8 +704,7 @@ export default function AccountManagement() {
                               </SelectContent>
                             </Select>
                           </div>
-                        </div>
-                      )}
+                        </div>}
                       <DialogFooter>
                         <Button variant="outline" onClick={() => setIsEditRoleOpen(false)}>
                           ยกเลิก
@@ -741,10 +736,7 @@ export default function AccountManagement() {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
-                        <AlertDialogAction 
-                          onClick={() => handleDeleteRole(role.name)}
-                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                        >
+                        <AlertDialogAction onClick={() => handleDeleteRole(role.name)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                           <Trash2 className="w-4 h-4 mr-2" />
                           ลบบทบาท
                         </AlertDialogAction>
@@ -754,8 +746,7 @@ export default function AccountManagement() {
                 </div>
               </div>
             </CardContent>
-          </Card>
-        ))}
+          </Card>)}
       </div>
 
       {/* User Management Section */}
@@ -778,12 +769,7 @@ export default function AccountManagement() {
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="ค้นหาผู้ใช้งาน (ชื่อ, อีเมล, รหัสพนักงาน)"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+              <Input placeholder="ค้นหาผู้ใช้งาน (ชื่อ, อีเมล, รหัสพนักงาน)" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
             </div>
             <Select value={roleFilter} onValueChange={setRoleFilter}>
               <SelectTrigger className="w-full sm:w-[180px]">
@@ -823,15 +809,11 @@ export default function AccountManagement() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredUsers.length === 0 ? (
-                  <TableRow>
+                {filteredUsers.length === 0 ? <TableRow>
                     <TableCell colSpan={6} className="h-24 text-center">
                       ไม่พบผู้ใช้งานที่ตรงกับเงื่อนไขการค้นหา
                     </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredUsers.map((user) => (
-                    <TableRow key={user.id}>
+                  </TableRow> : filteredUsers.map(user => <TableRow key={user.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="h-10 w-10">
@@ -848,12 +830,7 @@ export default function AccountManagement() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className={
-                          user.role === 'Admin' ? 'border-red-500 text-red-700' :
-                          user.role === 'Finance' ? 'border-blue-500 text-blue-700' :
-                          user.role === 'Merchant Manager' ? 'border-green-500 text-green-700' :
-                          'border-yellow-500 text-yellow-700'
-                        }>
+                        <Badge variant="outline" className={user.role === 'Admin' ? 'border-red-500 text-red-700' : user.role === 'Finance' ? 'border-blue-500 text-blue-700' : user.role === 'Merchant Manager' ? 'border-green-500 text-green-700' : 'border-yellow-500 text-yellow-700'}>
                           {user.role}
                         </Badge>
                       </TableCell>
@@ -865,11 +842,7 @@ export default function AccountManagement() {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Switch
-                            checked={user.status === 'active'}
-                            onCheckedChange={() => handleToggleUserStatus(user.id)}
-                            className="data-[state=checked]:bg-green-500"
-                          />
+                          <Switch checked={user.status === 'active'} onCheckedChange={() => handleToggleUserStatus(user.id)} className="data-[state=checked]:bg-green-500" />
                           <Badge variant={user.status === 'active' ? 'default' : 'secondary'}>
                             {user.status === 'active' ? 'ใช้งานอยู่' : 'หยุดใช้งาน'}
                           </Badge>
@@ -895,19 +868,14 @@ export default function AccountManagement() {
                               <Lock className="mr-2 h-4 w-4" />
                               รีเซ็ตรหัสผ่าน
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              onClick={() => handleDeleteUser(user.id)}
-                              className="text-red-600 focus:text-red-600"
-                            >
+                            <DropdownMenuItem onClick={() => handleDeleteUser(user.id)} className="text-red-600 focus:text-red-600">
                               <Trash2 className="mr-2 h-4 w-4" />
                               ลบผู้ใช้งาน
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
-                    </TableRow>
-                  ))
-                )}
+                    </TableRow>)}
               </TableBody>
             </Table>
           </div>
@@ -927,8 +895,7 @@ export default function AccountManagement() {
             </DialogDescription>
           </DialogHeader>
           
-          {selectedUser && (
-            <div className="grid gap-6 py-4">
+          {selectedUser && <div className="grid gap-6 py-4">
               {/* Profile Image Section */}
               <div className="flex flex-col items-center gap-4">
                 <Avatar className="w-20 h-20">
@@ -953,21 +920,17 @@ export default function AccountManagement() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="edit-firstName">ชื่อ *</Label>
-                    <Input
-                      id="edit-firstName"
-                      value={selectedUser.firstName}
-                      onChange={(e) => setSelectedUser({...selectedUser, firstName: e.target.value})}
-                      placeholder="กรอกชื่อ"
-                    />
+                    <Input id="edit-firstName" value={selectedUser.firstName} onChange={e => setSelectedUser({
+                  ...selectedUser,
+                  firstName: e.target.value
+                })} placeholder="กรอกชื่อ" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="edit-lastName">นามสกุล *</Label>
-                    <Input
-                      id="edit-lastName"
-                      value={selectedUser.lastName}
-                      onChange={(e) => setSelectedUser({...selectedUser, lastName: e.target.value})}
-                      placeholder="กรอกนามสกุล"
-                    />
+                    <Input id="edit-lastName" value={selectedUser.lastName} onChange={e => setSelectedUser({
+                  ...selectedUser,
+                  lastName: e.target.value
+                })} placeholder="กรอกนามสกุล" />
                   </div>
                 </div>
               </div>
@@ -981,22 +944,17 @@ export default function AccountManagement() {
                 <div className="grid gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="edit-email">อีเมล *</Label>
-                    <Input
-                      id="edit-email"
-                      type="email"
-                      value={selectedUser.email}
-                      onChange={(e) => setSelectedUser({...selectedUser, email: e.target.value})}
-                      placeholder="user@example.com"
-                    />
+                    <Input id="edit-email" type="email" value={selectedUser.email} onChange={e => setSelectedUser({
+                  ...selectedUser,
+                  email: e.target.value
+                })} placeholder="user@example.com" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="edit-phone">เบอร์โทรศัพท์</Label>
-                    <Input
-                      id="edit-phone"
-                      value={selectedUser.phone}
-                      onChange={(e) => setSelectedUser({...selectedUser, phone: e.target.value})}
-                      placeholder="08X-XXX-XXXX"
-                    />
+                    <Input id="edit-phone" value={selectedUser.phone} onChange={e => setSelectedUser({
+                  ...selectedUser,
+                  phone: e.target.value
+                })} placeholder="08X-XXX-XXXX" />
                   </div>
                 </div>
               </div>
@@ -1010,7 +968,10 @@ export default function AccountManagement() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="edit-role">บทบาท *</Label>
-                    <Select value={selectedUser.role} onValueChange={(value) => setSelectedUser({...selectedUser, role: value})}>
+                    <Select value={selectedUser.role} onValueChange={value => setSelectedUser({
+                  ...selectedUser,
+                  role: value
+                })}>
                       <SelectTrigger>
                         <SelectValue placeholder="เลือกบทบาท" />
                       </SelectTrigger>
@@ -1026,7 +987,10 @@ export default function AccountManagement() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="edit-department">แผนก</Label>
-                    <Select value={selectedUser.department} onValueChange={(value) => setSelectedUser({...selectedUser, department: value})}>
+                    <Select value={selectedUser.department} onValueChange={value => setSelectedUser({
+                  ...selectedUser,
+                  department: value
+                })}>
                       <SelectTrigger>
                         <SelectValue placeholder="เลือกแผนก" />
                       </SelectTrigger>
@@ -1044,26 +1008,21 @@ export default function AccountManagement() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="edit-employeeId">รหัสพนักงาน</Label>
-                    <Input
-                      id="edit-employeeId"
-                      value={selectedUser.employeeId}
-                      onChange={(e) => setSelectedUser({...selectedUser, employeeId: e.target.value})}
-                      placeholder="EMP001"
-                    />
+                    <Input id="edit-employeeId" value={selectedUser.employeeId} onChange={e => setSelectedUser({
+                  ...selectedUser,
+                  employeeId: e.target.value
+                })} placeholder="EMP001" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="edit-startDate">วันที่เริ่มงาน</Label>
-                    <Input
-                      id="edit-startDate"
-                      type="date"
-                      value={selectedUser.startDate}
-                      onChange={(e) => setSelectedUser({...selectedUser, startDate: e.target.value})}
-                    />
+                    <Input id="edit-startDate" type="date" value={selectedUser.startDate} onChange={e => setSelectedUser({
+                  ...selectedUser,
+                  startDate: e.target.value
+                })} />
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            </div>}
 
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => setIsEditUserOpen(false)}>
@@ -1122,8 +1081,7 @@ export default function AccountManagement() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {auditLogs.map((log, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+              {auditLogs.map((log, index) => <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
                     <p className="font-medium text-sm">{log.user}</p>
                     <p className="text-sm text-muted-foreground">{log.action}</p>
@@ -1134,8 +1092,7 @@ export default function AccountManagement() {
                     </Badge>
                     <p className="text-xs text-muted-foreground mt-1">{log.time}</p>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
@@ -1153,10 +1110,7 @@ export default function AccountManagement() {
                 จัดการการเข้าใช้งานด้วยระบบ SSO และการยืนยันตัวตนจากระบบภายนอก
               </CardDescription>
             </div>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              เพิ่ม SSO Provider
-            </Button>
+            
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -1202,10 +1156,10 @@ export default function AccountManagement() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center border">
                       <svg className="w-6 h-6" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                       </svg>
                     </div>
                     <div>
@@ -1257,10 +1211,10 @@ export default function AccountManagement() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center border">
                       <svg className="w-6 h-6" viewBox="0 0 24 24">
-                        <path fill="#00A4EF" d="M11.4 24H0V12.6h11.4V24z"/>
-                        <path fill="#FFB900" d="M24 24H12.6V12.6H24V24z"/>
-                        <path fill="#F25022" d="M11.4 11.4H0V0h11.4v11.4z"/>
-                        <path fill="#00A4EF" d="M24 11.4H12.6V0H24v11.4z"/>
+                        <path fill="#00A4EF" d="M11.4 24H0V12.6h11.4V24z" />
+                        <path fill="#FFB900" d="M24 24H12.6V12.6H24V24z" />
+                        <path fill="#F25022" d="M11.4 11.4H0V0h11.4v11.4z" />
+                        <path fill="#00A4EF" d="M24 11.4H12.6V0H24v11.4z" />
                       </svg>
                     </div>
                     <div>
@@ -1370,29 +1324,7 @@ export default function AccountManagement() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">SSO Settings</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Force SSO Login</h4>
-                    <p className="text-sm text-muted-foreground">Require all users to use SSO</p>
-                  </div>
-                  <Switch />
-                </div>
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Auto-provision Users</h4>
-                    <p className="text-sm text-muted-foreground">Create accounts automatically</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Just-in-time Provisioning</h4>
-                    <p className="text-sm text-muted-foreground">Update user data on login</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-              </div>
+              
               <div className="space-y-4">
                 <div className="p-4 border rounded-lg">
                   <h4 className="font-medium mb-2">Default Role for New Users</h4>
@@ -1421,15 +1353,11 @@ export default function AccountManagement() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="p-4 border rounded-lg">
-                  <h4 className="font-medium mb-2">Login Redirect URL</h4>
-                  <Input placeholder="/dashboard" />
-                </div>
+                
               </div>
             </div>
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 }
