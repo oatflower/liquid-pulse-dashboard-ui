@@ -10,7 +10,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import { Users, Shield, Search, Plus, Edit, Trash2, User, Mail, Phone, Building, Calendar } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Switch } from '@/components/ui/switch';
+import { Users, Shield, Search, Plus, Edit, Trash2, User, Mail, Phone, Building, Calendar, MoreHorizontal, Eye, Lock, Unlock } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AccountManagement() {
@@ -38,6 +41,95 @@ export default function AccountManagement() {
     { name: 'Support', users: 25, permissions: t.account.customerSupport, color: 'bg-yellow-500', description: 'เจ้าหน้าที่สนับสนุน' },
   ]);
 
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      firstName: 'จิราภรณ์',
+      lastName: 'วงษ์สวัสดิ์',
+      email: 'jiraporn.w@company.com',
+      phone: '081-234-5678',
+      role: 'Admin',
+      department: 'IT',
+      employeeId: 'EMP001',
+      startDate: '2023-01-15',
+      status: 'active',
+      lastLogin: '2024-01-20 09:30',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b08c?w=150&h=150&fit=crop&crop=face'
+    },
+    {
+      id: 2,
+      firstName: 'ธนากร',
+      lastName: 'เจริญสุข',
+      email: 'thanakorn.c@company.com',
+      phone: '082-345-6789',
+      role: 'Finance',
+      department: 'การเงิน',
+      employeeId: 'EMP002',
+      startDate: '2023-03-20',
+      status: 'active',
+      lastLogin: '2024-01-20 08:15',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
+    },
+    {
+      id: 3,
+      firstName: 'วรรณา',
+      lastName: 'ศรีสุข',
+      email: 'wanna.s@company.com',
+      phone: '083-456-7890',
+      role: 'Merchant Manager',
+      department: 'ปฏิบัติการ',
+      employeeId: 'EMP003',
+      startDate: '2023-06-10',
+      status: 'active',
+      lastLogin: '2024-01-19 16:45',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
+    },
+    {
+      id: 4,
+      firstName: 'สมชาย',
+      lastName: 'ใจดี',
+      email: 'somchai.j@company.com',
+      phone: '084-567-8901',
+      role: 'Support',
+      department: 'สนับสนุน',
+      employeeId: 'EMP004',
+      startDate: '2023-09-05',
+      status: 'inactive',
+      lastLogin: '2024-01-18 14:20',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
+    },
+    {
+      id: 5,
+      firstName: 'นันทิดา',
+      lastName: 'แสนดี',
+      email: 'nantida.s@company.com',
+      phone: '085-678-9012',
+      role: 'Support',
+      department: 'สนับสนุน',
+      employeeId: 'EMP005',
+      startDate: '2023-11-12',
+      status: 'active',
+      lastLogin: '2024-01-20 07:30',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face'
+    }
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
+
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         user.employeeId.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+    const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
+    return matchesSearch && matchesRole && matchesStatus;
+  });
+
   const handleEditRole = (role: any) => {
     setSelectedRole({...role});
     setIsEditRoleOpen(true);
@@ -53,6 +145,31 @@ export default function AccountManagement() {
 
   const handleDeleteRole = (roleName: string) => {
     setRoles(roles.filter(r => r.name !== roleName));
+  };
+
+  const handleEditUser = (user: any) => {
+    setSelectedUser({...user});
+    setIsEditUserOpen(true);
+  };
+
+  const handleSaveUser = () => {
+    if (selectedUser) {
+      setUsers(users.map(u => u.id === selectedUser.id ? selectedUser : u));
+      setIsEditUserOpen(false);
+      setSelectedUser(null);
+    }
+  };
+
+  const handleDeleteUser = (userId: number) => {
+    setUsers(users.filter(u => u.id !== userId));
+  };
+
+  const handleToggleUserStatus = (userId: number) => {
+    setUsers(users.map(u => 
+      u.id === userId 
+        ? {...u, status: u.status === 'active' ? 'inactive' : 'active'}
+        : u
+    ));
   };
 
   const auditLogs = [
@@ -399,6 +516,325 @@ export default function AccountManagement() {
           </Card>
         ))}
       </div>
+
+      {/* User Management Section */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                จัดการผู้ใช้งาน
+              </CardTitle>
+              <CardDescription>
+                จัดการข้อมูลผู้ใช้งานทั้งหมดในระบบ ({filteredUsers.length} คน)
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {/* Search and Filter Section */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="ค้นหาผู้ใช้งาน (ชื่อ, อีเมล, รหัสพนักงาน)"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Select value={roleFilter} onValueChange={setRoleFilter}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="กรองตามบทบาท" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">ทุกบทบาท</SelectItem>
+                <SelectItem value="Admin">Admin</SelectItem>
+                <SelectItem value="Finance">Finance</SelectItem>
+                <SelectItem value="Merchant Manager">Merchant Manager</SelectItem>
+                <SelectItem value="Support">Support</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="กรองตามสถานะ" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">ทุกสถานะ</SelectItem>
+                <SelectItem value="active">ใช้งานอยู่</SelectItem>
+                <SelectItem value="inactive">หยุดใช้งาน</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Users Table */}
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ผู้ใช้งาน</TableHead>
+                  <TableHead>บทบาท</TableHead>
+                  <TableHead>แผนก</TableHead>
+                  <TableHead>เข้าใช้งานล่าสุด</TableHead>
+                  <TableHead>สถานะ</TableHead>
+                  <TableHead className="text-right">การจัดการ</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredUsers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="h-24 text-center">
+                      ไม่พบผู้ใช้งานที่ตรงกับเงื่อนไขการค้นหา
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredUsers.map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage src={user.avatar} alt={`${user.firstName} ${user.lastName}`} />
+                            <AvatarFallback>
+                              {user.firstName.charAt(0)}{user.lastName.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium">{user.firstName} {user.lastName}</p>
+                            <p className="text-sm text-muted-foreground">{user.email}</p>
+                            <p className="text-xs text-muted-foreground">{user.employeeId}</p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className={
+                          user.role === 'Admin' ? 'border-red-500 text-red-700' :
+                          user.role === 'Finance' ? 'border-blue-500 text-blue-700' :
+                          user.role === 'Merchant Manager' ? 'border-green-500 text-green-700' :
+                          'border-yellow-500 text-yellow-700'
+                        }>
+                          {user.role}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{user.department}</TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          <p>{user.lastLogin}</p>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Switch
+                            checked={user.status === 'active'}
+                            onCheckedChange={() => handleToggleUserStatus(user.id)}
+                            className="data-[state=checked]:bg-green-500"
+                          />
+                          <Badge variant={user.status === 'active' ? 'default' : 'secondary'}>
+                            {user.status === 'active' ? 'ใช้งานอยู่' : 'หยุดใช้งาน'}
+                          </Badge>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => console.log('View user:', user.id)}>
+                              <Eye className="mr-2 h-4 w-4" />
+                              ดูรายละเอียด
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleEditUser(user)}>
+                              <Edit className="mr-2 h-4 w-4" />
+                              แก้ไขข้อมูล
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => console.log('Reset password:', user.id)}>
+                              <Lock className="mr-2 h-4 w-4" />
+                              รีเซ็ตรหัสผ่าน
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              onClick={() => handleDeleteUser(user.id)}
+                              className="text-red-600 focus:text-red-600"
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              ลบผู้ใช้งาน
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Edit User Dialog */}
+      <Dialog open={isEditUserOpen} onOpenChange={setIsEditUserOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <User className="w-5 h-5" />
+              แก้ไขข้อมูลผู้ใช้งาน
+            </DialogTitle>
+            <DialogDescription>
+              แก้ไขข้อมูลผู้ใช้งาน: {selectedUser?.firstName} {selectedUser?.lastName}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedUser && (
+            <div className="grid gap-6 py-4">
+              {/* Profile Image Section */}
+              <div className="flex flex-col items-center gap-4">
+                <Avatar className="w-20 h-20">
+                  <AvatarImage src={selectedUser.avatar} />
+                  <AvatarFallback>
+                    {selectedUser.firstName.charAt(0)}{selectedUser.lastName.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <Button variant="outline" size="sm">
+                  เปลี่ยนรูปโปรไฟล์
+                </Button>
+              </div>
+
+              <Separator />
+
+              {/* Personal Information */}
+              <div className="space-y-4">
+                <h4 className="font-medium flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  ข้อมูลส่วนตัว
+                </h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-firstName">ชื่อ *</Label>
+                    <Input
+                      id="edit-firstName"
+                      value={selectedUser.firstName}
+                      onChange={(e) => setSelectedUser({...selectedUser, firstName: e.target.value})}
+                      placeholder="กรอกชื่อ"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-lastName">นามสกุล *</Label>
+                    <Input
+                      id="edit-lastName"
+                      value={selectedUser.lastName}
+                      onChange={(e) => setSelectedUser({...selectedUser, lastName: e.target.value})}
+                      placeholder="กรอกนามสกุล"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Information */}
+              <div className="space-y-4">
+                <h4 className="font-medium flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  ข้อมูลติดต่อ
+                </h4>
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-email">อีเมล *</Label>
+                    <Input
+                      id="edit-email"
+                      type="email"
+                      value={selectedUser.email}
+                      onChange={(e) => setSelectedUser({...selectedUser, email: e.target.value})}
+                      placeholder="user@example.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-phone">เบอร์โทรศัพท์</Label>
+                    <Input
+                      id="edit-phone"
+                      value={selectedUser.phone}
+                      onChange={(e) => setSelectedUser({...selectedUser, phone: e.target.value})}
+                      placeholder="08X-XXX-XXXX"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Work Information */}
+              <div className="space-y-4">
+                <h4 className="font-medium flex items-center gap-2">
+                  <Building className="w-4 h-4" />
+                  ข้อมูลการทำงาน
+                </h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-role">บทบาท *</Label>
+                    <Select value={selectedUser.role} onValueChange={(value) => setSelectedUser({...selectedUser, role: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="เลือกบทบาท" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Admin">Admin</SelectItem>
+                        <SelectItem value="Finance">Finance</SelectItem>
+                        <SelectItem value="Merchant Manager">Merchant Manager</SelectItem>
+                        <SelectItem value="Support">Support</SelectItem>
+                        <SelectItem value="Developer">Developer</SelectItem>
+                        <SelectItem value="Manager">Manager</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-department">แผนก</Label>
+                    <Select value={selectedUser.department} onValueChange={(value) => setSelectedUser({...selectedUser, department: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="เลือกแผนก" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="IT">IT</SelectItem>
+                        <SelectItem value="การเงิน">การเงิน</SelectItem>
+                        <SelectItem value="ปฏิบัติการ">ปฏิบัติการ</SelectItem>
+                        <SelectItem value="สนับสนุน">สนับสนุน</SelectItem>
+                        <SelectItem value="การตลาด">การตลาด</SelectItem>
+                        <SelectItem value="ทรัพยากรบุคคล">ทรัพยากรบุคคล</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-employeeId">รหัสพนักงาน</Label>
+                    <Input
+                      id="edit-employeeId"
+                      value={selectedUser.employeeId}
+                      onChange={(e) => setSelectedUser({...selectedUser, employeeId: e.target.value})}
+                      placeholder="EMP001"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-startDate">วันที่เริ่มงาน</Label>
+                    <Input
+                      id="edit-startDate"
+                      type="date"
+                      value={selectedUser.startDate}
+                      onChange={(e) => setSelectedUser({...selectedUser, startDate: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setIsEditUserOpen(false)}>
+              ยกเลิก
+            </Button>
+            <Button onClick={handleSaveUser}>
+              <Edit className="w-4 h-4 mr-2" />
+              บันทึกการแก้ไข
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>

@@ -10,6 +10,7 @@ import AddCardOneByOne from "./pages/AddCardOneByOne";
 import TransactionRuleConfiguration from "./pages/TransactionRuleConfiguration";
 import { MerchantSpendingDetails } from "./pages/MerchantSpendingDetails";
 import UserProfile from "./pages/UserProfile";
+import AccountManagement from "./pages/AccountManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/transaction-rule-configuration" element={<TransactionRuleConfiguration />} />
           <Route path="/merchant-spending-details" element={<MerchantSpendingDetails />} />
           <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/account-management" element={<AccountManagement />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
