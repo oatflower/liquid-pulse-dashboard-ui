@@ -46,20 +46,6 @@ export default function CardInventory() {
     { type: t.cardInventory.corporateCards, issued: 15420, active: 14200, expired: 1220 },
   ];
 
-  const filteredCardStats = cardStats.filter((stat, index) => {
-    if (cardCategoryFilter === 'all') return true;
-    
-    // Filter logic based on category
-    if (cardCategoryFilter === 'personal') return index <= 1; // Show first 2 stats for personal
-    if (cardCategoryFilter === 'personal-physical') return index === 0;
-    if (cardCategoryFilter === 'personal-egift') return index === 1;
-    if (cardCategoryFilter === 'corporate') return index >= 2; // Show last 2 stats for corporate
-    if (cardCategoryFilter === 'corporate-physical') return index === 2;
-    if (cardCategoryFilter === 'corporate-egift') return index === 3;
-    
-    return true;
-  });
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -114,7 +100,7 @@ export default function CardInventory() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {filteredCardStats.map((stat) => (
+        {cardStats.map((stat) => (
           <Card key={stat.label}>
             <CardHeader className="pb-3">
               <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
