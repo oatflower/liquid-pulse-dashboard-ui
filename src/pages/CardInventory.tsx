@@ -235,7 +235,7 @@ export default function CardInventory() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t.cardInventory.recentBatches}</CardTitle>
+            <CardTitle>Campaign ล่าสุด</CardTitle>
             
           </CardHeader>
           <CardContent>
