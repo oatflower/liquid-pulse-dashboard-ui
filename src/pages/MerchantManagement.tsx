@@ -10,12 +10,14 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import MerchantBulkUploadModal from '@/components/merchant/MerchantBulkUploadModal';
 import MerchantKYMModal from '@/components/merchant/MerchantKYMModal';
+import MerchantManagementModal from '@/components/merchant/MerchantManagementModal';
 
 export default function MerchantManagement() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
   const [isKYMModalOpen, setIsKYMModalOpen] = useState(false);
+  const [isManagementModalOpen, setIsManagementModalOpen] = useState(false);
   
   const merchantStats = [
     { label: t.merchant.totalMerchants, value: '1,245', change: '+8.5%', color: 'text-blue-600' },
@@ -83,9 +85,19 @@ export default function MerchantManagement() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
-          <CardHeader>
-            <CardTitle>{t.merchant.pendingApprovals}</CardTitle>
-            <CardDescription>{t.merchant.pendingApprovalsDesc}</CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <div>
+              <CardTitle>{t.merchant.pendingApprovals}</CardTitle>
+              <CardDescription>{t.merchant.pendingApprovalsDesc}</CardDescription>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => setIsManagementModalOpen(true)}
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              ดูเพิ่มเติม
+            </Button>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -258,6 +270,11 @@ export default function MerchantManagement() {
       <MerchantKYMModal
         isOpen={isKYMModalOpen}
         onClose={() => setIsKYMModalOpen(false)}
+      />
+
+      <MerchantManagementModal
+        isOpen={isManagementModalOpen}
+        onClose={() => setIsManagementModalOpen(false)}
       />
     </div>
   );
