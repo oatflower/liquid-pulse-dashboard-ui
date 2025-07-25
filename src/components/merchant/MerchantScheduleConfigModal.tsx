@@ -73,10 +73,10 @@ export default function MerchantScheduleConfigModal({ isOpen, onClose }: Merchan
   const filteredSchedules = useMemo(() => {
     return schedules.filter(schedule => {
       const matchesSearch = schedule.merchant.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFloor = selectedFloor === '' || schedule.floor === selectedFloor;
-      const matchesArea = selectedArea === '' || schedule.area === selectedArea;
-      const matchesDepartment = selectedDepartment === '' || schedule.department === selectedDepartment;
-      const matchesStatus = selectedStatus === '' || schedule.status === selectedStatus;
+      const matchesFloor = selectedFloor === '' || selectedFloor === 'all' || schedule.floor === selectedFloor;
+      const matchesArea = selectedArea === '' || selectedArea === 'all' || schedule.area === selectedArea;
+      const matchesDepartment = selectedDepartment === '' || selectedDepartment === 'all' || schedule.department === selectedDepartment;
+      const matchesStatus = selectedStatus === '' || selectedStatus === 'all' || schedule.status === selectedStatus;
       
       return matchesSearch && matchesFloor && matchesArea && matchesDepartment && matchesStatus;
     });
@@ -149,7 +149,7 @@ export default function MerchantScheduleConfigModal({ isOpen, onClose }: Merchan
                   <SelectValue placeholder="Floor" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Floors</SelectItem>
+                  <SelectItem value="all">All Floors</SelectItem>
                   {floors.map(floor => (
                     <SelectItem key={floor} value={floor}>Floor {floor}</SelectItem>
                   ))}
@@ -161,7 +161,7 @@ export default function MerchantScheduleConfigModal({ isOpen, onClose }: Merchan
                   <SelectValue placeholder="Area" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Areas</SelectItem>
+                  <SelectItem value="all">All Areas</SelectItem>
                   {areas.map(area => (
                     <SelectItem key={area} value={area}>Area {area}</SelectItem>
                   ))}
@@ -173,7 +173,7 @@ export default function MerchantScheduleConfigModal({ isOpen, onClose }: Merchan
                   <SelectValue placeholder="Department" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Departments</SelectItem>
+                  <SelectItem value="all">All Departments</SelectItem>
                   {departments.map(dept => (
                     <SelectItem key={dept} value={dept}>{dept}</SelectItem>
                   ))}
@@ -185,7 +185,7 @@ export default function MerchantScheduleConfigModal({ isOpen, onClose }: Merchan
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Statuses</SelectItem>
+                  <SelectItem value="all">All Statuses</SelectItem>
                   {statuses.map(status => (
                     <SelectItem key={status} value={status}>{status}</SelectItem>
                   ))}
