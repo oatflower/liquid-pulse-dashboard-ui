@@ -5,9 +5,11 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 
 export function DashboardHeader() {
   const { language, setLanguage, t } = useLanguage();
+  const navigate = useNavigate();
 
   const toggleLanguage = () => {
     setLanguage(language === 'th' ? 'en' : 'th');
@@ -39,7 +41,10 @@ export function DashboardHeader() {
             <Bell className="w-4 h-4" />
             <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
           </Button>
-          <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+          <div 
+            className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors"
+            onClick={() => navigate('/user-profile')}
+          >
             <User className="w-5 h-5 text-primary" />
           </div>
         </div>
