@@ -1324,36 +1324,33 @@ export default function AccountManagement() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">SSO Settings</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-medium mb-2">Default Role for New Users</h4>
+                <Select defaultValue="Support">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Support">Support</SelectItem>
+                    <SelectItem value="Finance">Finance</SelectItem>
+                    <SelectItem value="Merchant Manager">Merchant Manager</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               
-              <div className="space-y-4">
-                <div className="p-4 border rounded-lg">
-                  <h4 className="font-medium mb-2">Default Role for New Users</h4>
-                  <Select defaultValue="Support">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Support">Support</SelectItem>
-                      <SelectItem value="Finance">Finance</SelectItem>
-                      <SelectItem value="Merchant Manager">Merchant Manager</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="p-4 border rounded-lg">
-                  <h4 className="font-medium mb-2">Session Timeout</h4>
-                  <Select defaultValue="8">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">1 hour</SelectItem>
-                      <SelectItem value="4">4 hours</SelectItem>
-                      <SelectItem value="8">8 hours</SelectItem>
-                      <SelectItem value="24">24 hours</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-medium mb-2">Session Timeout</h4>
+                <Select defaultValue="8">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1 hour</SelectItem>
+                    <SelectItem value="4">4 hours</SelectItem>
+                    <SelectItem value="8">8 hours</SelectItem>
+                    <SelectItem value="24">24 hours</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
