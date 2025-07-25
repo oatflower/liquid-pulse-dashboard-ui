@@ -116,56 +116,29 @@ export default function CardInventory() {
 
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>{t.cardInventory.cardTypeDistribution}</CardTitle>
-              <CardDescription>{t.cardInventory.cardTypeDistributionDesc}</CardDescription>
-            </div>
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-muted-foreground" />
-              <Select value={cardTypeFilter} onValueChange={setCardTypeFilter}>
-                <SelectTrigger className="w-[180px] bg-background border-border">
-                  <SelectValue placeholder="กรองประเภทบัตร" />
-                </SelectTrigger>
-                <SelectContent className="bg-background border-border shadow-lg z-50">
-                  <SelectItem value="all">ทุกประเภท</SelectItem>
-                  <SelectItem value="physical">Physical Gift Card</SelectItem>
-                  <SelectItem value="egift">E-Gift Card</SelectItem>
-                  <SelectItem value="corporate">Corporate Card</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+          <CardTitle>{t.cardInventory.cardTypeDistribution}</CardTitle>
+          <CardDescription>{t.cardInventory.cardTypeDistributionDesc}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
             {cardTypes
               .filter(card => {
-                if (cardTypeFilter === 'all' && cardCategoryFilter === 'all') return true;
+                if (cardCategoryFilter === 'all') return true;
                 
-                // Filter by main category first
-                if (cardCategoryFilter !== 'all') {
-                  if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
-                    if (card.type === t.cardInventory.corporateCards) return false;
-                  }
-                  if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
-                    if (card.type !== t.cardInventory.corporateCards) return false;
-                  }
-                  
-                  // Filter by sub-category
-                  if (cardCategoryFilter.endsWith('-physical')) {
-                    if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
-                  }
-                  if (cardCategoryFilter.endsWith('-egift')) {
-                    if (card.type !== t.cardInventory.eGiftCards) return false;
-                  }
+                // Filter by main category
+                if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
+                  if (card.type === t.cardInventory.corporateCards) return false;
+                }
+                if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
+                  if (card.type !== t.cardInventory.corporateCards) return false;
                 }
                 
-                // Filter by card type
-                if (cardTypeFilter !== 'all') {
-                  if (cardTypeFilter === 'physical') return card.type === t.cardInventory.physicalCards;
-                  if (cardTypeFilter === 'egift') return card.type === t.cardInventory.eGiftCards;
-                  if (cardTypeFilter === 'corporate') return card.type === t.cardInventory.corporateCards;
+                // Filter by sub-category
+                if (cardCategoryFilter.endsWith('-physical')) {
+                  if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
+                }
+                if (cardCategoryFilter.endsWith('-egift')) {
+                  if (card.type !== t.cardInventory.eGiftCards) return false;
                 }
                 
                 return true;
