@@ -7,7 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Settings, DollarSign, Check, Store } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Settings, DollarSign, Check, Store, Search, Filter } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface MerchantFeeConfigModalProps {
@@ -19,6 +20,8 @@ interface Merchant {
   id: string;
   name: string;
   category: string;
+  floor: string;
+  zoneArea: string;
   currentFee: number;
   monthlyFee: number;
   setupFee: number;
@@ -34,6 +37,10 @@ interface FeeStructure {
 export default function MerchantFeeConfigModal({ isOpen, onClose }: MerchantFeeConfigModalProps) {
   const { toast } = useToast();
   const [selectedMerchants, setSelectedMerchants] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedFloor, setSelectedFloor] = useState<string>('all');
+  const [selectedZone, setSelectedZone] = useState<string>('all');
   const [feeStructure, setFeeStructure] = useState<FeeStructure>({
     transactionFee: 2.5,
     monthlyFee: 29.99,
@@ -41,12 +48,30 @@ export default function MerchantFeeConfigModal({ isOpen, onClose }: MerchantFeeC
   });
 
   const merchants: Merchant[] = [
-    { id: '1', name: 'Starbucks', category: 'อาหารและเครื่องดื่ม', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
-    { id: '2', name: 'Amazon', category: 'อีคอมเมิร์ซ', currentFee: 2.0, monthlyFee: 79.99, setupFee: 199.00, status: 'active' },
-    { id: '3', name: 'Target', category: 'ค้าปลีก', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
-    { id: '4', name: 'Walmart', category: 'ค้าปลีก', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
-    { id: '5', name: 'Best Buy', category: 'อิเล็กทรอนิกส์', currentFee: 2.0, monthlyFee: 79.99, setupFee: 199.00, status: 'active' }
+    { id: '1', name: 'Starbucks', category: 'อาหารและเครื่องดื่ม', floor: 'G', zoneArea: 'A', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
+    { id: '2', name: 'Amazon', category: 'อีคอมเมิร์ซ', floor: 'L2', zoneArea: 'B', currentFee: 2.0, monthlyFee: 79.99, setupFee: 199.00, status: 'active' },
+    { id: '3', name: 'Target', category: 'ค้าปลีก', floor: 'L1', zoneArea: 'A', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
+    { id: '4', name: 'Walmart', category: 'ค้าปลีก', floor: 'G', zoneArea: 'C', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
+    { id: '5', name: 'Best Buy', category: 'อิเล็กทรอนิกส์', floor: 'L2', zoneArea: 'B', currentFee: 2.0, monthlyFee: 79.99, setupFee: 199.00, status: 'active' },
+    { id: '6', name: 'McDonald\'s', category: 'อาหารและเครื่องดื่ม', floor: 'L3', zoneArea: 'C', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
+    { id: '7', name: 'KFC', category: 'อาหารและเครื่องดื่ม', floor: 'L3', zoneArea: 'A', currentFee: 2.5, monthlyFee: 29.99, setupFee: 99.00, status: 'active' },
+    { id: '8', name: 'Central Department Store', category: 'ค้าปลีก', floor: 'L1', zoneArea: 'B', currentFee: 3.0, monthlyFee: 49.99, setupFee: 149.00, status: 'active' }
   ];
+
+  // Filter merchants based on search and filters
+  const filteredMerchants = merchants.filter(merchant => {
+    const matchesSearch = merchant.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || merchant.category === selectedCategory;
+    const matchesFloor = selectedFloor === 'all' || merchant.floor === selectedFloor;
+    const matchesZone = selectedZone === 'all' || merchant.zoneArea === selectedZone;
+    
+    return matchesSearch && matchesCategory && matchesFloor && matchesZone;
+  });
+
+  // Get unique values for filters
+  const categories = [...new Set(merchants.map(m => m.category))];
+  const floors = [...new Set(merchants.map(m => m.floor))];
+  const zones = [...new Set(merchants.map(m => m.zoneArea))];
 
   const handleMerchantSelect = (merchantId: string) => {
     setSelectedMerchants(prev => 
@@ -102,14 +127,104 @@ export default function MerchantFeeConfigModal({ isOpen, onClose }: MerchantFeeC
 
           <TabsContent value="select" className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium">เลือกร้านค้า</h3>
+              <h3 className="text-lg font-medium">เลือกร้านค้า ({filteredMerchants.length} จาก {merchants.length})</h3>
               <Button variant="outline" onClick={handleSelectAll}>
                 {selectedMerchants.length === merchants.length ? 'ยกเลิกทั้งหมด' : 'เลือกทั้งหมด'}
               </Button>
             </div>
 
+            {/* Search and Filter Section */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="space-y-4">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <Input
+                      placeholder="ค้นหาร้านค้า..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+
+                  {/* Filters */}
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium flex items-center gap-2">
+                        <Filter className="w-4 h-4" />
+                        หมวดหมู่
+                      </Label>
+                      <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="เลือกหมวดหมู่" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">ทั้งหมด</SelectItem>
+                          {categories.map(category => (
+                            <SelectItem key={category} value={category}>
+                              {category}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">ชั้น</Label>
+                      <Select value={selectedFloor} onValueChange={setSelectedFloor}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="เลือกชั้น" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">ทั้งหมด</SelectItem>
+                          {floors.map(floor => (
+                            <SelectItem key={floor} value={floor}>
+                              {floor}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">โซน</Label>
+                      <Select value={selectedZone} onValueChange={setSelectedZone}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="เลือกโซน" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">ทั้งหมด</SelectItem>
+                          {zones.map(zone => (
+                            <SelectItem key={zone} value={zone}>
+                              โซน {zone}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="flex items-end">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setSearchTerm('');
+                          setSelectedCategory('all');
+                          setSelectedFloor('all');
+                          setSelectedZone('all');
+                        }}
+                        className="w-full"
+                      >
+                        ล้างฟิลเตอร์
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <div className="space-y-3">
-              {merchants.map((merchant) => (
+              {filteredMerchants.map((merchant) => (
                 <Card key={merchant.id} className={`cursor-pointer transition-colors ${
                   selectedMerchants.includes(merchant.id) ? 'ring-2 ring-primary bg-primary/5' : ''
                 }`}>
@@ -126,6 +241,14 @@ export default function MerchantFeeConfigModal({ isOpen, onClose }: MerchantFeeC
                         <div>
                           <h4 className="font-medium">{merchant.name}</h4>
                           <p className="text-sm text-muted-foreground">{merchant.category}</p>
+                          <div className="flex gap-2 mt-1">
+                            <Badge variant="outline" className="text-xs">
+                              ชั้น {merchant.floor}
+                            </Badge>
+                            <Badge variant="outline" className="text-xs">
+                              โซน {merchant.zoneArea}
+                            </Badge>
+                          </div>
                         </div>
                       </div>
                       <div className="text-right space-y-1">
