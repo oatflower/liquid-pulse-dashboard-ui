@@ -12,6 +12,7 @@ import MerchantBulkUploadModal from '@/components/merchant/MerchantBulkUploadMod
 import MerchantKYMModal from '@/components/merchant/MerchantKYMModal';
 import MerchantManagementModal from '@/components/merchant/MerchantManagementModal';
 import MerchantFeeConfigModal from '@/components/merchant/MerchantFeeConfigModal';
+import MerchantFilterModal from '@/components/merchant/MerchantFilterModal';
 
 export default function MerchantManagement() {
   const { t } = useLanguage();
@@ -20,6 +21,7 @@ export default function MerchantManagement() {
   const [isKYMModalOpen, setIsKYMModalOpen] = useState(false);
   const [isManagementModalOpen, setIsManagementModalOpen] = useState(false);
   const [isFeeConfigModalOpen, setIsFeeConfigModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   
   const merchantStats = [
     { label: t.merchant.totalMerchants, value: '1,245', change: '+8.5%', color: 'text-blue-600' },
@@ -60,7 +62,7 @@ export default function MerchantManagement() {
             <Upload className="w-4 h-4 mr-2" />
             Bulk Upload
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => setIsFilterModalOpen(true)}>
             <Eye className="w-4 h-4 mr-2" />
             {t.merchant.viewAll}
           </Button>
@@ -286,6 +288,11 @@ export default function MerchantManagement() {
       <MerchantFeeConfigModal
         isOpen={isFeeConfigModalOpen}
         onClose={() => setIsFeeConfigModalOpen(false)}
+      />
+
+      <MerchantFilterModal
+        isOpen={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
       />
     </div>
   );
