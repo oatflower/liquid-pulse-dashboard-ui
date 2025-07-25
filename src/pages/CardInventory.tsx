@@ -65,9 +65,9 @@ export default function CardInventory() {
         </div>
 
       {/* Filter Section */}
-      <Card>
+      <Card className="w-full">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between w-full">
             <CardTitle className="text-lg">กรองข้อมูลบัตร</CardTitle>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
