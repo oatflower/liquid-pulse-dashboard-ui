@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import MerchantBulkUploadModal from '@/components/merchant/MerchantBulkUploadModal';
 import MerchantKYMModal from '@/components/merchant/MerchantKYMModal';
 import MerchantManagementModal from '@/components/merchant/MerchantManagementModal';
+import MerchantFeeConfigModal from '@/components/merchant/MerchantFeeConfigModal';
 
 export default function MerchantManagement() {
   const { t } = useLanguage();
@@ -18,6 +19,7 @@ export default function MerchantManagement() {
   const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
   const [isKYMModalOpen, setIsKYMModalOpen] = useState(false);
   const [isManagementModalOpen, setIsManagementModalOpen] = useState(false);
+  const [isFeeConfigModalOpen, setIsFeeConfigModalOpen] = useState(false);
   
   const merchantStats = [
     { label: t.merchant.totalMerchants, value: '1,245', change: '+8.5%', color: 'text-blue-600' },
@@ -214,7 +216,11 @@ export default function MerchantManagement() {
                   </div>
                 </div>
               </div>
-              <Button variant="outline" className="w-full">
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => setIsFeeConfigModalOpen(true)}
+              >
                 <Edit className="w-4 h-4 mr-2" />
                 {t.merchant.editFeeStructures}
               </Button>
@@ -275,6 +281,11 @@ export default function MerchantManagement() {
       <MerchantManagementModal
         isOpen={isManagementModalOpen}
         onClose={() => setIsManagementModalOpen(false)}
+      />
+
+      <MerchantFeeConfigModal
+        isOpen={isFeeConfigModalOpen}
+        onClose={() => setIsFeeConfigModalOpen(false)}
       />
     </div>
   );
