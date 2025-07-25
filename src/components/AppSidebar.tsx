@@ -70,23 +70,9 @@ const menuItems = [{
   }, {
     title: 'Card Status & Expiry',
     id: 'card-status'
-  }]
-}, {
-  title: 'Transaction Management',
-  icon: TrendingUp,
-  id: 'transactions',
-  items: [{
-    title: 'Real-Time Feed',
-    id: 'transaction-feed'
   }, {
-    title: 'Partial Redemption',
-    id: 'partial-redemption'
-  }, {
-    title: 'Reversal & Refund',
-    id: 'reversal-refund'
-  }, {
-    title: 'Dispute Handling',
-    id: 'dispute-handling'
+    title: 'Transaction Management',
+    id: 'transaction-management'
   }]
 }, {
   title: 'Merchant & Tenant',

@@ -6,9 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, Plus, AlertTriangle, CheckCircle, Clock, Filter, ArrowLeft } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Upload, Plus, AlertTriangle, CheckCircle, Clock, Filter, ArrowLeft, TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
+import TransactionManagement from '@/pages/TransactionManagement';
 
 interface Campaign {
   id: string;
@@ -28,6 +30,7 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
   const { t } = useLanguage();
   const { toast } = useToast();
   const [cardCategoryFilter, setCardCategoryFilter] = useState('all');
+  const [activeTab, setActiveTab] = useState('cards');
 
   // Helper function to calculate aggregated values for multiple campaigns
   const campaigns = Array.isArray(selectedCampaign) ? selectedCampaign : [selectedCampaign];
@@ -129,6 +132,17 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
           </Button>
         </div>
       </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="cards">Card Management</TabsTrigger>
+          <TabsTrigger value="transactions">
+            <TrendingUp className="w-4 h-4 mr-2" />
+            Transaction Management
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="cards" className="space-y-6">
 
       {/* Card Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -257,6 +271,12 @@ export default function CampaignDashboard({ selectedCampaign, onBack }: Campaign
           </CardContent>
         </Card>
       </div>
+        </TabsContent>
+
+        <TabsContent value="transactions">
+          <TransactionManagement />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
