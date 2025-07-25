@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Plus, Edit, Trash2, Eye } from 'lucide-react';
 import CampaignEditModal from './CampaignEditModal';
+import CampaignBulkEditModal from './CampaignBulkEditModal';
 
 interface Campaign {
   id: string;
@@ -16,7 +17,7 @@ interface Campaign {
 }
 
 interface CampaignSelectionProps {
-  onSelectCampaign: (campaign: Campaign) => void;
+  onSelectCampaign: (campaign: Campaign | Campaign[]) => void;
   onCreateNew: () => void;
   onEditCampaign: (campaign: Campaign) => void;
   onDeleteCampaign: (campaignId: string) => void;
@@ -32,6 +33,7 @@ export default function CampaignSelection({
   const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
+  const [isBulkEditModalOpen, setIsBulkEditModalOpen] = useState(false);
   
   const b2bCampaigns: Campaign[] = [
     { id: 'B2B-001', name: 'Corporate Rewards Q1 2024', type: 'B2B', cards: 25000, status: 'active', createdDate: '2024-01-15' },
@@ -78,12 +80,29 @@ export default function CampaignSelection({
   };
 
   const handleViewDashboard = () => {
-    if (selectedCampaigns.length === 1) {
-      const campaign = allCampaigns.find(c => c.id === selectedCampaigns[0]);
-      if (campaign) {
-        onSelectCampaign(campaign);
+    if (selectedCampaigns.length > 0) {
+      const campaigns = allCampaigns.filter(c => selectedCampaigns.includes(c.id));
+      if (selectedCampaigns.length === 1) {
+        onSelectCampaign(campaigns[0]);
+      } else {
+        onSelectCampaign(campaigns);
       }
     }
+  };
+
+  const handleBulkEdit = () => {
+    setIsBulkEditModalOpen(true);
+  };
+
+  const handleBulkSave = (campaignIds: string[], updates: Partial<Campaign>) => {
+    // Handle bulk update logic here
+    campaignIds.forEach(id => {
+      const campaign = allCampaigns.find(c => c.id === id);
+      if (campaign) {
+        onEditCampaign({ ...campaign, ...updates });
+      }
+    });
+    setIsBulkEditModalOpen(false);
   };
 
   const handleSaveEdit = (updatedCampaign: Campaign) => {
@@ -159,13 +178,11 @@ export default function CampaignSelection({
             </div>
             {selectedCampaigns.length > 0 && (
               <div className="flex gap-2">
-                {selectedCampaigns.length === 1 && (
-                  <Button size="sm" onClick={handleViewDashboard}>
-                    <Eye className="w-4 h-4 mr-2" />
-                    ดู Dashboard
-                  </Button>
-                )}
-                <Button size="sm" variant="outline">
+                <Button size="sm" onClick={handleViewDashboard}>
+                  <Eye className="w-4 h-4 mr-2" />
+                  ดู Dashboard ({selectedCampaigns.length})
+                </Button>
+                <Button size="sm" variant="outline" onClick={handleBulkEdit}>
                   <Edit className="w-4 h-4 mr-2" />
                   แก้ไขแบบกลุ่ม ({selectedCampaigns.length})
                 </Button>
@@ -245,6 +262,14 @@ export default function CampaignSelection({
           onSave={handleSaveEdit}
         />
       )}
+
+      {/* Bulk Edit Modal */}
+      <CampaignBulkEditModal
+        campaigns={allCampaigns.filter(c => selectedCampaigns.includes(c.id))}
+        isOpen={isBulkEditModalOpen}
+        onClose={() => setIsBulkEditModalOpen(false)}
+        onSave={handleBulkSave}
+      />
     </div>
   );
 }
