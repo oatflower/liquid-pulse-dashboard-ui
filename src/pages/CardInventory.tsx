@@ -316,10 +316,7 @@ export default function CardInventory() {
                   <AlertTriangle className="w-4 h-4 mr-2" />
                   {t.cardInventory.sendExpiryNotifications}
                 </Button>
-                <Button variant="outline" className="w-full">
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  {t.cardInventory.recallExpiredCards}
-                </Button>
+                
               </div>
             </div>
           </CardContent>
