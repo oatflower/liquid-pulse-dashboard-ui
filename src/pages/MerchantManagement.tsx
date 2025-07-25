@@ -190,41 +190,41 @@ export default function MerchantManagement() {
             </div>
           </CardContent>
         </Card>
-      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{t.merchant.topPerformingMerchants}</CardTitle>
-          <CardDescription>{t.merchant.topPerformingMerchantsDesc}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {topMerchants.map((merchant, index) => <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <Store className="w-5 h-5 text-white" />
+        <Card>
+          <CardHeader>
+            <CardTitle>ร้านค้าขายดี</CardTitle>
+            <CardDescription>{t.merchant.topPerformingMerchantsDesc}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {topMerchants.map((merchant, index) => <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                      <Store className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium">{merchant.name}</h4>
+                      <p className="text-sm text-muted-foreground">{merchant.transactions.toLocaleString()} {t.merchant.transactions}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-medium">{merchant.name}</h4>
-                    <p className="text-sm text-muted-foreground">{merchant.transactions.toLocaleString()} {t.merchant.transactions}</p>
+                  <div className="flex items-center gap-6">
+                    <div className="text-right">
+                      <p className="font-medium">${merchant.revenue.toLocaleString()}</p>
+                      <p className="text-sm text-muted-foreground">{t.merchant.revenue}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium text-green-600">+{merchant.growth}%</p>
+                      <p className="text-sm text-muted-foreground">{t.merchant.growth}</p>
+                    </div>
+                    <Badge variant="outline" className="text-green-600">{t.merchant.active}</Badge>
+                    
                   </div>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="text-right">
-                    <p className="font-medium">${merchant.revenue.toLocaleString()}</p>
-                    <p className="text-sm text-muted-foreground">{t.merchant.revenue}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium text-green-600">+{merchant.growth}%</p>
-                    <p className="text-sm text-muted-foreground">{t.merchant.growth}</p>
-                  </div>
-                  <Badge variant="outline" className="text-green-600">{t.merchant.active}</Badge>
-                  
-                </div>
-              </div>)}
-          </div>
-        </CardContent>
-      </Card>
+                </div>)}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
