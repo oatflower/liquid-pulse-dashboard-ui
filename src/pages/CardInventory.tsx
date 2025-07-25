@@ -1,385 +1,84 @@
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { Progress } from '@/components/ui/progress';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CreditCard, Upload, Plus, AlertTriangle, CheckCircle, Clock, Filter } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import CampaignSelection from '@/components/campaign/CampaignSelection';
+import CampaignCreation from '@/components/campaign/CampaignCreation';
+import CampaignDashboard from '@/components/campaign/CampaignDashboard';
 import { useToast } from '@/hooks/use-toast';
+
+interface Campaign {
+  id: string;
+  name: string;
+  type: 'B2B' | 'B2C';
+  cards: number;
+  status: 'active' | 'pending' | 'completed';
+  createdDate: string;
+}
+
+type ViewState = 'selection' | 'creation' | 'dashboard';
+
 export default function CardInventory() {
-  const {
-    t
-  } = useLanguage();
-  const {
-    toast
-  } = useToast();
-  const [cardTypeFilter, setCardTypeFilter] = useState('all');
-  const [cardCategoryFilter, setCardCategoryFilter] = useState('all');
-  const handleBulkUpload = () => {
+  const { toast } = useToast();
+  const [currentView, setCurrentView] = useState<ViewState>('selection');
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+
+  const handleSelectCampaign = (campaign: Campaign) => {
+    setSelectedCampaign(campaign);
+    setCurrentView('dashboard');
+  };
+
+  const handleCreateNew = () => {
+    setCurrentView('creation');
+  };
+
+  const handleEditCampaign = (campaign: Campaign) => {
     toast({
-      title: "Bulk Upload",
-      description: "เปิดหน้าต่างสำหรับอัพโหลดไฟล์จำนวนมาก"
+      title: "Edit Campaign",
+      description: `แก้ไข campaign: ${campaign.name}`
     });
   };
-  const handleNewBatch = () => {
-    window.location.href = '/add-card-one-by-one';
+
+  const handleDeleteCampaign = (campaignId: string) => {
+    toast({
+      title: "Delete Campaign",
+      description: `ลบ campaign: ${campaignId}`,
+      variant: "destructive"
+    });
   };
-  const cardStats = [{
-    label: t.cardInventory.totalCardsIssued,
-    value: '125,420',
-    change: '+12.5%',
-    color: 'text-blue-600'
-  }, {
-    label: t.cardInventory.activeCards,
-    value: '98,350',
-    change: '+8.2%',
-    color: 'text-green-600'
-  }, {
-    label: t.cardInventory.expiredCards,
-    value: '15,240',
-    change: '+2.1%',
-    color: 'text-red-600'
-  }, {
-    label: t.cardInventory.pendingActivation,
-    value: '11,830',
-    change: '-5.3%',
-    color: 'text-yellow-600'
-  }];
-  const recentBatches = [{
-    id: 'BATCH-001',
-    campaign: 'Holiday Campaign 2024',
-    amount: 50000,
-    status: 'completed',
-    date: '2024-01-15'
-  }, {
-    id: 'BATCH-002',
-    campaign: 'Corporate Rewards Q1',
-    amount: 25000,
-    status: 'processing',
-    date: '2024-01-14'
-  }, {
-    id: 'BATCH-003',
-    campaign: 'Employee Benefits',
-    amount: 15000,
-    status: 'pending',
-    date: '2024-01-13'
-  }];
-  const cardTypes = [{
-    type: t.cardInventory.physicalCards,
-    issued: 45000,
-    active: 42000,
-    expired: 3000
-  }, {
-    type: t.cardInventory.eGiftCards,
-    issued: 65000,
-    active: 58000,
-    expired: 7000
-  }, {
-    type: t.cardInventory.corporateCards,
-    issued: 15420,
-    active: 14200,
-    expired: 1220
-  }];
-  return <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Card & Campaign</h1>
-          <p className="text-muted-foreground">{t.cardInventory.subtitle}</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={handleBulkUpload}>
-            <Upload className="w-4 h-4 mr-2" />
-            {t.cardInventory.bulkUpload}
-          </Button>
-          <Button onClick={handleNewBatch}>
-            <Plus className="w-4 h-4 mr-2" />
-            {t.cardInventory.newBatch}
-          </Button>
-        </div>
 
-      </div>
+  const handleSaveCampaign = (campaignData: any) => {
+    // Here you would typically save to your backend
+    console.log('Saving campaign:', campaignData);
+    setCurrentView('selection');
+  };
 
-      {/* Campaign Selection Section */}
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle className="text-lg">เลือก Campaign</CardTitle>
-          <CardDescription>เลือก campaign เพื่อดูข้อมูลบัตรตาม campaign ที่เลือก</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* B2B Campaigns */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold">B2B Campaigns</h3>
-              <div className="space-y-2">
-                {[
-                  { id: 'B2B-001', name: 'Corporate Rewards Q1 2024', cards: 25000, status: 'active' },
-                  { id: 'B2B-002', name: 'Employee Benefits Program', cards: 15000, status: 'active' },
-                  { id: 'B2B-003', name: 'Partner Incentive Campaign', cards: 8500, status: 'pending' }
-                ].map(campaign => (
-                  <div key={campaign.id} className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">{campaign.name}</p>
-                        <p className="text-sm text-muted-foreground">{campaign.id} • {campaign.cards.toLocaleString()} cards</p>
-                      </div>
-                      <Badge variant={campaign.status === 'active' ? 'default' : 'secondary'}>
-                        {campaign.status}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+  const handleBackToSelection = () => {
+    setCurrentView('selection');
+    setSelectedCampaign(null);
+  };
 
-            {/* B2C Campaigns */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold">B2C Campaigns</h3>
-              <div className="space-y-2">
-                {[
-                  { id: 'B2C-001', name: 'Holiday Campaign 2024', cards: 50000, status: 'active' },
-                  { id: 'B2C-002', name: 'Summer Promotion', cards: 35000, status: 'completed' },
-                  { id: 'B2C-003', name: 'New Year Special', cards: 20000, status: 'pending' }
-                ].map(campaign => (
-                  <div key={campaign.id} className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">{campaign.name}</p>
-                        <p className="text-sm text-muted-foreground">{campaign.id} • {campaign.cards.toLocaleString()} cards</p>
-                      </div>
-                      <Badge variant={campaign.status === 'active' ? 'default' : campaign.status === 'completed' ? 'secondary' : 'outline'}>
-                        {campaign.status}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+  if (currentView === 'creation') {
+    return (
+      <CampaignCreation
+        onBack={handleBackToSelection}
+        onSave={handleSaveCampaign}
+      />
+    );
+  }
 
-      {/* Combined Card Management Section */}
-      <Card className="w-full">
-        {/* Filter Section */}
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between w-full">
-            <CardTitle className="text-lg">กรองข้อมูลบัตร</CardTitle>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-muted-foreground" />
-                <Select value={cardCategoryFilter} onValueChange={setCardCategoryFilter}>
-                  <SelectTrigger className="w-[200px] bg-background border-border">
-                    <SelectValue placeholder="เลือกประเภทผู้ใช้" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-background border-border shadow-lg z-50">
-                    <SelectItem value="all">ทุกประเภท</SelectItem>
-                    <SelectItem value="personal">1. Personal User</SelectItem>
-                    <SelectItem value="personal-physical">1.1 Personal - Physical Card</SelectItem>
-                    <SelectItem value="personal-egift">1.2 Personal - E-Gift Card</SelectItem>
-                    <SelectItem value="corporate">2. Corporate Card</SelectItem>
-                    <SelectItem value="corporate-physical">2.1 Corporate - Physical Card</SelectItem>
-                    <SelectItem value="corporate-egift">2.2 Corporate - E-Gift Card</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button variant="outline" size="sm" onClick={() => {
-              setCardCategoryFilter('all');
-              setCardTypeFilter('all');
-            }}>
-                Clear Filters
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
+  if (currentView === 'dashboard' && selectedCampaign) {
+    return (
+      <CampaignDashboard
+        selectedCampaign={selectedCampaign}
+        onBack={handleBackToSelection}
+      />
+    );
+  }
 
-        <CardContent className="space-y-6">
-          {/* Card Statistics Section */}
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold">สถิติการ์ด</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {cardStats.map(stat => <Card key={stat.label} className="border-muted">
-                  <CardHeader className="pb-3">
-                    <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-semibold">{stat.value}</div>
-                    <div className={`text-sm ${stat.color}`}>{stat.change}</div>
-                  </CardContent>
-                </Card>)}
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* Card Type Distribution Section */}
-          <div className="space-y-3">
-            <div>
-              <h3 className="text-lg font-semibold">{t.cardInventory.cardTypeDistribution}</h3>
-              <p className="text-sm text-muted-foreground">{t.cardInventory.cardTypeDistributionDesc}</p>
-            </div>
-            <div className="space-y-6">
-              {cardTypes.filter(card => {
-              if (cardCategoryFilter === 'all') return true;
-
-              // Filter by main category
-              if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
-                if (card.type === t.cardInventory.corporateCards) return false;
-              }
-              if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
-                if (card.type !== t.cardInventory.corporateCards) return false;
-              }
-
-              // Filter by sub-category
-              if (cardCategoryFilter.endsWith('-physical')) {
-                if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
-              }
-              if (cardCategoryFilter.endsWith('-egift')) {
-                if (card.type !== t.cardInventory.eGiftCards) return false;
-              }
-              return true;
-            }).map(card => <div key={card.type} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-medium">{card.type}</h4>
-                    <span className="text-sm text-muted-foreground">{card.issued.toLocaleString()} {t.cardInventory.total}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span>{t.cardInventory.active}: {card.active.toLocaleString()}</span>
-                      <span>{t.cardInventory.expired}: {card.expired.toLocaleString()}</span>
-                    </div>
-                    <Progress value={card.active / card.issued * 100} className="h-2" />
-                  </div>
-                </div>)}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t.cardInventory.corporateGeneration}</CardTitle>
-            <CardDescription>{t.cardInventory.corporateGenerationDesc}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t.cardInventory.campaignName}</label>
-                <Input placeholder={t.cardInventory.enterCampaignName} />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t.cardInventory.batchAmount}</label>
-                  <Input type="number" placeholder="10,000" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t.cardInventory.cardValue}</label>
-                  <Input type="number" placeholder="500" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t.cardInventory.whitelistUpload}</label>
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                  <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">{t.cardInventory.dropCsvFile}</p>
-                </div>
-              </div>
-              <Button className="w-full">{t.cardInventory.generateBatch}</Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Campaign ล่าสุด</CardTitle>
-            
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentBatches.map(batch => <div key={batch.id} className="flex items-center justify-between p-3 border rounded-lg">
-                  <div>
-                    <p className="font-medium">{batch.campaign}</p>
-                    <p className="text-sm text-muted-foreground">{batch.id} • {batch.amount.toLocaleString()} {t.cardInventory.cards}</p>
-                    <p className="text-xs text-muted-foreground">{batch.date}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {batch.status === 'completed' && <CheckCircle className="w-4 h-4 text-green-600" />}
-                    {batch.status === 'processing' && <Clock className="w-4 h-4 text-yellow-600" />}
-                    {batch.status === 'pending' && <AlertTriangle className="w-4 h-4 text-red-600" />}
-                    <Badge variant={batch.status === 'completed' ? 'default' : batch.status === 'processing' ? 'secondary' : 'destructive'}>
-                      {batch.status === 'completed' ? t.cardInventory.completed : batch.status === 'processing' ? t.cardInventory.processing : t.cardInventory.pending}
-                    </Badge>
-                  </div>
-                </div>)}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t.cardInventory.topUpReloadControls}</CardTitle>
-            <CardDescription>{t.cardInventory.topUpReloadControlsDesc}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                <div>
-                  <p className="font-medium">{t.cardInventory.autoTopUp}</p>
-                  <p className="text-sm text-muted-foreground">{t.cardInventory.autoTopUpDesc}</p>
-                </div>
-                <Badge variant="outline" className="text-green-600">{t.cardInventory.enabled}</Badge>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                <div>
-                  <p className="font-medium">{t.cardInventory.manualReload}</p>
-                  <p className="text-sm text-muted-foreground">{t.cardInventory.manualReloadDesc}</p>
-                </div>
-                <Badge variant="outline" className="text-green-600">{t.cardInventory.enabled}</Badge>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                <div>
-                  <p className="font-medium">{t.cardInventory.corporateReload}</p>
-                  <p className="text-sm text-muted-foreground">{t.cardInventory.corporateReloadDesc}</p>
-                </div>
-                <Badge variant="outline" className="text-green-600">{t.cardInventory.enabled}</Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{t.cardInventory.expiryManagement}</CardTitle>
-            <CardDescription>{t.cardInventory.expiryManagementDesc}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-3 bg-muted/50 rounded-lg text-center">
-                  <p className="text-2xl font-semibold text-yellow-600">2,450</p>
-                  <p className="text-sm text-muted-foreground">{t.cardInventory.expiringSoon}</p>
-                </div>
-                <div className="p-3 bg-muted/50 rounded-lg text-center">
-                  <p className="text-2xl font-semibold text-red-600">890</p>
-                  <p className="text-sm text-muted-foreground">{t.cardInventory.expiredToday}</p>
-                </div>
-              </div>
-              <Separator />
-              <div className="space-y-2">
-                <Button variant="outline" className="w-full">
-                  <AlertTriangle className="w-4 h-4 mr-2" />
-                  {t.cardInventory.sendExpiryNotifications}
-                </Button>
-                
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>;
+  return (
+    <CampaignSelection
+      onSelectCampaign={handleSelectCampaign}
+      onCreateNew={handleCreateNew}
+      onEditCampaign={handleEditCampaign}
+      onDeleteCampaign={handleDeleteCampaign}
+    />
+  );
 }
