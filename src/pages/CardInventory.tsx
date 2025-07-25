@@ -114,69 +114,6 @@ export default function CardInventory() {
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t.cardInventory.corporateGeneration}</CardTitle>
-            <CardDescription>{t.cardInventory.corporateGenerationDesc}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t.cardInventory.campaignName}</label>
-                <Input placeholder={t.cardInventory.enterCampaignName} />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t.cardInventory.batchAmount}</label>
-                  <Input type="number" placeholder="10,000" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t.cardInventory.cardValue}</label>
-                  <Input type="number" placeholder="500" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t.cardInventory.whitelistUpload}</label>
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                  <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">{t.cardInventory.dropCsvFile}</p>
-                </div>
-              </div>
-              <Button className="w-full">{t.cardInventory.generateBatch}</Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{t.cardInventory.recentBatches}</CardTitle>
-            <CardDescription>{t.cardInventory.recentBatchesDesc}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentBatches.map((batch) => (
-                <div key={batch.id} className="flex items-center justify-between p-3 border rounded-lg">
-                  <div>
-                    <p className="font-medium">{batch.campaign}</p>
-                    <p className="text-sm text-muted-foreground">{batch.id} • {batch.amount.toLocaleString()} {t.cardInventory.cards}</p>
-                    <p className="text-xs text-muted-foreground">{batch.date}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {batch.status === 'completed' && <CheckCircle className="w-4 h-4 text-green-600" />}
-                    {batch.status === 'processing' && <Clock className="w-4 h-4 text-yellow-600" />}
-                    {batch.status === 'pending' && <AlertTriangle className="w-4 h-4 text-red-600" />}
-                    <Badge variant={batch.status === 'completed' ? 'default' : batch.status === 'processing' ? 'secondary' : 'destructive'}>
-                      {batch.status === 'completed' ? t.cardInventory.completed : batch.status === 'processing' ? t.cardInventory.processing : t.cardInventory.pending}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -251,6 +188,69 @@ export default function CardInventory() {
           </div>
         </CardContent>
       </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.cardInventory.corporateGeneration}</CardTitle>
+            <CardDescription>{t.cardInventory.corporateGenerationDesc}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">{t.cardInventory.campaignName}</label>
+                <Input placeholder={t.cardInventory.enterCampaignName} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">{t.cardInventory.batchAmount}</label>
+                  <Input type="number" placeholder="10,000" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">{t.cardInventory.cardValue}</label>
+                  <Input type="number" placeholder="500" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">{t.cardInventory.whitelistUpload}</label>
+                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+                  <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground">{t.cardInventory.dropCsvFile}</p>
+                </div>
+              </div>
+              <Button className="w-full">{t.cardInventory.generateBatch}</Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.cardInventory.recentBatches}</CardTitle>
+            <CardDescription>{t.cardInventory.recentBatchesDesc}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentBatches.map((batch) => (
+                <div key={batch.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">{batch.campaign}</p>
+                    <p className="text-sm text-muted-foreground">{batch.id} • {batch.amount.toLocaleString()} {t.cardInventory.cards}</p>
+                    <p className="text-xs text-muted-foreground">{batch.date}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {batch.status === 'completed' && <CheckCircle className="w-4 h-4 text-green-600" />}
+                    {batch.status === 'processing' && <Clock className="w-4 h-4 text-yellow-600" />}
+                    {batch.status === 'pending' && <AlertTriangle className="w-4 h-4 text-red-600" />}
+                    <Badge variant={batch.status === 'completed' ? 'default' : batch.status === 'processing' ? 'secondary' : 'destructive'}>
+                      {batch.status === 'completed' ? t.cardInventory.completed : batch.status === 'processing' ? t.cardInventory.processing : t.cardInventory.pending}
+                    </Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
