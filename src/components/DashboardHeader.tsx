@@ -16,14 +16,6 @@ export function DashboardHeader() {
   return (
     <div className="border-b border-border/30 bg-card/50 backdrop-blur-sm p-8">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <SidebarTrigger className="hover:bg-muted/50 rounded-lg p-2 transition-colors" />
-          <div className="h-8 w-px bg-border/30" />
-          <div className="space-y-1">
-            <h1 className="text-3xl font-light text-foreground tracking-tight">{t.dashboard.title}</h1>
-            <p className="text-muted-foreground">{t.dashboard.subtitle}</p>
-          </div>
-        </div>
         
         <div className="flex items-center gap-4">
           <div className="relative">
