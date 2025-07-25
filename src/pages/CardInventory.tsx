@@ -1,16 +1,19 @@
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
-import { CreditCard, Upload, Plus, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { CreditCard, Upload, Plus, AlertTriangle, CheckCircle, Clock, Filter } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 
 export default function CardInventory() {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const [cardTypeFilter, setCardTypeFilter] = useState('all');
 
   const handleBulkUpload = () => {
     toast({
@@ -140,12 +143,38 @@ export default function CardInventory() {
 
       <Card>
         <CardHeader>
-            <CardTitle>{t.cardInventory.cardTypeDistribution}</CardTitle>
-            <CardDescription>{t.cardInventory.cardTypeDistributionDesc}</CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>{t.cardInventory.cardTypeDistribution}</CardTitle>
+              <CardDescription>{t.cardInventory.cardTypeDistributionDesc}</CardDescription>
+            </div>
+            <div className="flex items-center gap-2">
+              <Filter className="w-4 h-4 text-muted-foreground" />
+              <Select value={cardTypeFilter} onValueChange={setCardTypeFilter}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="กรองประเภทบัตร" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">ทุกประเภท</SelectItem>
+                  <SelectItem value="physical">Physical Gift Card</SelectItem>
+                  <SelectItem value="egift">E-Gift Card</SelectItem>
+                  <SelectItem value="corporate">Corporate Card</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {cardTypes.map((card) => (
+            {cardTypes
+              .filter(card => {
+                if (cardTypeFilter === 'all') return true;
+                if (cardTypeFilter === 'physical') return card.type === t.cardInventory.physicalCards;
+                if (cardTypeFilter === 'egift') return card.type === t.cardInventory.eGiftCards;
+                if (cardTypeFilter === 'corporate') return card.type === t.cardInventory.corporateCards;
+                return true;
+              })
+              .map((card) => (
               <div key={card.type} className="space-y-2">
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium">{card.type}</h4>
