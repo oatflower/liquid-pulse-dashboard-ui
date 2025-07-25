@@ -64,6 +64,22 @@ export default function CardInventory() {
           </Button>
         </div>
 
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {cardStats.map((stat) => (
+          <Card key={stat.label}>
+            <CardHeader className="pb-3">
+              <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-semibold">{stat.value}</div>
+              <div className={`text-sm ${stat.color}`}>{stat.change}</div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
       {/* Filter Section */}
       <Card className="w-full">
         <CardHeader className="pb-3">
@@ -97,21 +113,6 @@ export default function CardInventory() {
           </div>
         </CardHeader>
       </Card>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {cardStats.map((stat) => (
-          <Card key={stat.label}>
-            <CardHeader className="pb-3">
-              <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-semibold">{stat.value}</div>
-              <div className={`text-sm ${stat.color}`}>{stat.change}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
