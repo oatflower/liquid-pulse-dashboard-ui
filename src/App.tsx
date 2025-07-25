@@ -11,6 +11,8 @@ import TransactionRuleConfiguration from "./pages/TransactionRuleConfiguration";
 import { MerchantSpendingDetails } from "./pages/MerchantSpendingDetails";
 import UserProfile from "./pages/UserProfile";
 import AccountManagement from "./pages/AccountManagement";
+import CampaignManagement from "./pages/CampaignManagement";
+import CardInventory from "./pages/CardInventory";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +27,8 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/campaign-management" element={<CampaignManagement />} />
+              <Route path="/card-inventory" element={<CardInventory />} />
               <Route path="/add-card-one-by-one" element={<AddCardOneByOne />} />
           <Route path="/transaction-rule-configuration" element={<TransactionRuleConfiguration />} />
           <Route path="/merchant-spending-details" element={<MerchantSpendingDetails />} />
