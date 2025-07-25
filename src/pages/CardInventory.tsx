@@ -9,45 +9,81 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CreditCard, Upload, Plus, AlertTriangle, CheckCircle, Clock, Filter } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
-
 export default function CardInventory() {
-  const { t } = useLanguage();
-  const { toast } = useToast();
+  const {
+    t
+  } = useLanguage();
+  const {
+    toast
+  } = useToast();
   const [cardTypeFilter, setCardTypeFilter] = useState('all');
   const [cardCategoryFilter, setCardCategoryFilter] = useState('all');
-
   const handleBulkUpload = () => {
     toast({
       title: "Bulk Upload",
-      description: "เปิดหน้าต่างสำหรับอัพโหลดไฟล์จำนวนมาก",
+      description: "เปิดหน้าต่างสำหรับอัพโหลดไฟล์จำนวนมาก"
     });
   };
-
   const handleNewBatch = () => {
     window.location.href = '/add-card-one-by-one';
   };
-  
-  const cardStats = [
-    { label: t.cardInventory.totalCardsIssued, value: '125,420', change: '+12.5%', color: 'text-blue-600' },
-    { label: t.cardInventory.activeCards, value: '98,350', change: '+8.2%', color: 'text-green-600' },
-    { label: t.cardInventory.expiredCards, value: '15,240', change: '+2.1%', color: 'text-red-600' },
-    { label: t.cardInventory.pendingActivation, value: '11,830', change: '-5.3%', color: 'text-yellow-600' },
-  ];
-
-  const recentBatches = [
-    { id: 'BATCH-001', campaign: 'Holiday Campaign 2024', amount: 50000, status: 'completed', date: '2024-01-15' },
-    { id: 'BATCH-002', campaign: 'Corporate Rewards Q1', amount: 25000, status: 'processing', date: '2024-01-14' },
-    { id: 'BATCH-003', campaign: 'Employee Benefits', amount: 15000, status: 'pending', date: '2024-01-13' },
-  ];
-
-  const cardTypes = [
-    { type: t.cardInventory.physicalCards, issued: 45000, active: 42000, expired: 3000 },
-    { type: t.cardInventory.eGiftCards, issued: 65000, active: 58000, expired: 7000 },
-    { type: t.cardInventory.corporateCards, issued: 15420, active: 14200, expired: 1220 },
-  ];
-
-  return (
-    <div className="space-y-6">
+  const cardStats = [{
+    label: t.cardInventory.totalCardsIssued,
+    value: '125,420',
+    change: '+12.5%',
+    color: 'text-blue-600'
+  }, {
+    label: t.cardInventory.activeCards,
+    value: '98,350',
+    change: '+8.2%',
+    color: 'text-green-600'
+  }, {
+    label: t.cardInventory.expiredCards,
+    value: '15,240',
+    change: '+2.1%',
+    color: 'text-red-600'
+  }, {
+    label: t.cardInventory.pendingActivation,
+    value: '11,830',
+    change: '-5.3%',
+    color: 'text-yellow-600'
+  }];
+  const recentBatches = [{
+    id: 'BATCH-001',
+    campaign: 'Holiday Campaign 2024',
+    amount: 50000,
+    status: 'completed',
+    date: '2024-01-15'
+  }, {
+    id: 'BATCH-002',
+    campaign: 'Corporate Rewards Q1',
+    amount: 25000,
+    status: 'processing',
+    date: '2024-01-14'
+  }, {
+    id: 'BATCH-003',
+    campaign: 'Employee Benefits',
+    amount: 15000,
+    status: 'pending',
+    date: '2024-01-13'
+  }];
+  const cardTypes = [{
+    type: t.cardInventory.physicalCards,
+    issued: 45000,
+    active: 42000,
+    expired: 3000
+  }, {
+    type: t.cardInventory.eGiftCards,
+    issued: 65000,
+    active: 58000,
+    expired: 7000
+  }, {
+    type: t.cardInventory.corporateCards,
+    issued: 15420,
+    active: 14200,
+    expired: 1220
+  }];
+  return <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">{t.cardInventory.title}</h1>
@@ -91,9 +127,9 @@ export default function CardInventory() {
                 </Select>
               </div>
               <Button variant="outline" size="sm" onClick={() => {
-                setCardCategoryFilter('all');
-                setCardTypeFilter('all');
-              }}>
+              setCardCategoryFilter('all');
+              setCardTypeFilter('all');
+            }}>
                 Clear Filters
               </Button>
             </div>
@@ -105,8 +141,7 @@ export default function CardInventory() {
           <div className="space-y-3">
             <h3 className="text-lg font-semibold">สถิติการ์ด</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {cardStats.map((stat) => (
-                <Card key={stat.label} className="border-muted">
+              {cardStats.map(stat => <Card key={stat.label} className="border-muted">
                   <CardHeader className="pb-3">
                     <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
                   </CardHeader>
@@ -114,8 +149,7 @@ export default function CardInventory() {
                     <div className="text-2xl font-semibold">{stat.value}</div>
                     <div className={`text-sm ${stat.color}`}>{stat.change}</div>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
 
@@ -128,30 +162,26 @@ export default function CardInventory() {
               <p className="text-sm text-muted-foreground">{t.cardInventory.cardTypeDistributionDesc}</p>
             </div>
             <div className="space-y-6">
-              {cardTypes
-                .filter(card => {
-                  if (cardCategoryFilter === 'all') return true;
-                  
-                  // Filter by main category
-                  if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
-                    if (card.type === t.cardInventory.corporateCards) return false;
-                  }
-                  if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
-                    if (card.type !== t.cardInventory.corporateCards) return false;
-                  }
-                  
-                  // Filter by sub-category
-                  if (cardCategoryFilter.endsWith('-physical')) {
-                    if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
-                  }
-                  if (cardCategoryFilter.endsWith('-egift')) {
-                    if (card.type !== t.cardInventory.eGiftCards) return false;
-                  }
-                  
-                  return true;
-                })
-                .map((card) => (
-                <div key={card.type} className="space-y-2">
+              {cardTypes.filter(card => {
+              if (cardCategoryFilter === 'all') return true;
+
+              // Filter by main category
+              if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
+                if (card.type === t.cardInventory.corporateCards) return false;
+              }
+              if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
+                if (card.type !== t.cardInventory.corporateCards) return false;
+              }
+
+              // Filter by sub-category
+              if (cardCategoryFilter.endsWith('-physical')) {
+                if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
+              }
+              if (cardCategoryFilter.endsWith('-egift')) {
+                if (card.type !== t.cardInventory.eGiftCards) return false;
+              }
+              return true;
+            }).map(card => <div key={card.type} className="space-y-2">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium">{card.type}</h4>
                     <span className="text-sm text-muted-foreground">{card.issued.toLocaleString()} {t.cardInventory.total}</span>
@@ -161,10 +191,9 @@ export default function CardInventory() {
                       <span>{t.cardInventory.active}: {card.active.toLocaleString()}</span>
                       <span>{t.cardInventory.expired}: {card.expired.toLocaleString()}</span>
                     </div>
-                    <Progress value={(card.active / card.issued) * 100} className="h-2" />
+                    <Progress value={card.active / card.issued * 100} className="h-2" />
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </CardContent>
@@ -207,12 +236,11 @@ export default function CardInventory() {
         <Card>
           <CardHeader>
             <CardTitle>{t.cardInventory.recentBatches}</CardTitle>
-            <CardDescription>{t.cardInventory.recentBatchesDesc}</CardDescription>
+            
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {recentBatches.map((batch) => (
-                <div key={batch.id} className="flex items-center justify-between p-3 border rounded-lg">
+              {recentBatches.map(batch => <div key={batch.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
                     <p className="font-medium">{batch.campaign}</p>
                     <p className="text-sm text-muted-foreground">{batch.id} • {batch.amount.toLocaleString()} {t.cardInventory.cards}</p>
@@ -226,8 +254,7 @@ export default function CardInventory() {
                       {batch.status === 'completed' ? t.cardInventory.completed : batch.status === 'processing' ? t.cardInventory.processing : t.cardInventory.pending}
                     </Badge>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
@@ -298,6 +325,5 @@ export default function CardInventory() {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 }
