@@ -102,6 +102,65 @@ export default function CardInventory() {
 
       </div>
 
+      {/* Campaign Selection Section */}
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="text-lg">เลือก Campaign</CardTitle>
+          <CardDescription>เลือก campaign เพื่อดูข้อมูลบัตรตาม campaign ที่เลือก</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* B2B Campaigns */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold">B2B Campaigns</h3>
+              <div className="space-y-2">
+                {[
+                  { id: 'B2B-001', name: 'Corporate Rewards Q1 2024', cards: 25000, status: 'active' },
+                  { id: 'B2B-002', name: 'Employee Benefits Program', cards: 15000, status: 'active' },
+                  { id: 'B2B-003', name: 'Partner Incentive Campaign', cards: 8500, status: 'pending' }
+                ].map(campaign => (
+                  <div key={campaign.id} className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">{campaign.name}</p>
+                        <p className="text-sm text-muted-foreground">{campaign.id} • {campaign.cards.toLocaleString()} cards</p>
+                      </div>
+                      <Badge variant={campaign.status === 'active' ? 'default' : 'secondary'}>
+                        {campaign.status}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* B2C Campaigns */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold">B2C Campaigns</h3>
+              <div className="space-y-2">
+                {[
+                  { id: 'B2C-001', name: 'Holiday Campaign 2024', cards: 50000, status: 'active' },
+                  { id: 'B2C-002', name: 'Summer Promotion', cards: 35000, status: 'completed' },
+                  { id: 'B2C-003', name: 'New Year Special', cards: 20000, status: 'pending' }
+                ].map(campaign => (
+                  <div key={campaign.id} className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">{campaign.name}</p>
+                        <p className="text-sm text-muted-foreground">{campaign.id} • {campaign.cards.toLocaleString()} cards</p>
+                      </div>
+                      <Badge variant={campaign.status === 'active' ? 'default' : campaign.status === 'completed' ? 'secondary' : 'outline'}>
+                        {campaign.status}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Combined Card Management Section */}
       <Card className="w-full">
         {/* Filter Section */}
