@@ -14,6 +14,7 @@ export default function CardInventory() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [cardTypeFilter, setCardTypeFilter] = useState('all');
+  const [cardCategoryFilter, setCardCategoryFilter] = useState('all');
 
   const handleBulkUpload = () => {
     toast({
@@ -45,6 +46,20 @@ export default function CardInventory() {
     { type: t.cardInventory.corporateCards, issued: 15420, active: 14200, expired: 1220 },
   ];
 
+  const filteredCardStats = cardStats.filter((stat, index) => {
+    if (cardCategoryFilter === 'all') return true;
+    
+    // Filter logic based on category
+    if (cardCategoryFilter === 'personal') return index <= 1; // Show first 2 stats for personal
+    if (cardCategoryFilter === 'personal-physical') return index === 0;
+    if (cardCategoryFilter === 'personal-egift') return index === 1;
+    if (cardCategoryFilter === 'corporate') return index >= 2; // Show last 2 stats for corporate
+    if (cardCategoryFilter === 'corporate-physical') return index === 2;
+    if (cardCategoryFilter === 'corporate-egift') return index === 3;
+    
+    return true;
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -62,10 +77,44 @@ export default function CardInventory() {
             {t.cardInventory.newBatch}
           </Button>
         </div>
+
+      {/* Filter Section */}
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">กรองข้อมูลบัตร</CardTitle>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4 text-muted-foreground" />
+                <Select value={cardCategoryFilter} onValueChange={setCardCategoryFilter}>
+                  <SelectTrigger className="w-[200px] bg-background border-border">
+                    <SelectValue placeholder="เลือกประเภทผู้ใช้" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border-border shadow-lg z-50">
+                    <SelectItem value="all">ทุกประเภท</SelectItem>
+                    <SelectItem value="personal">1. Personal User</SelectItem>
+                    <SelectItem value="personal-physical">1.1 Personal - Physical Card</SelectItem>
+                    <SelectItem value="personal-egift">1.2 Personal - E-Gift Card</SelectItem>
+                    <SelectItem value="corporate">2. Corporate Card</SelectItem>
+                    <SelectItem value="corporate-physical">2.1 Corporate - Physical Card</SelectItem>
+                    <SelectItem value="corporate-egift">2.2 Corporate - E-Gift Card</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => {
+                setCardCategoryFilter('all');
+                setCardTypeFilter('all');
+              }}>
+                Clear Filters
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {cardStats.map((stat) => (
+        {filteredCardStats.map((stat) => (
           <Card key={stat.label}>
             <CardHeader className="pb-3">
               <CardDescription className="text-sm font-medium">{stat.label}</CardDescription>
@@ -151,10 +200,10 @@ export default function CardInventory() {
             <div className="flex items-center gap-2">
               <Filter className="w-4 h-4 text-muted-foreground" />
               <Select value={cardTypeFilter} onValueChange={setCardTypeFilter}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px] bg-background border-border">
                   <SelectValue placeholder="กรองประเภทบัตร" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-background border-border shadow-lg z-50">
                   <SelectItem value="all">ทุกประเภท</SelectItem>
                   <SelectItem value="physical">Physical Gift Card</SelectItem>
                   <SelectItem value="egift">E-Gift Card</SelectItem>
@@ -168,10 +217,33 @@ export default function CardInventory() {
           <div className="space-y-6">
             {cardTypes
               .filter(card => {
-                if (cardTypeFilter === 'all') return true;
-                if (cardTypeFilter === 'physical') return card.type === t.cardInventory.physicalCards;
-                if (cardTypeFilter === 'egift') return card.type === t.cardInventory.eGiftCards;
-                if (cardTypeFilter === 'corporate') return card.type === t.cardInventory.corporateCards;
+                if (cardTypeFilter === 'all' && cardCategoryFilter === 'all') return true;
+                
+                // Filter by main category first
+                if (cardCategoryFilter !== 'all') {
+                  if (cardCategoryFilter === 'personal' || cardCategoryFilter.startsWith('personal-')) {
+                    if (card.type === t.cardInventory.corporateCards) return false;
+                  }
+                  if (cardCategoryFilter === 'corporate' || cardCategoryFilter.startsWith('corporate-')) {
+                    if (card.type !== t.cardInventory.corporateCards) return false;
+                  }
+                  
+                  // Filter by sub-category
+                  if (cardCategoryFilter.endsWith('-physical')) {
+                    if (card.type !== t.cardInventory.physicalCards && card.type !== t.cardInventory.corporateCards) return false;
+                  }
+                  if (cardCategoryFilter.endsWith('-egift')) {
+                    if (card.type !== t.cardInventory.eGiftCards) return false;
+                  }
+                }
+                
+                // Filter by card type
+                if (cardTypeFilter !== 'all') {
+                  if (cardTypeFilter === 'physical') return card.type === t.cardInventory.physicalCards;
+                  if (cardTypeFilter === 'egift') return card.type === t.cardInventory.eGiftCards;
+                  if (cardTypeFilter === 'corporate') return card.type === t.cardInventory.corporateCards;
+                }
+                
                 return true;
               })
               .map((card) => (
