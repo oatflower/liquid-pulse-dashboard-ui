@@ -1,14 +1,19 @@
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { Store, Plus, Edit, Eye, DollarSign, Calendar, Users, TrendingUp } from 'lucide-react';
+import { Store, Plus, Edit, Eye, DollarSign, Calendar, Users, TrendingUp, Upload } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useToast } from '@/hooks/use-toast';
+import MerchantBulkUploadModal from '@/components/merchant/MerchantBulkUploadModal';
 
 export default function MerchantManagement() {
   const { t } = useLanguage();
+  const { toast } = useToast();
+  const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
   
   const merchantStats = [
     { label: t.merchant.totalMerchants, value: '1,245', change: '+8.5%', color: 'text-blue-600' },
@@ -45,11 +50,15 @@ export default function MerchantManagement() {
           <p className="text-muted-foreground">{t.merchant.subtitle}</p>
         </div>
         <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setIsBulkUploadModalOpen(true)}>
+            <Upload className="w-4 h-4 mr-2" />
+            Bulk Upload
+          </Button>
           <Button variant="outline">
             <Eye className="w-4 h-4 mr-2" />
             {t.merchant.viewAll}
           </Button>
-          <Button>
+          <Button onClick={() => toast({ title: "Add Merchant", description: "เปิดฟอร์มเพิ่ม merchant ใหม่" })}>
             <Plus className="w-4 h-4 mr-2" />
             {t.merchant.addMerchant}
           </Button>
@@ -275,6 +284,11 @@ export default function MerchantManagement() {
           </CardContent>
         </Card>
       </div>
+
+      <MerchantBulkUploadModal 
+        isOpen={isBulkUploadModalOpen}
+        onClose={() => setIsBulkUploadModalOpen(false)}
+      />
     </div>
   );
 }
