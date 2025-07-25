@@ -13,6 +13,7 @@ import MerchantKYMModal from '@/components/merchant/MerchantKYMModal';
 import MerchantManagementModal from '@/components/merchant/MerchantManagementModal';
 import MerchantFeeConfigModal from '@/components/merchant/MerchantFeeConfigModal';
 import MerchantFilterModal from '@/components/merchant/MerchantFilterModal';
+import MerchantScheduleConfigModal from '@/components/merchant/MerchantScheduleConfigModal';
 export default function MerchantManagement() {
   const {
     t
@@ -25,6 +26,7 @@ export default function MerchantManagement() {
   const [isManagementModalOpen, setIsManagementModalOpen] = useState(false);
   const [isFeeConfigModalOpen, setIsFeeConfigModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isScheduleConfigModalOpen, setIsScheduleConfigModalOpen] = useState(false);
   const merchantStats = [{
     label: t.merchant.totalMerchants,
     value: '1,245',
@@ -303,7 +305,7 @@ export default function MerchantManagement() {
                     </div>
                   </div>
                 </div>)}
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" onClick={() => setIsScheduleConfigModalOpen(true)}>
                 <Calendar className="w-4 h-4 mr-2" />
                 {t.merchant.configureSchedules}
               </Button>
@@ -321,5 +323,7 @@ export default function MerchantManagement() {
       <MerchantFeeConfigModal isOpen={isFeeConfigModalOpen} onClose={() => setIsFeeConfigModalOpen(false)} />
 
       <MerchantFilterModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} />
+
+      <MerchantScheduleConfigModal isOpen={isScheduleConfigModalOpen} onClose={() => setIsScheduleConfigModalOpen(false)} />
     </div>;
 }
