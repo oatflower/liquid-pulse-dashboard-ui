@@ -491,15 +491,204 @@ export default function AccountManagement() {
                               placeholder="อธิบายหน้าที่ของบทบาทนี้"
                             />
                           </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="role-permissions">สิทธิ์การเข้าถึง</Label>
-                            <Textarea
-                              id="role-permissions"
-                              value={selectedRole.permissions}
-                              onChange={(e) => setSelectedRole({...selectedRole, permissions: e.target.value})}
-                              placeholder="กำหนดสิทธิ์การเข้าถึง"
-                            />
-                          </div>
+                           <div className="space-y-4">
+                             <Label>สิทธิ์การเข้าถึงระบบ</Label>
+                             <div className="border rounded-lg p-4 max-h-96 overflow-y-auto">
+                               <div className="space-y-6">
+                                 {/* Dashboard */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                     Dashboard
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" defaultChecked />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Export</span>
+                                     </label>
+                                   </div>
+                                 </div>
+
+                                 {/* Card Management */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                     การจัดการบัตร
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" defaultChecked />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Create</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Edit</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Delete</span>
+                                     </label>
+                                   </div>
+                                 </div>
+
+                                 {/* Merchant Management */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                     การจัดการร้านค้า
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" defaultChecked />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Create</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Edit</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Approve</span>
+                                     </label>
+                                   </div>
+                                 </div>
+
+                                 {/* Transaction Management */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                                     การจัดการธุรกรรม
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" defaultChecked />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Refund</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Cancel</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Export</span>
+                                     </label>
+                                   </div>
+                                 </div>
+
+                                 {/* Financial Management */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                     การจัดการการเงิน
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Settlement</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Reconcile</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Export</span>
+                                     </label>
+                                   </div>
+                                 </div>
+
+                                 {/* User Management */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                                     การจัดการผู้ใช้งาน
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Create</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Edit</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Delete</span>
+                                     </label>
+                                   </div>
+                                 </div>
+
+                                 {/* Reports & Analytics */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+                                     รายงานและการวิเคราะห์
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" defaultChecked />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Export</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Schedule</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Custom</span>
+                                     </label>
+                                   </div>
+                                 </div>
+
+                                 {/* System Settings */}
+                                 <div className="space-y-3">
+                                   <h4 className="font-medium text-sm flex items-center gap-2">
+                                     <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
+                                     การตั้งค่าระบบ
+                                   </h4>
+                                   <div className="grid grid-cols-2 gap-2 ml-4">
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>View</span>
+                                     </label>
+                                     <label className="flex items-center gap-2 text-sm">
+                                       <input type="checkbox" className="rounded" />
+                                       <span>Configure</span>
+                                     </label>
+                                   </div>
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="role-color">สีประจำบทบาท</Label>
                             <Select 
