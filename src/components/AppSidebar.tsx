@@ -1,10 +1,7 @@
 import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { BarChart3, CreditCard, Users, Store, FileText, Shield, Settings, Bell, PlusCircle, Layers, TrendingUp, DollarSign, AlertTriangle, Zap, MessageSquare, Globe } from 'lucide-react';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
-interface AppSidebarProps {
-  activeModule: string;
-  setActiveModule: (module: string) => void;
-}
 const menuItems = [{
   title: 'Dashboard & Analytics',
   icon: BarChart3,
@@ -179,14 +176,11 @@ const menuItems = [{
     id: 'feature-flags'
   }]
 }];
-export function AppSidebar({
-  activeModule,
-  setActiveModule
-}: AppSidebarProps) {
-  const {
-    state
-  } = useSidebar();
+export function AppSidebar() {
+  const location = useLocation();
+  const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';
+  
   return <Sidebar className="border-r border-border bg-background">
       <SidebarHeader className="border-b border-border p-6">
         <div className="flex items-center gap-3">
@@ -204,16 +198,19 @@ export function AppSidebar({
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map(item => <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton onClick={() => setActiveModule(item.id)} className={`
-                      group relative rounded-lg transition-all duration-200 
-                      hover:bg-muted/50 border-0
-                      ${activeModule === item.id ? 'bg-primary/10 text-primary shadow-none' : 'text-muted-foreground hover:text-foreground'}
-                    `}>
-                    <item.icon className="w-5 h-5" />
-                    {!isCollapsed && <span className="font-normal">{item.title}</span>}
+              {menuItems.map(item => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton 
+                    asChild 
+                    className="group relative rounded-lg transition-all duration-200 hover:bg-muted/50 border-0 text-muted-foreground hover:text-foreground"
+                  >
+                    <Link to="/">
+                      <item.icon className="w-5 h-5" />
+                      {!isCollapsed && <span className="font-normal">{item.title}</span>}
+                    </Link>
                   </SidebarMenuButton>
-                </SidebarMenuItem>)}
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

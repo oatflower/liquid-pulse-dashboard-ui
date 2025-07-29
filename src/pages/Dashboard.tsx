@@ -33,7 +33,7 @@ const Dashboard = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
-        <AppSidebar activeModule={activeModule} setActiveModule={setActiveModule} />
+        <AppSidebar />
         
         <main className="flex-1 overflow-auto">
           <DashboardHeader />
