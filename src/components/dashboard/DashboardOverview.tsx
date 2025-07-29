@@ -25,7 +25,7 @@ export function DashboardOverview() {
     },
     {
       title: t.dashboard.outstandingFloat,
-      value: '$2.4M',
+      value: '฿2.4M',
       change: '+5.1%',
       trend: 'up',
       icon: DollarSign,

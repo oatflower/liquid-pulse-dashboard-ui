@@ -82,7 +82,7 @@ export function MerchantSpendingDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -90,7 +90,7 @@ export function MerchantSpendingDetails() {
             <Button 
               variant="outline" 
               onClick={() => navigate('/')}
-              className="bg-white/60 backdrop-blur-sm border-white/40"
+              className="bg-card"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
@@ -112,56 +112,56 @@ export function MerchantSpendingDetails() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-white/60 backdrop-blur-sm border-white/40">
+          <Card className="bg-card">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                   <Store className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-slate-600">Total Merchants</p>
-                  <p className="text-2xl font-bold text-slate-800">{filteredData.length}</p>
+                  <p className="text-sm text-muted-foreground">Total Merchants</p>
+                  <p className="text-2xl font-bold text-foreground">{filteredData.length}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/60 backdrop-blur-sm border-white/40">
+          <Card className="bg-card">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-emerald-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-slate-600">Total Amount</p>
-                  <p className="text-2xl font-bold text-slate-800">฿{filteredData.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground">Total Amount</p>
+                  <p className="text-2xl font-bold text-foreground">฿{filteredData.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/60 backdrop-blur-sm border-white/40">
+          <Card className="bg-card">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                   <Building className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-slate-600">Total Transactions</p>
-                  <p className="text-2xl font-bold text-slate-800">{filteredData.reduce((sum, item) => sum + item.transactions, 0).toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground">Total Transactions</p>
+                  <p className="text-2xl font-bold text-foreground">{filteredData.reduce((sum, item) => sum + item.transactions, 0).toLocaleString()}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/60 backdrop-blur-sm border-white/40">
+          <Card className="bg-card">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-orange-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-slate-600">Avg. Growth</p>
+                  <p className="text-sm text-muted-foreground">Avg. Growth</p>
                   <p className="text-2xl font-bold text-emerald-600">+7.8%</p>
                 </div>
               </div>
@@ -170,7 +170,7 @@ export function MerchantSpendingDetails() {
         </div>
 
         {/* Filters */}
-        <Card className="bg-white/60 backdrop-blur-sm border-white/40">
+        <Card className="bg-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Filter className="w-5 h-5" />
@@ -185,12 +185,12 @@ export function MerchantSpendingDetails() {
                   placeholder="Search merchants..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-white/80"
+                  className="pl-10 bg-background"
                 />
               </div>
 
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="bg-white/80">
+                <SelectTrigger className="bg-background">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -203,7 +203,7 @@ export function MerchantSpendingDetails() {
               </Select>
 
               <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                <SelectTrigger className="bg-white/80">
+                <SelectTrigger className="bg-background">
                   <SelectValue placeholder="Region" />
                 </SelectTrigger>
                 <SelectContent>
@@ -216,7 +216,7 @@ export function MerchantSpendingDetails() {
               </Select>
 
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="bg-white/80">
+                <SelectTrigger className="bg-background">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
@@ -234,7 +234,7 @@ export function MerchantSpendingDetails() {
                   setSelectedRegion('all');
                   setSortBy('amount');
                 }}
-                className="bg-white/80"
+                className="bg-background"
               >
                 Clear Filters
               </Button>
@@ -243,7 +243,7 @@ export function MerchantSpendingDetails() {
         </Card>
 
         {/* Data Table */}
-        <Card className="bg-white/60 backdrop-blur-sm border-white/40">
+        <Card className="bg-card">
           <CardHeader>
             <CardTitle>Merchant Spending Details ({filteredData.length} merchants)</CardTitle>
           </CardHeader>
@@ -264,7 +264,7 @@ export function MerchantSpendingDetails() {
                 </thead>
                 <tbody>
                   {filteredData.map((merchant, index) => (
-                    <tr key={merchant.id} className="border-b border-slate-100 hover:bg-white/40 transition-colors">
+                    <tr key={merchant.id} className="border-b border-border hover:bg-muted/40 transition-colors">
                       <td className="p-3">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm ${
                           index === 0 ? 'bg-gradient-to-br from-yellow-400 to-orange-500' :
@@ -276,7 +276,7 @@ export function MerchantSpendingDetails() {
                         </div>
                       </td>
                       <td className="p-3">
-                        <div className="font-medium text-slate-800">{merchant.name}</div>
+                        <div className="font-medium text-foreground">{merchant.name}</div>
                       </td>
                       <td className="p-3">
                         <Badge variant="secondary" className="bg-blue-100 text-blue-800">
@@ -288,10 +288,10 @@ export function MerchantSpendingDetails() {
                           {merchant.region}
                         </Badge>
                       </td>
-                      <td className="p-3 text-right font-medium text-slate-800">
+                      <td className="p-3 text-right font-medium text-foreground">
                         ฿{merchant.amount.toLocaleString()}
                       </td>
-                      <td className="p-3 text-right text-slate-600">
+                      <td className="p-3 text-right text-muted-foreground">
                         {merchant.transactions.toLocaleString()}
                       </td>
                       <td className="p-3 text-right">
@@ -301,7 +301,7 @@ export function MerchantSpendingDetails() {
                           {merchant.growth}
                         </span>
                       </td>
-                      <td className="p-3 text-center text-slate-600">
+                      <td className="p-3 text-center text-muted-foreground">
                         {merchant.lastTransaction}
                       </td>
                     </tr>

@@ -205,7 +205,7 @@ export default function MerchantFilterModal({ isOpen, onClose }: MerchantFilterM
                       <span>Category: {merchant.category}</span>
                       <span>Floor: {merchant.floor}</span>
                       <span>Zone: {merchant.zone}</span>
-                      <span>Revenue: ${merchant.revenue.toLocaleString()}</span>
+                      <span>Revenue: ฿{merchant.revenue.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>

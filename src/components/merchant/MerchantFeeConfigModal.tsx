@@ -294,7 +294,7 @@ export default function MerchantFeeConfigModal({ isOpen, onClose }: MerchantFeeC
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="monthlyFee">ค่าธรรมเนียมรายเดือน ($)</Label>
+                    <Label htmlFor="monthlyFee">ค่าธรรมเนียมรายเดือน (฿)</Label>
                     <Input
                       id="monthlyFee"
                       type="number"
@@ -307,7 +307,7 @@ export default function MerchantFeeConfigModal({ isOpen, onClose }: MerchantFeeC
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="setupFee">ค่าธรรมเนียมติดตั้ง ($)</Label>
+                    <Label htmlFor="setupFee">ค่าธรรมเนียมติดตั้ง (฿)</Label>
                     <Input
                       id="setupFee"
                       type="number"
@@ -330,11 +330,11 @@ export default function MerchantFeeConfigModal({ isOpen, onClose }: MerchantFeeC
                     </div>
                     <div className="flex justify-between">
                       <span>ค่าธรรมเนียมรายเดือน:</span>
-                      <span className="font-medium">${feeStructure.monthlyFee}</span>
+                      <span className="font-medium">฿{feeStructure.monthlyFee}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>ค่าธรรมเนียมติดตั้ง:</span>
-                      <span className="font-medium">${feeStructure.setupFee}</span>
+                      <span className="font-medium">฿{feeStructure.setupFee}</span>
                     </div>
                   </div>
                 </div>
