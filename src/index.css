@@ -7,17 +7,17 @@
   :root {
     /* Corporate Color Palette */
     --background: 0 0% 100%;
-    --foreground: 218 35% 16%;
+    --foreground: 0 0% 0%;
     --card: 0 0% 100%;
-    --card-foreground: 218 35% 16%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 218 35% 16%;
+    --popover-foreground: 0 0% 0%;
     
     /* Muted Tones */
     --muted: 240 2% 96%;
-    --muted-foreground: 240 2% 44%;
+    --muted-foreground: 0 0% 0%;
     --accent: 240 2% 96%;
-    --accent-foreground: 218 35% 16%;
+    --accent-foreground: 0 0% 0%;
     
     /* Primary - Navy Blue */
     --primary: 218 35% 16%;
