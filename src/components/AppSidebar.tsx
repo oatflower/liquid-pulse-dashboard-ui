@@ -52,12 +52,6 @@ const menuItems = [
     path: '/egift-card'
   },
   {
-    title: 'Campaign Management',
-    icon: Layers,
-    id: 'campaign-management',
-    path: '/campaign-management'
-  },
-  {
     title: 'Card Inventory',
     icon: Store,
     id: 'card-inventory',
