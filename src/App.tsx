@@ -61,6 +61,8 @@ const App = () => (
                       <Route path="/merchant-spending-details" element={<MerchantSpendingDetails />} />
                       <Route path="/user-profile" element={<UserProfile />} />
                       <Route path="/account-management" element={<AccountManagement />} />
+                      <Route path="/notifications" element={<NotFound />} />
+                      <Route path="/settings" element={<NotFound />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>
