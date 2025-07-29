@@ -187,7 +187,7 @@ export function AppSidebar({
     state
   } = useSidebar();
   const isCollapsed = state === 'collapsed';
-  return <Sidebar className="border-r border-border bg-card">
+  return <Sidebar className="border-r border-border bg-background">
       <SidebarHeader className="border-b border-border p-6">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
