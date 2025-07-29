@@ -43,15 +43,15 @@
     /* Radius */
     --radius: 0.5rem;
     
-    /* Sidebar - iOS White Style */
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 0 0% 15%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 96%;
-    --sidebar-accent-foreground: 0 0% 15%;
-    --sidebar-border: 0 0% 92%;
-    --sidebar-ring: 217 91% 60%;
+    /* Sidebar */
+    --sidebar-background: 218 35% 16%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 48 69% 52%;
+    --sidebar-primary-foreground: 218 35% 16%;
+    --sidebar-accent: 218 35% 20%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 218 35% 20%;
+    --sidebar-ring: 48 69% 52%;
   }
 
 }

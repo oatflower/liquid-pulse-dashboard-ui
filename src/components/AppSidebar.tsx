@@ -93,38 +93,38 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';
   
-  return <Sidebar className="border-r border-sidebar-border bg-sidebar-background shadow-sm">
-      <SidebarHeader className="border-b border-sidebar-border p-6">
+  return <Sidebar className="border-r border-border bg-background">
+      <SidebarHeader className="border-b border-border p-6">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-sidebar-primary flex items-center justify-center shadow-lg">
-            <CreditCard className="w-6 h-6 text-sidebar-primary-foreground" />
+          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+            <CreditCard className="w-5 h-5 text-primary-foreground" />
           </div>
           {!isCollapsed && <div>
-              <h1 className="text-xl font-semibold text-sidebar-foreground tracking-tight">ONE BANGKOK</h1>
-              <p className="text-sm text-sidebar-foreground/60 font-medium">GIFT CARD PRO</p>
+              <h1 className="text-xl font-light text-foreground">ONE BANGKOK</h1>
+              <p className="text-sm text-muted-foreground">GIFT CARD PRO</p>
             </div>}
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="p-3">
+      <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
+            <SidebarMenu>
               {menuItems.map(item => {
                 const isActive = location.pathname === item.path;
                 return (
                   <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton 
                       asChild 
-                      className={`group relative h-11 rounded-xl transition-all duration-200 border-0 ${
+                      className={`group relative rounded-lg transition-all duration-200 hover:bg-muted/50 border-0 ${
                         isActive 
-                          ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-md font-medium' 
-                          : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+                          ? 'bg-primary/10 text-primary shadow-none' 
+                          : 'text-muted-foreground hover:text-foreground'
                       }`}
                     >
-                      <Link to={item.path} className="flex items-center gap-3 px-3">
-                        <item.icon className={`w-5 h-5 ${isActive ? 'text-sidebar-primary-foreground' : ''}`} />
-                        {!isCollapsed && <span className="font-medium text-[15px]">{item.title}</span>}
+                      <Link to={item.path}>
+                        <item.icon className="w-5 h-5" />
+                        {!isCollapsed && <span className="font-normal">{item.title}</span>}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
