@@ -28,7 +28,7 @@ export function DashboardOverview() {
       value: '฿2.4M',
       change: '+5.1%',
       trend: 'up',
-      icon: DollarSign,
+      icon: TrendingUp,
       color: 'text-primary'
     },
     {
